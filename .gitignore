@@ -1,0 +1,80 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks used by Visual Studio Code.
+# For more information, see https://go.microsoft.com/fwlink/?linkid=830387
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/flutter_podhelper.rb
+**/ios/GeneratedPluginRegistrant.h
+**/ios/GeneratedPluginRegistrant.m
+**/linux/flutter/generated_plugins.cmake
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/macos/Flutter/ephemeral/
+**/windows/flutter/generated_plugins.cmake
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugin_registrant.cc
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will regenerate these files for you.
+android/key.properties
+android/app/src/main/res/values/strings.xml
+android/local.properties
+android/skill_lynk_website_android.iml
+android/.gradle/
+android/app/local.properties
+android/app/skill_lynk_website_android.iml
+
+# Web related
+lib/generated_plugin_registrant.dart
+web/flutter_bootstrap.js
+
+# Symbolication related
+/app.*.symbols
+
+# Executable distributions
+*.apk
+*.aab
+*.exe
+*.zip
+*.tar.gz
+*.bundle
+*.app
+
+# Secrets
+.env*
+secrets.json
