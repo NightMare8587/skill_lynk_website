@@ -5,11 +5,13 @@ import '../../core/theme/app_colors.dart';
 class Footer extends StatelessWidget {
   final VoidCallback? onFeaturesTap;
   final VoidCallback? onHowItWorksTap;
+  final VoidCallback? onSupportTap;
 
   const Footer({
     super.key,
     this.onFeaturesTap,
     this.onHowItWorksTap,
+    this.onSupportTap,
   });
 
   @override
@@ -65,6 +67,7 @@ class Footer extends StatelessWidget {
                 links: [
                   _FooterLink(label: 'Features', onTap: onFeaturesTap ?? () {}),
                   _FooterLink(label: 'How it Works', onTap: onHowItWorksTap ?? () {}),
+                  _FooterLink(label: 'Support', onTap: onSupportTap ?? () {}),
                   _FooterLink(label: 'Pricing', onTap: () {}),
                 ],
               ),

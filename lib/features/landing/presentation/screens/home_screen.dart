@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../shared/widgets/header.dart';
 import '../../../../shared/widgets/footer.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../support/presentation/widgets/contact_support_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,6 +20,13 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
+    void showContactSupport() {
+      showDialog(
+        context: context,
+        builder: (context) => const ContactSupportDialog(),
+      );
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -26,6 +34,7 @@ class HomeScreen extends StatelessWidget {
             Header(
               onFeaturesTap: () => scrollTo(featuresKey),
               onHowItWorksTap: () => scrollTo(howItWorksKey),
+              onSupportTap: showContactSupport,
             ),
             const _HeroSection(),
             _FeaturesSection(key: featuresKey),
@@ -34,6 +43,7 @@ class HomeScreen extends StatelessWidget {
             Footer(
               onFeaturesTap: () => scrollTo(featuresKey),
               onHowItWorksTap: () => scrollTo(howItWorksKey),
+              onSupportTap: showContactSupport,
             ),
           ],
         ),

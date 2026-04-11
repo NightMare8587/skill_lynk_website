@@ -5,11 +5,13 @@ import '../../core/theme/app_colors.dart';
 class Header extends StatelessWidget {
   final VoidCallback? onFeaturesTap;
   final VoidCallback? onHowItWorksTap;
+  final VoidCallback? onSupportTap;
 
   const Header({
     super.key,
     this.onFeaturesTap,
     this.onHowItWorksTap,
+    this.onSupportTap,
   });
 
   @override
@@ -53,6 +55,7 @@ class Header extends StatelessWidget {
           if (MediaQuery.of(context).size.width > 600) ...[
             _NavLink(label: 'Features', onTap: onFeaturesTap ?? () {}),
             _NavLink(label: 'How it Works', onTap: onHowItWorksTap ?? () {}),
+            _NavLink(label: 'Support', onTap: onSupportTap ?? () {}),
             const SizedBox(width: 24),
             ElevatedButton(
               onPressed: () {},
