@@ -16,9 +16,11 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
       height: 80,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 24, vertical: 16),
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(
@@ -52,7 +54,7 @@ class Header extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          if (MediaQuery.of(context).size.width > 600) ...[
+          if (!isMobile) ...[
             _NavLink(label: 'Features', onTap: onFeaturesTap ?? () {}),
             _NavLink(label: 'How it Works', onTap: onHowItWorksTap ?? () {}),
             _NavLink(label: 'Support', onTap: onSupportTap ?? () {}),
@@ -64,7 +66,7 @@ class Header extends StatelessWidget {
           ] else
             IconButton(
               icon: const Icon(Icons.menu),
-              onPressed: () {},
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
             ),
         ],
       ),

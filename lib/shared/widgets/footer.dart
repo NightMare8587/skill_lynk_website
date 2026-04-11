@@ -16,20 +16,27 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 24 : 120,
+        vertical: 48,
+      ),
       color: AppColors.textPrimary,
       child: Column(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Flex(
+            direction: isMobile ? Axis.vertical : Axis.horizontal,
+            crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
             children: [
-              Expanded(
-                flex: 2,
+              SizedBox(
+                width: isMobile ? double.infinity : 300,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: isMobile ? MainAxisAlignment.center : MainAxisAlignment.start,
                       children: [
                         Container(
                           padding: const EdgeInsets.all(4),
@@ -50,10 +57,11 @@ class Footer extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(width: 16),
-                    const Text(
+                    const SizedBox(height: 16),
+                    Text(
                       'AI-based interview practice platform for serious developers.',
-                      style: TextStyle(
+                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
+                      style: const TextStyle(
                         color: Colors.white70,
                         height: 1.5,
                       ),
@@ -61,35 +69,45 @@ class Footer extends StatelessWidget {
                   ],
                 ),
               ),
-              const Spacer(),
-              _FooterColumn(
-                title: 'Product',
-                links: [
-                  _FooterLink(label: 'Features', onTap: onFeaturesTap ?? () {}),
-                  _FooterLink(label: 'How it Works', onTap: onHowItWorksTap ?? () {}),
-                  _FooterLink(label: 'Support', onTap: onSupportTap ?? () {}),
-                  _FooterLink(label: 'Pricing', onTap: () {}),
-                ],
-              ),
-              _FooterColumn(
-                title: 'Legal',
-                links: [
-                  _FooterLink(label: 'Privacy Policy', onTap: () => context.go('/privacy')),
-                  _FooterLink(label: 'Terms & Conditions', onTap: () => context.go('/terms')),
+              if (isMobile) const SizedBox(height: 48),
+              if (!isMobile) const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _FooterColumn(
+                    title: 'Product',
+                    isMobile: isMobile,
+                    links: [
+                      _FooterLink(label: 'Features', onTap: onFeaturesTap ?? () {}),
+                      _FooterLink(label: 'How it Works', onTap: onHowItWorksTap ?? () {}),
+                      _FooterLink(label: 'Support', onTap: onSupportTap ?? () {}),
+                      _FooterLink(label: 'Pricing', onTap: () {}),
+                    ],
+                  ),
+                  _FooterColumn(
+                    title: 'Legal',
+                    isMobile: isMobile,
+                    links: [
+                      _FooterLink(label: 'Privacy Policy', onTap: () => context.go('/privacy')),
+                      _FooterLink(label: 'Terms & Conditions', onTap: () => context.go('/terms')),
+                    ],
+                  ),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 48),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 16,
             children: [
               _FooterStoreButton(
                 icon: Icons.apple,
                 label: 'App Store',
                 onTap: () {},
               ),
-              const SizedBox(width: 16),
               _FooterStoreButton(
                 icon: Icons.play_arrow,
                 label: 'Google Play',
@@ -111,15 +129,16 @@ class Footer extends StatelessWidget {
 class _FooterColumn extends StatelessWidget {
   final String title;
   final List<_FooterLink> links;
+  final bool isMobile;
 
-  const _FooterColumn({required this.title, required this.links});
+  const _FooterColumn({required this.title, required this.links, this.isMobile = false});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           Text(
             title,

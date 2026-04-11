@@ -28,6 +28,50 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      endDrawer: Drawer(
+        child: Column(
+          children: [
+            const DrawerHeader(
+              child: Center(
+                child: Text(
+                  'SkillLynk',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.primary),
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('Features'),
+              onTap: () {
+                Navigator.pop(context);
+                scrollTo(featuresKey);
+              },
+            ),
+            ListTile(
+              title: const Text('How it Works'),
+              onTap: () {
+                Navigator.pop(context);
+                scrollTo(howItWorksKey);
+              },
+            ),
+            ListTile(
+              title: const Text('Support'),
+              onTap: () {
+                Navigator.pop(context);
+                showContactSupport();
+              },
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50)),
+                child: const Text('Get Started'),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -64,7 +108,7 @@ class _HeroSection extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 24 : 120,
-        vertical: 80,
+        vertical: isMobile ? 40 : 80,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -85,39 +129,42 @@ class _HeroSection extends StatelessWidget {
               color: AppColors.primary.withAlpha(26),
               borderRadius: BorderRadius.circular(100),
             ),
-            child: const Text(
+            child: Text(
               '🚀 Empowering Developers Worldwide',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: isMobile ? 12 : 14,
               ),
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'Master Your Technical\nInterviews with AI',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 48,
+              fontSize: isMobile ? 32 : 48,
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
               height: 1.2,
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'The professional platform to practice interviews with peers and experts.\nReceive real-time feedback and get industry-ready.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: isMobile ? 16 : 18,
               color: AppColors.textSecondary,
               height: 1.6,
             ),
           ),
           const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 16,
             children: [
               ElevatedButton(
                 onPressed: () {},
@@ -126,7 +173,6 @@ class _HeroSection extends StatelessWidget {
                 ),
                 child: const Text('Get Started for Free'),
               ),
-              const SizedBox(width: 16),
               OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
@@ -137,15 +183,16 @@ class _HeroSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 16,
             children: [
               _StoreButton(
                 icon: Icons.apple,
                 label: 'App Store',
                 onTap: () {},
               ),
-              const SizedBox(width: 16),
               _StoreButton(
                 icon: Icons.play_arrow,
                 label: 'Google Play',
@@ -156,7 +203,7 @@ class _HeroSection extends StatelessWidget {
           const SizedBox(height: 32),
           // App Preview Placeholder
           ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 500, maxWidth: 1000),
+            constraints: BoxConstraints(maxHeight: 500, maxWidth: isMobile ? double.infinity : 1000),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),
@@ -180,7 +227,7 @@ class _HeroSection extends StatelessWidget {
                     children: [
                       // Sidebar Mock
                       Container(
-                        width: 70,
+                        width: isMobile ? 50 : 70,
                         color: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Column(
@@ -198,7 +245,7 @@ class _HeroSection extends StatelessWidget {
                       // Main Content Mock
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(32.0),
+                          padding: EdgeInsets.all(isMobile ? 16.0 : 32.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -207,28 +254,29 @@ class _HeroSection extends StatelessWidget {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Welcome back, Alex!',
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                      Text(
+                                        isMobile ? 'Hi, Alex!' : 'Welcome back, Alex!',
+                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                       ),
                                       Text(
-                                        'You have 12 interview credits remaining',
+                                        '12 credits remaining',
                                         style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 12),
                                       ),
                                     ],
                                   ),
                                   const Spacer(),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primary,
-                                      borderRadius: BorderRadius.circular(8),
+                                  if (!isMobile)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primary,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Text(
+                                        'Recharge',
+                                        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                    child: const Text(
-                                      'Recharge',
-                                      style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
                                 ],
                               ),
                               const SizedBox(height: 32),
@@ -239,21 +287,20 @@ class _HeroSection extends StatelessWidget {
                               const SizedBox(height: 16),
                               Expanded(
                                 child: GridView.count(
-                                  crossAxisCount: 3,
+                                  crossAxisCount: isMobile ? 2 : 3,
                                   crossAxisSpacing: 12,
                                   mainAxisSpacing: 12,
-                                  childAspectRatio: 0.9,
+                                  childAspectRatio: isMobile ? 0.8 : 0.9,
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     _InterviewerCardMock(name: 'Sarah Chen', role: 'Google', skills: ['System']),
                                     _InterviewerCardMock(name: 'Alex Kumar', role: 'Meta', skills: ['Java']),
                                     _InterviewerCardMock(name: 'Jane Doe', role: 'Amazon', skills: ['Python']),
-                                    _InterviewerCardMock(name: 'Michael R.', role: 'Netflix', skills: ['Node.js']),
-                                    _InterviewerCardMock(name: 'Priya S.', role: 'Apple', skills: ['Swift']),
-                                    _InterviewerCardMock(name: 'David L.', role: 'Microsoft', skills: ['C#']),
-                                    _InterviewerCardMock(name: 'Emily W.', role: 'Uber', skills: ['Go']),
-                                    _InterviewerCardMock(name: 'Chris P.', role: 'Airbnb', skills: ['React']),
-                                    _InterviewerCardMock(name: 'Sonia M.', role: 'Stripe', skills: ['Ruby']),
+                                    if (!isMobile) ...[
+                                      _InterviewerCardMock(name: 'Michael R.', role: 'Netflix', skills: ['Node.js']),
+                                      _InterviewerCardMock(name: 'Priya S.', role: 'Apple', skills: ['Swift']),
+                                      _InterviewerCardMock(name: 'David L.', role: 'Microsoft', skills: ['C#']),
+                                    ],
                                   ],
                                 ),
                               ),
@@ -285,6 +332,7 @@ class _FeaturesSection extends StatelessWidget {
         children: [
           const Text(
             'Everything you need to succeed',
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -384,6 +432,8 @@ class _HowItWorksSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 100),
       child: Column(
@@ -397,9 +447,10 @@ class _HowItWorksSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 64),
-          // Steps implementation would go here
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 32,
+            runSpacing: 48,
             children: const [
               _StepItem(number: '1', title: 'Sign Up', subtitle: 'Create your professional profile.'),
               _StepItem(number: '2', title: 'Schedule', subtitle: 'Pick a time and an interviewer.'),
@@ -456,25 +507,29 @@ class _CTASection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 24),
+      padding: EdgeInsets.symmetric(vertical: 80, horizontal: isMobile ? 24 : 120),
       color: AppColors.primary,
       child: Column(
         children: [
-          const Text(
+          Text(
             'Ready to level up your career?',
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 36,
+              fontSize: isMobile ? 28 : 36,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'Join thousands of developers who are practicing on SkillLynk.',
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: isMobile ? 16 : 18,
               color: Colors.white70,
             ),
           ),
@@ -576,8 +631,10 @@ class _InterviewerCardMock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(isMobile ? 8 : 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -589,13 +646,13 @@ class _InterviewerCardMock extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: isMobile ? 24 : 32,
+                height: isMobile ? 24 : 32,
                 decoration: BoxDecoration(
                   color: AppColors.primary.withAlpha(20),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.person, color: AppColors.primary, size: 16),
+                child: Icon(Icons.person, color: AppColors.primary, size: isMobile ? 12 : 16),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -604,11 +661,14 @@ class _InterviewerCardMock extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: isMobile ? 10 : 12),
                     ),
                     Text(
                       role,
-                      style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 10),
+                      maxLines: 1,
+                      style: TextStyle(color: Colors.black.withAlpha(100), fontSize: isMobile ? 8 : 10),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -616,21 +676,23 @@ class _InterviewerCardMock extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 4,
-            children: skills.map((skill) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: Colors.black.withAlpha(10),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                skill,
-                style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
-              ),
-            )).toList(),
-          ),
+          if (!isMobile) ...[
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 4,
+              children: skills.map((skill) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.black.withAlpha(10),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  skill,
+                  style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+                ),
+              )).toList(),
+            ),
+          ],
           const Spacer(),
           Container(
             width: double.infinity,
@@ -639,10 +701,10 @@ class _InterviewerCardMock extends StatelessWidget {
               color: AppColors.primary.withAlpha(15),
               borderRadius: BorderRadius.circular(6),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
                 'Book Now',
-                style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.bold),
+                style: TextStyle(color: AppColors.primary, fontSize: isMobile ? 8 : 10, fontWeight: FontWeight.bold),
               ),
             ),
           ),
