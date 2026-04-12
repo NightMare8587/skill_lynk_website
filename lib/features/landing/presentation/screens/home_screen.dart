@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../shared/widgets/header.dart';
 import '../../../../shared/widgets/footer.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../support/presentation/widgets/contact_support_dialog.dart';
+
+Future<void> _launchUrl() async {
+  final Uri url = Uri.parse('https://skill-lynk.web.app/');
+  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch $url');
+  }
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -64,7 +72,7 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _launchUrl,
                 style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50)),
                 child: const Text('Get Started'),
               ),
@@ -167,18 +175,18 @@ class _HeroSection extends StatelessWidget {
             runSpacing: 16,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _launchUrl,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
                 ),
                 child: const Text('Get Started for Free'),
               ),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: _launchUrl,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
                 ),
-                child: const Text('Watch Demo'),
+                child: const Text('See Demo'),
               ),
             ],
           ),
@@ -535,13 +543,13 @@ class _CTASection extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: _launchUrl,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               foregroundColor: AppColors.primary,
               padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 24),
             ),
-            child: const Text('Start Practicing Now'),
+            child: const Text('Start Practice Now'),
           ),
         ],
       ),

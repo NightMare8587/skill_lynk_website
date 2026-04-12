@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_colors.dart';
 
 class Header extends StatelessWidget {
@@ -13,6 +14,13 @@ class Header extends StatelessWidget {
     this.onHowItWorksTap,
     this.onSupportTap,
   });
+
+  Future<void> _launchUrl() async {
+    final Uri url = Uri.parse('https://skill-lynk.web.app/');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,7 @@ class Header extends StatelessWidget {
             _NavLink(label: 'Support', onTap: onSupportTap ?? () {}),
             const SizedBox(width: 24),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _launchUrl,
               child: const Text('Get Started'),
             ),
           ] else
