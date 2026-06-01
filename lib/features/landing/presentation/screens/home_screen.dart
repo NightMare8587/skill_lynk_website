@@ -5,8 +5,18 @@ import '../../../../shared/widgets/footer.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../support/presentation/widgets/contact_support_dialog.dart';
 
+const String _playStoreUrl =
+    'https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile';
+
 Future<void> _launchUrl() async {
   final Uri url = Uri.parse('https://skill-lynk.web.app/');
+  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch $url');
+  }
+}
+
+Future<void> _launchPlayStore() async {
+  final Uri url = Uri.parse(_playStoreUrl);
   if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
     throw Exception('Could not launch $url');
   }
@@ -43,7 +53,11 @@ class HomeScreen extends StatelessWidget {
               child: Center(
                 child: Text(
                   'SkillLynk',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.primary),
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
             ),
@@ -73,7 +87,9 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: _launchUrl,
-                style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50)),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                ),
                 child: const Text('Get Started'),
               ),
             ),
@@ -123,10 +139,7 @@ class _HeroSection extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Colors.white,
-            AppColors.primary.withAlpha(13),
-          ],
+          colors: [Colors.white, AppColors.primary.withAlpha(13)],
         ),
       ),
       child: Column(
@@ -177,14 +190,20 @@ class _HeroSection extends StatelessWidget {
               ElevatedButton(
                 onPressed: _launchUrl,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 20,
+                  ),
                 ),
                 child: const Text('Get Started for Free'),
               ),
               OutlinedButton(
                 onPressed: _launchUrl,
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 20,
+                  ),
                 ),
                 child: const Text('See Demo'),
               ),
@@ -196,22 +215,21 @@ class _HeroSection extends StatelessWidget {
             spacing: 16,
             runSpacing: 16,
             children: [
-              _StoreButton(
-                icon: Icons.apple,
-                label: 'App Store',
-                onTap: () {},
-              ),
+              _StoreButton(icon: Icons.apple, label: 'App Store', onTap: () {}),
               _StoreButton(
                 icon: Icons.play_arrow,
                 label: 'Google Play',
-                onTap: () {},
+                onTap: _launchPlayStore,
               ),
             ],
           ),
           const SizedBox(height: 32),
           // App Preview Placeholder
           ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 500, maxWidth: isMobile ? double.infinity : 1000),
+            constraints: BoxConstraints(
+              maxHeight: 500,
+              maxWidth: isMobile ? double.infinity : 1000,
+            ),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),
@@ -240,13 +258,29 @@ class _HeroSection extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Column(
                           children: [
-                            const Icon(Icons.dashboard, color: AppColors.primary, size: 24),
+                            const Icon(
+                              Icons.dashboard,
+                              color: AppColors.primary,
+                              size: 24,
+                            ),
                             const SizedBox(height: 32),
-                            Icon(Icons.video_call, color: Colors.grey.withAlpha(100), size: 24),
+                            Icon(
+                              Icons.video_call,
+                              color: Colors.grey.withAlpha(100),
+                              size: 24,
+                            ),
                             const SizedBox(height: 32),
-                            Icon(Icons.account_balance_wallet, color: Colors.grey.withAlpha(100), size: 24),
+                            Icon(
+                              Icons.account_balance_wallet,
+                              color: Colors.grey.withAlpha(100),
+                              size: 24,
+                            ),
                             const Spacer(),
-                            Icon(Icons.settings, color: Colors.grey.withAlpha(100), size: 24),
+                            Icon(
+                              Icons.settings,
+                              color: Colors.grey.withAlpha(100),
+                              size: 24,
+                            ),
                           ],
                         ),
                       ),
@@ -260,29 +294,45 @@ class _HeroSection extends StatelessWidget {
                               Row(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        isMobile ? 'Hi, Alex!' : 'Welcome back, Alex!',
-                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                        isMobile
+                                            ? 'Hi, Alex!'
+                                            : 'Welcome back, Alex!',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                       ),
                                       Text(
                                         '12 credits remaining',
-                                        style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 12),
+                                        style: TextStyle(
+                                          color: Colors.black.withAlpha(100),
+                                          fontSize: 12,
+                                        ),
                                       ),
                                     ],
                                   ),
                                   const Spacer(),
                                   if (!isMobile)
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 8,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: AppColors.primary,
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Text(
                                         'Recharge',
-                                        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                 ],
@@ -290,7 +340,10 @@ class _HeroSection extends StatelessWidget {
                               const SizedBox(height: 32),
                               const Text(
                                 'Available Interviewers',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
                               const SizedBox(height: 16),
                               Expanded(
@@ -301,13 +354,37 @@ class _HeroSection extends StatelessWidget {
                                   childAspectRatio: isMobile ? 0.8 : 0.9,
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
-                                    _InterviewerCardMock(name: 'Sarah Chen', role: 'Google', skills: ['System']),
-                                    _InterviewerCardMock(name: 'Alex Kumar', role: 'Meta', skills: ['Java']),
-                                    _InterviewerCardMock(name: 'Jane Doe', role: 'Amazon', skills: ['Python']),
+                                    _InterviewerCardMock(
+                                      name: 'Sarah Chen',
+                                      role: 'Google',
+                                      skills: ['System'],
+                                    ),
+                                    _InterviewerCardMock(
+                                      name: 'Alex Kumar',
+                                      role: 'Meta',
+                                      skills: ['Java'],
+                                    ),
+                                    _InterviewerCardMock(
+                                      name: 'Jane Doe',
+                                      role: 'Amazon',
+                                      skills: ['Python'],
+                                    ),
                                     if (!isMobile) ...[
-                                      _InterviewerCardMock(name: 'Michael R.', role: 'Netflix', skills: ['Node.js']),
-                                      _InterviewerCardMock(name: 'Priya S.', role: 'Apple', skills: ['Swift']),
-                                      _InterviewerCardMock(name: 'David L.', role: 'Microsoft', skills: ['C#']),
+                                      _InterviewerCardMock(
+                                        name: 'Michael R.',
+                                        role: 'Netflix',
+                                        skills: ['Node.js'],
+                                      ),
+                                      _InterviewerCardMock(
+                                        name: 'Priya S.',
+                                        role: 'Apple',
+                                        skills: ['Swift'],
+                                      ),
+                                      _InterviewerCardMock(
+                                        name: 'David L.',
+                                        role: 'Microsoft',
+                                        skills: ['C#'],
+                                      ),
                                     ],
                                   ],
                                 ),
@@ -356,22 +433,26 @@ class _FeaturesSection extends StatelessWidget {
               _FeatureCard(
                 icon: Icons.people_outline,
                 title: 'Peer Interviews',
-                description: 'Practice with other developers in real-time. Learn from each other and build confidence.',
+                description:
+                    'Practice with other developers in real-time. Learn from each other and build confidence.',
               ),
               _FeatureCard(
                 icon: Icons.psychology_outlined,
                 title: 'Expert Feedback',
-                description: 'Get reviewed by industry experts from top tech companies. Know exactly where to improve.',
+                description:
+                    'Get reviewed by industry experts from top tech companies. Know exactly where to improve.',
               ),
               _FeatureCard(
                 icon: Icons.account_balance_wallet_outlined,
                 title: 'Wallet System',
-                description: 'Manage your interview credits seamlessly. Recharge and schedule sessions with one click.',
+                description:
+                    'Manage your interview credits seamlessly. Recharge and schedule sessions with one click.',
               ),
               _FeatureCard(
                 icon: Icons.video_call_outlined,
                 title: 'HD Video Calls',
-                description: 'Experience crystal clear communication with our integrated Agora RTC calling system.',
+                description:
+                    'Experience crystal clear communication with our integrated Agora RTC calling system.',
               ),
             ],
           ),
@@ -424,10 +505,7 @@ class _FeatureCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             description,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
-              height: 1.5,
-            ),
+            style: const TextStyle(color: AppColors.textSecondary, height: 1.5),
           ),
         ],
       ),
@@ -460,10 +538,26 @@ class _HowItWorksSection extends StatelessWidget {
             spacing: 32,
             runSpacing: 48,
             children: const [
-              _StepItem(number: '1', title: 'Sign Up', subtitle: 'Create your professional profile.'),
-              _StepItem(number: '2', title: 'Schedule', subtitle: 'Pick a time and an interviewer.'),
-              _StepItem(number: '3', title: 'Practice', subtitle: 'Conduct the mock interview.'),
-              _StepItem(number: '4', title: 'Succeed', subtitle: 'Improve and land your dream job.'),
+              _StepItem(
+                number: '1',
+                title: 'Sign Up',
+                subtitle: 'Create your professional profile.',
+              ),
+              _StepItem(
+                number: '2',
+                title: 'Schedule',
+                subtitle: 'Pick a time and an interviewer.',
+              ),
+              _StepItem(
+                number: '3',
+                title: 'Practice',
+                subtitle: 'Conduct the mock interview.',
+              ),
+              _StepItem(
+                number: '4',
+                title: 'Succeed',
+                subtitle: 'Improve and land your dream job.',
+              ),
             ],
           ),
         ],
@@ -477,7 +571,11 @@ class _StepItem extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const _StepItem({required this.number, required this.title, required this.subtitle});
+  const _StepItem({
+    required this.number,
+    required this.title,
+    required this.subtitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -496,14 +594,27 @@ class _StepItem extends StatelessWidget {
             child: Center(
               child: Text(
                 number,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
           const SizedBox(height: 16),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           const SizedBox(height: 8),
-          Text(subtitle, textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textSecondary, fontSize: 14)),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+            ),
+          ),
         ],
       ),
     );
@@ -519,7 +630,10 @@ class _CTASection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 80, horizontal: isMobile ? 24 : 120),
+      padding: EdgeInsets.symmetric(
+        vertical: 80,
+        horizontal: isMobile ? 24 : 120,
+      ),
       color: AppColors.primary,
       child: Column(
         children: [
@@ -566,10 +680,7 @@ class _MockCircle extends StatelessWidget {
     return Container(
       width: 40,
       height: 40,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
   }
 }
@@ -660,7 +771,11 @@ class _InterviewerCardMock extends StatelessWidget {
                   color: AppColors.primary.withAlpha(20),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.person, color: AppColors.primary, size: isMobile ? 12 : 16),
+                child: Icon(
+                  Icons.person,
+                  color: AppColors.primary,
+                  size: isMobile ? 12 : 16,
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -671,12 +786,18 @@ class _InterviewerCardMock extends StatelessWidget {
                       name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: isMobile ? 10 : 12),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: isMobile ? 10 : 12,
+                      ),
                     ),
                     Text(
                       role,
                       maxLines: 1,
-                      style: TextStyle(color: Colors.black.withAlpha(100), fontSize: isMobile ? 8 : 10),
+                      style: TextStyle(
+                        color: Colors.black.withAlpha(100),
+                        fontSize: isMobile ? 8 : 10,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -688,17 +809,27 @@ class _InterviewerCardMock extends StatelessWidget {
             const SizedBox(height: 12),
             Wrap(
               spacing: 4,
-              children: skills.map((skill) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(10),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  skill,
-                  style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
-                ),
-              )).toList(),
+              children: skills
+                  .map(
+                    (skill) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withAlpha(10),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        skill,
+                        style: const TextStyle(
+                          fontSize: 8,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
           const Spacer(),
@@ -712,7 +843,11 @@ class _InterviewerCardMock extends StatelessWidget {
             child: Center(
               child: Text(
                 'Book Now',
-                style: TextStyle(color: AppColors.primary, fontSize: isMobile ? 8 : 10, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontSize: isMobile ? 8 : 10,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_colors.dart';
+
+const String _playStoreUrl =
+    'https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile';
+
+Future<void> _launchPlayStore() async {
+  final Uri url = Uri.parse(_playStoreUrl);
+  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch $url');
+  }
+}
 
 class Footer extends StatelessWidget {
   final VoidCallback? onFeaturesTap;
@@ -28,15 +39,21 @@ class Footer extends StatelessWidget {
         children: [
           Flex(
             direction: isMobile ? Axis.vertical : Axis.horizontal,
-            crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+            crossAxisAlignment: isMobile
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
             children: [
               SizedBox(
                 width: isMobile ? double.infinity : 300,
                 child: Column(
-                  crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+                  crossAxisAlignment: isMobile
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: isMobile ? MainAxisAlignment.center : MainAxisAlignment.start,
+                      mainAxisAlignment: isMobile
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.start,
                       children: [
                         Container(
                           padding: const EdgeInsets.all(4),
@@ -44,7 +61,11 @@ class Footer extends StatelessWidget {
                             color: AppColors.primary,
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: const Icon(Icons.link, color: Colors.white, size: 20),
+                          child: const Icon(
+                            Icons.link,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -79,9 +100,18 @@ class Footer extends StatelessWidget {
                     title: 'Product',
                     isMobile: isMobile,
                     links: [
-                      _FooterLink(label: 'Features', onTap: onFeaturesTap ?? () {}),
-                      _FooterLink(label: 'How it Works', onTap: onHowItWorksTap ?? () {}),
-                      _FooterLink(label: 'Support', onTap: onSupportTap ?? () {}),
+                      _FooterLink(
+                        label: 'Features',
+                        onTap: onFeaturesTap ?? () {},
+                      ),
+                      _FooterLink(
+                        label: 'How it Works',
+                        onTap: onHowItWorksTap ?? () {},
+                      ),
+                      _FooterLink(
+                        label: 'Support',
+                        onTap: onSupportTap ?? () {},
+                      ),
                       _FooterLink(label: 'Pricing', onTap: () {}),
                     ],
                   ),
@@ -89,8 +119,14 @@ class Footer extends StatelessWidget {
                     title: 'Legal',
                     isMobile: isMobile,
                     links: [
-                      _FooterLink(label: 'Privacy Policy', onTap: () => context.go('/privacy')),
-                      _FooterLink(label: 'Terms & Conditions', onTap: () => context.go('/terms')),
+                      _FooterLink(
+                        label: 'Privacy Policy',
+                        onTap: () => context.go('/privacy'),
+                      ),
+                      _FooterLink(
+                        label: 'Terms & Conditions',
+                        onTap: () => context.go('/terms'),
+                      ),
                     ],
                   ),
                 ],
@@ -111,7 +147,7 @@ class Footer extends StatelessWidget {
               _FooterStoreButton(
                 icon: Icons.play_arrow,
                 label: 'Google Play',
-                onTap: () {},
+                onTap: _launchPlayStore,
               ),
             ],
           ),
@@ -131,14 +167,20 @@ class _FooterColumn extends StatelessWidget {
   final List<_FooterLink> links;
   final bool isMobile;
 
-  const _FooterColumn({required this.title, required this.links, this.isMobile = false});
+  const _FooterColumn({
+    required this.title,
+    required this.links,
+    this.isMobile = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
-        crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        crossAxisAlignment: isMobile
+            ? CrossAxisAlignment.center
+            : CrossAxisAlignment.start,
         children: [
           Text(
             title,
@@ -170,10 +212,7 @@ class _FooterLink extends StatelessWidget {
         onTap: onTap,
         child: Text(
           label,
-          style: const TextStyle(
-            color: Colors.white60,
-            fontSize: 14,
-          ),
+          style: const TextStyle(color: Colors.white60, fontSize: 14),
         ),
       ),
     );
