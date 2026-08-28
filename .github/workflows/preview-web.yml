@@ -1,0 +1,92 @@
+name: Deploy PR Preview to Firebase Hosting
+
+# Every PR against main gets a live, temporary preview URL -- lets a change
+# to the static site (or the relocated Flutter app) get eyeballed before
+# merging, without touching the production skilllynk-fa13b channel. Reuses
+# the exact same WIF identity as deploy-web.yml (same repo, same role is
+# fine -- preview channels are a Hosting-admin operation like the
+# production deploy already is, not a wider grant).
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: preview-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Flutter app (release, base href /app/)
+        run: flutter build web --release --base-href /app/
+
+      - name: Assemble deploy directory
+        run: |
+          rm -rf public/app
+          cp -r build/web public/app
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: skill-lynk-app
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Pinned for the same reason as deploy-web.yml -- 15.22.2+ breaks
+      # ADC/WIF auth entirely, see that workflow's comment for the tracking
+      # issues.
+      - name: Deploy preview channel
+        id: deploy
+        run: |
+          npx firebase-tools@15.22.1 hosting:channel:deploy "pr-${{ github.event.pull_request.number }}" \
+            --project skill-lynk-app --only skilllynk-fa13b --expires 7d --non-interactive \
+            --json > preview-result.json
+          cat preview-result.json
+          # Defensive parse -- grabs whatever the first site's url field is,
+          # rather than assuming an exact key path never verified live.
+          url=$(node -e "
+            const d = JSON.parse(require('fs').readFileSync('preview-result.json','utf8'));
+            const result = d.result || d;
+            const first = Object.values(result)[0];
+            console.log(typeof first === 'string' ? first : first.url);
+          ")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment preview URL on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = "${{ steps.deploy.outputs.url }}";
+            const body = `Preview deployed: ${url}\n\nExpires in 7 days or on the next push to this PR, whichever comes first.`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+            });
+            const existing = comments.find(c => c.user.type === 'Bot' && c.body.startsWith('Preview deployed:'));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number, body });
+            }
