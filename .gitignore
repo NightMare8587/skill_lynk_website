@@ -44,6 +44,11 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Flutter build output copied here for deploy (public/ is the Firebase Hosting
+# root now -- the static marketing site lives in public/ directly, the
+# Flutter app is relocated under public/app/ at deploy time, never committed)
+/public/app/
+
 # Symbolication related
 app.*.symbols
 
