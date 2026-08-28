@@ -24,15 +24,15 @@ with a fix. Reflected below so re-running this doc top-to-bottom is safe
 | Hosting site | ✅ Done. `skilllynk-www` was rejected as an invalid site id (Firebase's naming rules); the actual site is **`skilllynk-fa13b`** → `https://skilllynk-fa13b.web.app`. Every reference in this repo (`firebase.json`, `.firebaserc`, `public/*.html`, `sitemap.xml`, `robots.txt`) has been updated to match — don't recreate the site, don't rename it. |
 | APIs enabled | ✅ Done (implied by later steps succeeding). |
 | Service account | ✅ Created (`skilllynk-website-deployer@skill-lynk-app.iam.gserviceaccount.com`). |
-| Project IAM binding (`roles/firebasehosting.admin`) | ❌ Failed — hit a propagation race (the service account didn't exist yet at that exact instant). **Just needs a retry**, not a fix. |
-| Workload Identity Pool | ❌ Failed — display name `"skill_lynk_website GitHub Actions"` is 34 characters, GCP's limit is 32. **Fixed below** (`"SkillLynk Website Deploy"`, 24 chars). |
-| OIDC provider | ❌ Failed as a consequence of the pool not existing — will work once the pool above is created. |
-| SA ↔ pool IAM binding | ❌ Failed, same reason — will work once the pool exists. |
-| GitHub secrets | ✅ Added by the user. Values don't need to change — same pool/provider *names* were used, only their creation failed, so the already-added secrets will start working once the resources below actually exist. |
-| First deploy run | ❌ Failed (`invalid_target` — pool/provider don't exist), exactly as expected given the above. |
+| Project IAM binding (`roles/firebasehosting.admin`) | ✅ Retried successfully. |
+| Workload Identity Pool | ✅ Retried successfully with the shortened display name. |
+| OIDC provider | ✅ Created successfully once the pool existed. |
+| SA ↔ pool IAM binding | ✅ Created successfully. |
+| GitHub secrets | ✅ Added by the user — confirmed working (see next row). |
+| WIF authentication | ✅ **Confirmed working** — a real workflow run's "Authenticate to Google Cloud" step completed successfully with no key material logged. The whole WIF/impersonation chain is sound. |
+| `firebase-tools deploy` step | ❌ Failed anyway — but for an unrelated reason: `firebase-tools` 15.22.2+ (npm's `@15` floating tag resolved to 15.28.2) has a real regression that breaks ADC/WIF auth entirely (`Failed to authenticate, have you run firebase login?`), even with valid `GOOGLE_APPLICATION_CREDENTIALS`. Tracked upstream: [firebase-tools#10716](https://github.com/firebase/firebase-tools/issues/10716), [#10726](https://github.com/firebase/firebase-tools/issues/10726). **Fixed** by pinning the workflow to `firebase-tools@15.22.1` (last known-good) instead of the floating `@15` tag — see `deploy-web.yml`. |
 
-**Everything below is now a retry script for just the failed steps** — the
-first two sections (create site, enable APIs) are done, skip them.
+**Nothing left to run manually** — every GCP-side resource exists and works. The only fix needed was the version pin above, already committed. Sections below are kept for reference/future re-runs, not because anything is still pending.
 
 ## Prerequisites
 

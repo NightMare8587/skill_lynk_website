@@ -71,5 +71,15 @@ jobs:
       # firebase-tools picks up the Application Default Credentials written
       # by the auth step above automatically -- no `firebase login` /
       # FIREBASE_TOKEN needed.
+      #
+      # Pinned to 15.22.1, NOT a floating `@15` -- 15.22.2 (2026-06-24)
+      # shipped a real regression that breaks ADC/WIF auth entirely
+      # ("Failed to authenticate, have you run firebase login?" even with
+      # a valid GOOGLE_APPLICATION_CREDENTIALS file). Confirmed by hitting
+      # it live in this workflow; tracked upstream at
+      # https://github.com/firebase/firebase-tools/issues/10716 and
+      # https://github.com/firebase/firebase-tools/issues/10726. Bump this
+      # pin once one of those closes as fixed -- don't go back to a
+      # floating major version tag, this exact failure mode is why.
       - name: Deploy to Firebase Hosting
-        run: npx firebase-tools@15 deploy --only hosting:skilllynk-fa13b --project skill-lynk-app --non-interactive
+        run: npx firebase-tools@15.22.1 deploy --only hosting:skilllynk-fa13b --project skill-lynk-app --non-interactive
