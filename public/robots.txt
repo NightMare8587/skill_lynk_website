@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://skilllynk-www.web.app/sitemap.xml
+Sitemap: https://skilllynk-fa13b.web.app/sitemap.xml

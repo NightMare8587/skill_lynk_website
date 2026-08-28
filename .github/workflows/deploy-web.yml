@@ -2,7 +2,7 @@ name: Deploy to Firebase Hosting
 
 # Pushes to main deploy the static marketing site (public/) and rebuild the
 # relocated Flutter app into public/app/ before deploying -- one Hosting
-# site (skilllynk-www), two things served from it. workflow_dispatch lets
+# site (skilllynk-fa13b), two things served from it. workflow_dispatch lets
 # a manual re-run happen without an empty commit. No PR previews (deliberate
 # parity with SkillLynk-Mobile's deploy-web.yml -- add a channel-deploy job
 # later if PR previews turn out to be worth it).
@@ -72,4 +72,4 @@ jobs:
       # by the auth step above automatically -- no `firebase login` /
       # FIREBASE_TOKEN needed.
       - name: Deploy to Firebase Hosting
-        run: npx firebase-tools@15 deploy --only hosting:skilllynk-www --project skill-lynk-app --non-interactive
+        run: npx firebase-tools@15 deploy --only hosting:skilllynk-fa13b --project skill-lynk-app --non-interactive
