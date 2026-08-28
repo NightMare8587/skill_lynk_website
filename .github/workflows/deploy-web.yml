@@ -1,0 +1,75 @@
+name: Deploy to Firebase Hosting
+
+# Pushes to main deploy the static marketing site (public/) and rebuild the
+# relocated Flutter app into public/app/ before deploying -- one Hosting
+# site (skilllynk-www), two things served from it. workflow_dispatch lets
+# a manual re-run happen without an empty commit. No PR previews (deliberate
+# parity with SkillLynk-Mobile's deploy-web.yml -- add a channel-deploy job
+# later if PR previews turn out to be worth it).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# id-token: write is required for google-github-actions/auth to mint a
+# short-lived GCP access token via Workload Identity Federation (OIDC).
+# No long-lived service account key is stored anywhere. See
+# firebase-deploy-setup.md for the one-time GCP-side setup this depends on.
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-web-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # The relocated app lives at /app/ now, not the site root -- base-href
+      # has to match or every asset/route reference resolves wrong.
+      - name: Build Flutter app (release, base href /app/)
+        run: flutter build web --release --base-href /app/
+
+      # public/ is the actual Firebase Hosting root (see firebase.json).
+      # The static landing/legal pages already live there as source; the
+      # Flutter build output is copied in fresh on every deploy and is
+      # gitignored, never committed.
+      - name: Assemble deploy directory
+        run: |
+          rm -rf public/app
+          cp -r build/web public/app
+
+      # Exchanges the workflow's OIDC token for a short-lived GCP access
+      # token by impersonating the deployer service account -- no JSON key
+      # ever exists. Requires firebase-deploy-setup.md's one-time setup.
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: skill-lynk-app
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # firebase-tools picks up the Application Default Credentials written
+      # by the auth step above automatically -- no `firebase login` /
+      # FIREBASE_TOKEN needed.
+      - name: Deploy to Firebase Hosting
+        run: npx firebase-tools@15 deploy --only hosting:skilllynk-www --project skill-lynk-app --non-interactive
