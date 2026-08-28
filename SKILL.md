@@ -44,17 +44,35 @@
 
 ## 🚀 Deployment Instructions (Firebase)
 
-To deploy the latest version of the website:
+**Changed 2026-08-25** — as part of the SkillLynk rebuild initiative (see `SkillLynk-Backend`'s `PRODUCT_ROADMAP.md`), this site's root domain is now a static HTML/CSS/JS landing page for real SEO (Flutter web renders nothing crawlable on first fetch). The old Flutter site is kept, relocated to `/app/`, per an explicit decision to not just delete it.
 
-1. **Build the Web Release:**
+`firebase.json`'s `public` now points at `public/` (not `build/web`) — that directory is the actual Firebase Hosting root:
+```
+public/
+├── index.html          # new static landing page (source, not generated)
+├── privacy/index.html  # static, ported from PRIVACY_POLICY.md
+├── terms/index.html    # static, ported from TERMS_AND_CONDITIONS.md
+├── assets/              # styles.css, site.js (hand-written, no build step)
+├── robots.txt, sitemap.xml
+└── app/                  # Flutter build output goes HERE -- gitignored, not source
+```
+
+To deploy:
+
+1. **Build the Flutter app with the new base href** (it now lives at `/app/`, not `/`):
    ```bash
-   flutter build web --release
+   flutter build web --release --base-href /app/
    ```
-
-2. **Deploy to Firebase:**
+2. **Copy the build output into `public/app/`:**
+   ```bash
+   rm -rf public/app && cp -r build/web public/app
+   ```
+3. **Deploy everything (static site + relocated Flutter app) in one shot:**
    ```bash
    firebase deploy --only hosting
    ```
+
+The static landing page itself (`public/index.html`, `public/privacy/`, `public/terms/`) needs no build step — edit and deploy directly. Only the `/app/` subtree needs the Flutter build step above. No CI workflow exists for this yet (same as before) — deploy is manual until/unless one gets added.
 
 ---
 
