@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "skill-lynk-app"
+  },
+  "targets": {
+    "skill-lynk-app": {
+      "hosting": {
+        "skilllynk-www": [
+          "skilllynk-www"
+        ]
+      }
+    }
   }
 }
