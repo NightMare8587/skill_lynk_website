@@ -30,9 +30,21 @@ with a fix. Reflected below so re-running this doc top-to-bottom is safe
 | SA ↔ pool IAM binding | ✅ Created successfully. |
 | GitHub secrets | ✅ Added by the user — confirmed working (see next row). |
 | WIF authentication | ✅ **Confirmed working** — a real workflow run's "Authenticate to Google Cloud" step completed successfully with no key material logged. The whole WIF/impersonation chain is sound. |
-| `firebase-tools deploy` step | ❌ Failed anyway — but for an unrelated reason: `firebase-tools` 15.22.2+ (npm's `@15` floating tag resolved to 15.28.2) has a real regression that breaks ADC/WIF auth entirely (`Failed to authenticate, have you run firebase login?`), even with valid `GOOGLE_APPLICATION_CREDENTIALS`. Tracked upstream: [firebase-tools#10716](https://github.com/firebase/firebase-tools/issues/10716), [#10726](https://github.com/firebase/firebase-tools/issues/10726). **Fixed** by pinning the workflow to `firebase-tools@15.22.1` (last known-good) instead of the floating `@15` tag — see `deploy-web.yml`. |
+| `firebase-tools deploy` step (production, push to `main`) | ✅ Fixed — was a real `firebase-tools` 15.22.2+ regression breaking ADC/WIF auth ([firebase-tools#10716](https://github.com/firebase/firebase-tools/issues/10716), [#10726](https://github.com/firebase/firebase-tools/issues/10726)), pinned to `15.22.1` in `deploy-web.yml`. **Confirmed live and green.** |
+| PR preview channel (`preview-web.yml`, added 2026-08-28) | ❌ Failed on its first real test (PR #1): `unauthorized_client: The given credential is rejected by the attribute condition`. Root cause: the WI provider's `attribute-condition` only allows `assertion.ref == 'refs/heads/main'` — correct for `deploy-web.yml` (push-to-main only, by design), but a `pull_request` event's ref is `refs/pull/N/merge`, never `refs/heads/main`, so it's structurally never going to match. **One more command needed** — see "Widen the provider for PR previews" below. |
 
-**Nothing left to run manually** — every GCP-side resource exists and works. The only fix needed was the version pin above, already committed. Sections below are kept for reference/future re-runs, not because anything is still pending.
+**One command still needed**, for the PR-preview workflow specifically — everything else (including the production deploy) is done and confirmed working.
+
+## Widen the provider for PR previews
+
+```bash
+gcloud iam workload-identity-pools providers update-oidc github-actions-provider \
+  --location="global" \
+  --workload-identity-pool="skilllynk-website-pool" \
+  --attribute-condition="assertion.repository == 'NightMare8587/skill_lynk_website' && (assertion.ref == 'refs/heads/main' || (assertion.event_name == 'pull_request' \&\& assertion.base_ref == 'main'))"
+```
+
+Still scoped tightly — only this repo, and only either a push to `main` or a PR whose *base* is `main` (not just any PR from anywhere). `update-oidc` on an existing provider replaces its condition in place; no need to delete/recreate anything. After running this, re-trigger the PR preview (push a commit to the PR branch, or close/reopen it) and it should get past the auth step.
 
 ## Prerequisites
 
