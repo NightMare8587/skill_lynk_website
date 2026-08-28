@@ -5,8 +5,8 @@
   "targets": {
     "skill-lynk-app": {
       "hosting": {
-        "skilllynk-www": [
-          "skilllynk-www"
+        "skilllynk-fa13b": [
+          "skilllynk-fa13b"
         ]
       }
     }

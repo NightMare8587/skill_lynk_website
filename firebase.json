@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "skilllynk-www",
+    "target": "skilllynk-fa13b",
     "public": "public",
     "ignore": [
       "firebase.json",
