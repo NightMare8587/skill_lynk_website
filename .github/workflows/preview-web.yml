@@ -1,11 +1,13 @@
 name: Deploy PR Preview to Firebase Hosting
 
 # Every PR against main gets a live, temporary preview URL -- lets a change
-# to the static site (or the relocated Flutter app) get eyeballed before
-# merging, without touching the production skilllynk-fa13b channel. Reuses
-# the exact same WIF identity as deploy-web.yml (same repo, same role is
-# fine -- preview channels are a Hosting-admin operation like the
-# production deploy already is, not a wider grant).
+# to the static site (or the /app/ build, now the real SkillLynk-Mobile web
+# app -- see deploy-web.yml) get eyeballed before merging, without touching
+# the production skilllynk-fa13b channel. Reuses the exact same WIF identity
+# as deploy-web.yml (same repo, same role is fine -- preview channels are a
+# Hosting-admin operation like the production deploy already is, not a
+# wider grant). Builds against SkillLynk-Mobile's main branch, not the PR's
+# own branch -- a PR here only ever touches this repo's files anyway.
 on:
   pull_request:
     branches: [main]
@@ -26,6 +28,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # See deploy-web.yml's comment on the MOBILE_REPO_PAT secret.
+      - name: Checkout SkillLynk-Mobile
+        uses: actions/checkout@v4
+        with:
+          repository: NightMare8587/SkillLynk-Mobile
+          token: ${{ secrets.MOBILE_REPO_PAT }}
+          path: skilllynk-mobile
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -33,15 +43,17 @@ jobs:
           cache: true
 
       - name: Install dependencies
+        working-directory: skilllynk-mobile
         run: flutter pub get
 
       - name: Build Flutter app (release, base href /app/)
+        working-directory: skilllynk-mobile
         run: flutter build web --release --base-href /app/
 
       - name: Assemble deploy directory
         run: |
           rm -rf public/app
-          cp -r build/web public/app
+          cp -r skilllynk-mobile/build/web public/app
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2

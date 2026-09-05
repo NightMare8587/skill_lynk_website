@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+// A returning logged-in visitor skips the marketing page entirely, LinkedIn-
+// style -- sl_auth is a presence-only flag cookie (never a real token), set
+// by the app at /app/ (see SkillLynk-Mobile's web_auth_flag_web.dart) on
+// login and cleared on logout. Runs synchronously, before anything else in
+// <head>, so a logged-in visit never even paints the landing page first.
+if (document.cookie.split('; ').some(function (c) { return c === 'sl_auth=1'; })) {
+  window.location.replace('/app/');
+}
+</script>
 <title>SkillLynk — AI Interview Practice & Verified Skill Passport</title>
 <meta name="description" content="Practice technical interviews with real peers, AI voice interviewers, and company-run Hiring Drives — then prove it with a Skill Passport hiring teams can actually verify.">
 <link rel="canonical" href="https://skilllynk-fa13b.web.app/">
@@ -60,6 +70,7 @@
       <a href="/for-companies/">For Companies</a>
     </nav>
     <div style="display:flex; align-items:center; gap:12px;">
+      <a class="btn btn-ghost" href="/app/">Login</a>
       <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile" rel="noopener">Get the app</a>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -73,6 +84,7 @@
     <a href="/blog/" style="padding:10px 0;">Blog</a>
     <a href="/for-companies/" style="padding:10px 0;">For Companies</a>
     <a href="/download/" style="padding:10px 0;">Download</a>
+    <a href="/app/" style="padding:10px 0;">Login</a>
     <a href="/privacy/" style="padding:10px 0;">Privacy</a>
     <a href="/terms/" style="padding:10px 0;">Terms</a>
   </nav>

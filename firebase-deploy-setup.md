@@ -1,11 +1,28 @@
 # Firebase Hosting Deploy — One-Time Setup
 
-`.github/workflows/deploy-web.yml` builds the static marketing site (and the
-relocated Flutter app under `/app/`) and deploys to a **new, dedicated**
-Firebase Hosting site on every push to `main`. Same Workload Identity
-Federation (OIDC) approach already proven in `SkillLynk-Mobile`'s
-`deploy-web.yml`: no service account JSON key is ever generated, stored, or
-rotated.
+`.github/workflows/deploy-web.yml` builds the static marketing site (and, as
+of 2026-09-05, the real SkillLynk product under `/app/` — the
+`SkillLynk-Mobile` repo's Flutter web build, checked out as a second repo in
+the same workflow run) and deploys to a **new, dedicated** Firebase Hosting
+site on every push to `main`. Same Workload Identity Federation (OIDC)
+approach already proven in `SkillLynk-Mobile`'s `deploy-web.yml`: no service
+account JSON key is ever generated, stored, or rotated for the Firebase
+deploy step itself.
+
+## One more secret needed: `MOBILE_REPO_PAT`
+
+Since `SkillLynk-Mobile` is a separate, private repo, the workflow's second
+checkout step (`Checkout SkillLynk-Mobile`) can't use the default
+`GITHUB_TOKEN` — that token only ever scopes to the repo the workflow is
+running in. It needs a **fine-grained personal access token**, scoped to
+read-only "Contents" access on `NightMare8587/SkillLynk-Mobile` only (no
+other repos, no write access), stored as this repo's `MOBILE_REPO_PAT`
+secret (`Settings → Secrets and variables → Actions → New repository
+secret`). This is the one piece of this setup that isn't WIF/OIDC-based —
+GitHub's cross-repo checkout has no equivalent short-lived-token mechanism,
+so a PAT is the standard approach here. Rotate it like any other credential
+if it's ever suspected of leaking; it can only read one repo's source, not
+push anywhere or touch any other project.
 
 **Deliberately a *new* Hosting site, not `skill-lynk` (the mobile web PWA's
 existing site)** — the two are different products and were about to collide
@@ -114,6 +131,9 @@ These should be identical to what's already saved as `GCP_WORKLOAD_IDENTITY_PROV
 Either push an empty-ish commit, or use the Actions tab → "Deploy to Firebase
 Hosting" → Run workflow (branch `main`). The "Authenticate to Google Cloud"
 step should complete with no key material printed anywhere in the log.
-Once deployed, `https://skilllynk-fa13b.web.app/` serves the static landing
-page, and `https://skilllynk-fa13b.web.app/app/` serves the relocated
-Flutter site.
+Once deployed, `https://skillynk.in/` (and `https://skilllynk-fa13b.web.app/`)
+serves the static landing page, and `https://skillynk.in/app/` serves the
+real SkillLynk product (`SkillLynk-Mobile`'s Flutter web build) — a
+returning logged-in visitor to `/` is redirected straight to `/app/` via the
+`sl_auth` cookie check in `public/index.html` (see `SkillLynk-Mobile`'s
+`web_auth_flag_web.dart` for where that cookie gets set/cleared).
