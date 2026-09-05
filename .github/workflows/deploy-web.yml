@@ -1,11 +1,19 @@
 name: Deploy to Firebase Hosting
 
 # Pushes to main deploy the static marketing site (public/) and rebuild the
-# relocated Flutter app into public/app/ before deploying -- one Hosting
-# site (skilllynk-fa13b), two things served from it. workflow_dispatch lets
-# a manual re-run happen without an empty commit. No PR previews (deliberate
-# parity with SkillLynk-Mobile's deploy-web.yml -- add a channel-deploy job
-# later if PR previews turn out to be worth it).
+# REAL SkillLynk product (the SkillLynk-Mobile repo's Flutter web build,
+# checked out as a second repo below) into public/app/ before deploying --
+# one Hosting site (skilllynk-fa13b), two things served from it, so
+# skillynk.in/ is the marketing page and skillynk.in/app/ is the actual
+# logged-in product. Retired 2026-09-05: this used to build THIS repo's own
+# old pre-rebuild marketing-Flutter-site into /app/ instead -- that content
+# was superseded by the new static public/index.html and was never the real
+# product, just kept around rather than deleted. workflow_dispatch lets a
+# manual re-run happen without an empty commit, and also lets a
+# SkillLynk-Mobile release trigger this deploy via
+# repository_dispatch/workflow_dispatch from that repo's own CI (not wired
+# up yet -- until it is, a change to SkillLynk-Mobile's web build doesn't
+# auto-redeploy here, only a push to this repo's own main does).
 on:
   push:
     branches: [main]
@@ -30,6 +38,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # SkillLynk-Mobile is a separate, private repo -- the default
+      # GITHUB_TOKEN only scopes to this repo, so a PAT with at least
+      # read-only "Contents" access to NightMare8587/SkillLynk-Mobile is
+      # required. Create a fine-grained PAT scoped to just that repo and
+      # store it as this repo's MOBILE_REPO_PAT secret (Settings > Secrets
+      # and variables > Actions) -- see firebase-deploy-setup.md.
+      - name: Checkout SkillLynk-Mobile
+        uses: actions/checkout@v4
+        with:
+          repository: NightMare8587/SkillLynk-Mobile
+          token: ${{ secrets.MOBILE_REPO_PAT }}
+          path: skilllynk-mobile
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -37,21 +58,23 @@ jobs:
           cache: true
 
       - name: Install dependencies
+        working-directory: skilllynk-mobile
         run: flutter pub get
 
-      # The relocated app lives at /app/ now, not the site root -- base-href
-      # has to match or every asset/route reference resolves wrong.
+      # The real product lives at /app/ on this domain, not the site root --
+      # base-href has to match or every asset/route reference resolves wrong.
       - name: Build Flutter app (release, base href /app/)
+        working-directory: skilllynk-mobile
         run: flutter build web --release --base-href /app/
 
       # public/ is the actual Firebase Hosting root (see firebase.json).
-      # The static landing/legal pages already live there as source; the
-      # Flutter build output is copied in fresh on every deploy and is
-      # gitignored, never committed.
+      # The static landing/legal pages live there as source in THIS repo;
+      # the Flutter build output from the OTHER repo is copied in fresh on
+      # every deploy and is gitignored here, never committed.
       - name: Assemble deploy directory
         run: |
           rm -rf public/app
-          cp -r build/web public/app
+          cp -r skilllynk-mobile/build/web public/app
 
       # Exchanges the workflow's OIDC token for a short-lived GCP access
       # token by impersonating the deployer service account -- no JSON key
