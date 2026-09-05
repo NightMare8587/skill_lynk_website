@@ -9,7 +9,7 @@ approach already proven in `SkillLynk-Mobile`'s `deploy-web.yml`: no service
 account JSON key is ever generated, stored, or rotated for the Firebase
 deploy step itself.
 
-## One more secret needed: `MOBILE_REPO_PAT`
+## More secrets needed: `MOBILE_REPO_PAT` + the mobile app's `.env` values
 
 Since `SkillLynk-Mobile` is a separate, private repo, the workflow's second
 checkout step (`Checkout SkillLynk-Mobile`) can't use the default
@@ -23,6 +23,30 @@ GitHub's cross-repo checkout has no equivalent short-lived-token mechanism,
 so a PAT is the standard approach here. Rotate it like any other credential
 if it's ever suspected of leaking; it can only read one repo's source, not
 push anywhere or touch any other project.
+
+**Also required** (confirmed live 2026-09-05, first build attempt failed
+without these): `SkillLynk-Mobile`'s `pubspec.yaml` declares a gitignored
+`.env` file as an asset, so `flutter build web` fails outright
+(`No file or variants found for asset: .env`) without one. The workflow now
+writes this file itself before building — same pattern as
+`SkillLynk-Mobile`'s own `build-signed-bundle.yml` — but a GitHub Actions
+workflow can only read the secrets store of the repo it *lives in*, even
+when it checks out a second repo's source. So these 5 secrets need to be
+**duplicated** into this repo's own Actions secrets, with the exact same
+values already set on `SkillLynk-Mobile`'s:
+
+- `GOOGLE_SERVER_CLIENT_ID`
+- `GOOGLE_IOS_CLIENT_ID`
+- `BACKEND_BASE_URL`
+- `SOCKET_BASE_URL`
+- `BACKEND_PORT`
+
+Go to `SkillLynk-Mobile`'s repo settings to see the current values (secret
+values aren't readable once saved, so if they're not on hand from
+whoever originally set them, they'd need to be re-sourced from wherever
+they're documented/configured — e.g. the Google Cloud OAuth client IDs, and
+`api.skillynk.in` for `BACKEND_BASE_URL` now that the backend has a custom
+domain).
 
 **Deliberately a *new* Hosting site, not `skill-lynk` (the mobile web PWA's
 existing site)** — the two are different products and were about to collide

@@ -46,6 +46,20 @@ jobs:
         working-directory: skilllynk-mobile
         run: flutter pub get
 
+      # See deploy-web.yml's comment on this step -- same required secrets,
+      # duplicated onto this repo since a workflow can't read a checked-out
+      # second repo's secrets.
+      - name: Write .env
+        working-directory: skilllynk-mobile
+        run: |
+          cat <<EOF > .env
+          GOOGLE_SERVER_CLIENT_ID=${{ secrets.GOOGLE_SERVER_CLIENT_ID }}
+          GOOGLE_IOS_CLIENT_ID=${{ secrets.GOOGLE_IOS_CLIENT_ID }}
+          BACKEND_BASE_URL=${{ secrets.BACKEND_BASE_URL }}
+          SOCKET_BASE_URL=${{ secrets.SOCKET_BASE_URL }}
+          BACKEND_PORT=${{ secrets.BACKEND_PORT }}
+          EOF
+
       - name: Build Flutter app (release, base href /app/)
         working-directory: skilllynk-mobile
         run: flutter build web --release --base-href /app/
