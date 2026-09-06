@@ -14,6 +14,17 @@ name: Deploy to Firebase Hosting
 # repository_dispatch/workflow_dispatch from that repo's own CI (not wired
 # up yet -- until it is, a change to SkillLynk-Mobile's web build doesn't
 # auto-redeploy here, only a push to this repo's own main does).
+#
+# That gap actually bit us (2026-09-06): this repo's last push before then was
+# 2026-09-05 11:36 UTC; SkillLynk-Mobile kept moving after that (the
+# web-viewport letterbox fix, badge-earned share prompts, the leaderboard
+# share button, a real OG card) with nothing here to pick any of it up --
+# skillynk.in/app/ was serving a build over a day stale, which is exactly
+# why account_tab_screen.dart's 2-column GridView cards were rendering at
+# near-full desktop width (no letterbox fix live yet) instead of a sane
+# phone-width column. This comment doubles as the trigger for that
+# redeploy. Still worth wiring the repository_dispatch properly as a
+# follow-up so this can't silently recur.
 on:
   push:
     branches: [main]
