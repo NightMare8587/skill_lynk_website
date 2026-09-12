@@ -13,8 +13,9 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | `/app/` | **Reclassified 2026-09-12.** No longer "archived" — this now serves the real product (`SkillLynk-Mobile`'s Flutter web build, see `SKILL.md`'s deploy section). Correctly `Disallow`'d in `robots.txt` as of this pass — it's the authenticated app, not marketing content, and crawling a large SPA build wastes crawl budget for zero SEO benefit. |
 | `/how-it-works/` | Currently an anchor section on Home (`#how-it-works`), not a standalone page — fine for now, split out once it needs its own search-intent targeting (see keyword map) |
 | `/for-companies/` | ✅ **Live** (shipped `08680e5`). B2B landing page. Has OG/Twitter card tags as of 2026-09-12. |
-| `/blog/` | ✅ **Live** (shipped `7c0cd1d`, extended 2026-09-12). 4 posts as of this pass — see "Published posts" below. Still hand-written static (see "Decision" below, now resolved for launch). |
+| `/blog/` | ✅ **Live** (shipped `7c0cd1d`, extended 2026-09-12/13). 5 posts as of this pass — see "Published posts" below. Still hand-written static (see "Decision" below, now resolved for launch). |
 | `/blog/interview-readiness-score/` | ✅ **Added 2026-09-12** — the "interview readiness score" keyword row below, previously unwritten. |
+| `/blog/why-we-built-skilllynk/` | ✅ **Added 2026-09-13** — launch-week narrative post (not tied to a specific SEO keyword row; part of the Launch Week Playbook's Day 1 "why we built SkillLynk / a how-to / a feature deep-dive" content plan, see that Artifact and the "Launch Week Content Kit" companion). |
 | `/passport/[slug]` (public Skill Passport pages) | **Still not built here.** Backend already server-renders `GET /passport/public/:slug` with its own OG tags (see `SkillLynk-Backend`'s CLAUDE.md, "Skill Passport" section) — a shared passport link already works and is already indexable on its own, it just isn't cross-linked from this site's nav/footer. Lower priority than it looks: each passport URL is one specific candidate's, so there's no single static page to add here — the real fix (linking to "yours" from the site) has to happen in the mobile app's own share flow, not this repo. |
 | `/download/` | ✅ **Live** (shipped `08680e5`). Has OG/Twitter card tags as of 2026-09-12. iOS messaging still absent (no iOS release yet — see `SkillLynk-Backend`'s referral-link section on why). |
 
@@ -51,5 +52,5 @@ This was left open pending a first batch of posts to prove out the keyword map �
 
 - **Blog RSS feed** — no templating engine here to generate one from; would need either a hand-maintained `feed.xml` or the Next.js migration above.
 - **`/passport/[slug]` cross-linking** from this site — see the table above; the actual fix belongs in the mobile app's share flow, not here.
-- **`daily coding challenge practice` and `DSA interview prep`/`SQL interview questions practice` blog posts** — three keyword-map rows still without a post. Good next posts to write once the launch-week content calendar has room.
+- **`daily coding challenge practice` and `DSA interview prep`/`SQL interview questions practice` blog posts** — three keyword-map rows still without a post. Earmarked as launch-week blog posts #2 ("a how-to," likely `daily coding challenge practice`) and #3 ("a feature deep-dive," likely `DSA interview prep`) in the Launch Week Content Kit — outlined there, not yet drafted as of this pass.
 - **OG images on `/privacy/` and `/terms/`** — deliberately skipped, low value (nobody shares a privacy policy link socially).
