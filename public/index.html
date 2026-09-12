@@ -9,7 +9,21 @@
 // by the app at /app/ (see SkillLynk-Mobile's web_auth_flag_web.dart) on
 // login and cleared on logout. Runs synchronously, before anything else in
 // <head>, so a logged-in visit never even paints the landing page first.
-if (document.cookie.split('; ').some(function (c) { return c === 'sl_auth=1'; })) {
+//
+// Escape hatch (added 2026-09-12, real incident): this cookie and the app's
+// own local session state are two independent stores that can legitimately
+// desync (browser privacy settings, ITP, clearing cookies without clearing
+// site storage, etc.) -- when they do, the cookie is stuck claiming "logged
+// in" while /app/ itself shows its login screen, and a visitor gets bounced
+// straight back here with no way to ever see the landing page. `?site=1`
+// always skips this redirect, regardless of the cookie, as a permanent
+// manual override -- share this with anyone who reports getting stuck.
+// SkillLynk-Mobile's splash screen also now self-heals this (clears the
+// cookie the moment it decides the visitor isn't actually logged in), so
+// this should become a rare fallback rather than the primary fix.
+var params = new URLSearchParams(window.location.search);
+if (params.get('site') !== '1' &&
+    document.cookie.split('; ').some(function (c) { return c === 'sl_auth=1'; })) {
   window.location.replace('/app/');
 }
 </script>
