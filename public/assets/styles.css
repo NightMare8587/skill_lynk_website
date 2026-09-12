@@ -229,8 +229,14 @@ img { max-width: 100%; display: block; }
 .article p { color: var(--text); font-size: 1rem; line-height: 1.75; margin-bottom: 18px; }
 .article ul, .article ol { padding-left: 22px; margin: 0 0 18px; }
 .article li { color: var(--text); font-size: 1rem; line-height: 1.7; margin-bottom: 8px; }
-.article a { color: var(--accent-strong); }
-@media (prefers-color-scheme: dark) { .article a { color: var(--accent); } }
+/* :not(.btn) is load-bearing, not decorative -- without it, this rule's
+   specificity (0,1,1) beats .btn-primary's (0,1,0) for any CTA button
+   living inside article body text, silently overriding its intended
+   --on-accent (dark ink) text color with this gold-ish --accent-strong
+   instead -- gold text on a gold button, functionally invisible. Every
+   blog post's .article-cta button had this bug until found 2026-09-12. */
+.article a:not(.btn) { color: var(--accent-strong); }
+@media (prefers-color-scheme: dark) { .article a:not(.btn) { color: var(--accent); } }
 .article blockquote { margin: 28px 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--accent); color: var(--text-dim); font-style: italic; font-size: 1.05rem; }
 .article-cta { margin-top: 48px; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); text-align: center; }
 .article-cta p { margin-bottom: 16px; color: var(--text-dim); }
