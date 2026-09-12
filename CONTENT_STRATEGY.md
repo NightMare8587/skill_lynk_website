@@ -4,16 +4,19 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 
 ## Current state vs. target
 
+**This table was stale as of 2026-09-12** — several rows below marked "Not built" when this doc was first written have since shipped (see git log: `7c0cd1d` first 3 blog posts, `08680e5` for-companies + download pages). Corrected here during the pre-launch SEO pass; keep this table honest going forward rather than letting it drift again.
+
 | Page | Status |
 |---|---|
 | `/` (Home) | ✅ Live — static |
-| `/privacy/`, `/terms/` | ✅ Live — static |
-| `/app/` | Archived Flutter site, deliberately unlinked/not indexed |
+| `/privacy/`, `/terms/` | ✅ Live — static, no OG image (low priority — nobody shares a privacy policy link) |
+| `/app/` | **Reclassified 2026-09-12.** No longer "archived" — this now serves the real product (`SkillLynk-Mobile`'s Flutter web build, see `SKILL.md`'s deploy section). Correctly `Disallow`'d in `robots.txt` as of this pass — it's the authenticated app, not marketing content, and crawling a large SPA build wastes crawl budget for zero SEO benefit. |
 | `/how-it-works/` | Currently an anchor section on Home (`#how-it-works`), not a standalone page — fine for now, split out once it needs its own search-intent targeting (see keyword map) |
-| `/for-companies/` | **Not built.** B2B landing page linking to `skilllynk-portal` (the company self-serve portal). Real gap — companies searching for an assessment platform have nowhere to land. |
-| `/blog/` | **Not built.** This is the actual content engine — see "Content type" column below. Needs either hand-written static posts (works today, doesn't scale past a handful) or the Next.js migration (see decision note). |
-| `/passport/[slug]` (public Skill Passport pages) | **Not built.** Backend already server-renders `GET /passport/public/:slug` — this site doesn't yet surface/link to it. Real, low-effort win: even a single static page linking out, or a proper branded wrapper, gets these indexed. |
-| `/download/` | **Not built.** Smart App/Play Store redirect, mirroring the backend's `/link/join` logic. Currently the site just links straight to the Play Store from every CTA — works, but a dedicated page is more shareable and better for the (currently missing) iOS messaging. |
+| `/for-companies/` | ✅ **Live** (shipped `08680e5`). B2B landing page. Has OG/Twitter card tags as of 2026-09-12. |
+| `/blog/` | ✅ **Live** (shipped `7c0cd1d`, extended 2026-09-12). 4 posts as of this pass — see "Published posts" below. Still hand-written static (see "Decision" below, now resolved for launch). |
+| `/blog/interview-readiness-score/` | ✅ **Added 2026-09-12** — the "interview readiness score" keyword row below, previously unwritten. |
+| `/passport/[slug]` (public Skill Passport pages) | **Still not built here.** Backend already server-renders `GET /passport/public/:slug` with its own OG tags (see `SkillLynk-Backend`'s CLAUDE.md, "Skill Passport" section) — a shared passport link already works and is already indexable on its own, it just isn't cross-linked from this site's nav/footer. Lower priority than it looks: each passport URL is one specific candidate's, so there's no single static page to add here — the real fix (linking to "yours" from the site) has to happen in the mobile app's own share flow, not this repo. |
+| `/download/` | ✅ **Live** (shipped `08680e5`). Has OG/Twitter card tags as of 2026-09-12. iOS messaging still absent (no iOS release yet — see `SkillLynk-Backend`'s referral-link section on why). |
 
 ## Keyword map
 
@@ -26,10 +29,10 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | technical interview practice online | Informational | Top | Home | Already covered by hero copy |
 | system design interview practice | Informational | Mid | Blog post | Ties directly to the "System Design" topic tag already shown in the passport mockup on Home |
 | coding interview practice free | Transactional | Mid | Blog post + Home CTA | "Free" is a real, honest claim (peer interviews + daily practice are free) — lead with it |
-| Skill Passport verified score | Navigational/branded | Bottom | `/passport/` explainer + public passport pages | The actual differentiator; currently under-indexed since no public passport pages exist yet |
-| hiring drive assessment platform | Commercial (B2B) | Bottom | `/for-companies/` (not built) | Zero current coverage — this is the biggest structural gap in the current IA |
-| daily coding challenge practice | Informational | Mid | Blog post | Ties to the real Daily Coding Challenge feature |
-| interview readiness score | Informational | Mid | Blog post explaining Skill Passport + growth dashboard concept | Novel term, low competition — worth owning |
+| Skill Passport verified activity | Navigational/branded | Bottom | The "interview readiness score" post below + public passport pages | **Row corrected 2026-09-12** — this used to say "verified score," but the backend dropped a single `verified_score` from the public card entirely (2026-09-06 redesign) in favor of activity counts (topics demonstrated, interviews completed, coding problems solved, drives completed). Don't target "verified score" as a keyword going forward — it no longer describes the real product and would set the wrong expectation. |
+| hiring drive assessment platform | Commercial (B2B) | Bottom | `/for-companies/` (now live) | Live as of `08680e5` |
+| daily coding challenge practice | Informational | Mid | Blog post | Ties to the real Daily Coding Challenge feature — not yet written |
+| interview readiness score | Informational | Mid | ✅ Written 2026-09-12 — `/blog/interview-readiness-score/` | Deliberately answers the search intent honestly: explains why SkillLynk doesn't reduce readiness to one gamified number, and what it shows instead |
 | behavioral interview practice AI | Informational | Mid | Blog post | AI voice interviews handle this; not currently called out distinctly from technical prep |
 | mock interview with AI voice interviewer | Informational/navigational | Top | Home (already targeted) + blog post going deeper | |
 | DSA interview prep | Informational | Mid | Blog post | Common competitor-adjacent term (LeetCode audience) — a real acquisition wedge |
@@ -37,11 +40,16 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | resume ATS score checker | Transactional | Mid | Blog post + link to the in-app Resume Review feature | Real, free, standalone feature (`POST /resume-review`) with almost no current external surface |
 | peer mock interview practice free | Transactional | Top | Home (already targeted) | |
 
-## Decision needed: does the blog stay hand-written static, or wait for Next.js?
+## Decision: hand-written static, for now (resolved 2026-09-12)
 
-Not resolved in this pass — flagging rather than deciding unilaterally, since it changes real scope:
+This was left open pending a first batch of posts to prove out the keyword map — that's done (4 posts live). **Staying hand-written static through public launch**: a Next.js migration is a real new codebase, not something to take on in launch week, and 4 posts is nowhere near the "~10, getting painful" ceiling flagged below. Revisit post-launch once there's an actual publishing cadence established (the Launch Week Playbook and the Daily Streak Playbook both call for ongoing content) and the manual-per-post cost is a felt problem, not a hypothetical one.
 
-- **Hand-written static** (extend the current pattern — one `public/blog/<slug>/index.html` per post, a `public/blog/index.html` listing page): works today with zero new infrastructure, but every post is fully manual (no templating, no RSS, no tag pages) — fine for 3-5 posts, painful past ~10.
-- **Next.js migration** (the originally-planned Phase 1 Sprint 3-5 path): MDX + ISR gives templating, an RSS feed, and tag/category pages for free, and unlocks the data-driven public Skill Passport pages properly — but it's a real new codebase, not a content task.
+- **Hand-written static** (current pattern — one `public/blog/<slug>/index.html` per post, a `public/blog/index.html` listing page): works today with zero new infrastructure, but every post is fully manual (no templating, no RSS, no tag pages) — fine for 3-5 posts, painful past ~10.
+- **Next.js migration** (the originally-planned Phase 1 Sprint 3-5 path): MDX + ISR gives templating, an RSS feed, and tag/category pages for free, and unlocks the data-driven public Skill Passport pages properly — but it's a real new codebase, not a content task. Revisit this once post volume actually justifies it.
 
-Recommend deciding this once there's an actual first batch of posts to write (2-3 posts hand-written now proves out the keyword map before investing in a framework for it) — but this is the user's call given it changes how much of Phase 1 is still needed.
+## Not done in this pass (2026-09-12 SEO audit)
+
+- **Blog RSS feed** — no templating engine here to generate one from; would need either a hand-maintained `feed.xml` or the Next.js migration above.
+- **`/passport/[slug]` cross-linking** from this site — see the table above; the actual fix belongs in the mobile app's share flow, not here.
+- **`daily coding challenge practice` and `DSA interview prep`/`SQL interview questions practice` blog posts** — three keyword-map rows still without a post. Good next posts to write once the launch-week content calendar has room.
+- **OG images on `/privacy/` and `/terms/`** — deliberately skipped, low value (nobody shares a privacy policy link socially).
