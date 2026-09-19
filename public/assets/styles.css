@@ -1,45 +1,51 @@
-/* SkillLynk marketing site -- "Verified Signal" tokens.
-   Mirrors SkillLynk-Backend's design/tokens.css; see that file for the
-   full rationale. This site keeps its own copy rather than a cross-origin
-   import, same choice already made for the mobile app's Dart mirror. */
+/* SkillLynk marketing site -- "Verified Signal" tokens, permanently dark
+   (changed 2026-09-19 to match the same always-dark direction the mobile
+   app's login/OTP/onboarding screens moved to -- see SkillLynk-Mobile's
+   CLAUDE.md). Mirrors SkillLynk-Backend's design/tokens.css for the base
+   palette; see that file for the original light/dark rationale. This site
+   keeps its own copy rather than a cross-origin import, same choice already
+   made for the mobile app's Dart mirror. */
 
 :root {
-  --bg: #F3F4F8;
-  --surface: #FFFFFF;
-  --surface-2: #E9ECF6;
-  --border: #DCE0EE;
-  --text: #12182B;
-  --text-dim: #454F74;
-  --text-faint: #767FA0;
-  --accent: #B8790A;
-  --accent-strong: #8F5D06;
+  --bg: #12182B;
+  --surface: #1B2340;
+  --surface-2: #232C4E;
+  --border: #2B3560;
+  --text: #EDEFF7;
+  --text-dim: #A9B2D6;
+  --text-faint: #6E77A0;
+
+  /* Credential/verified accent -- Skill Passport, verified score, "gold"
+     skill chips only. Never a general CTA color; see --accent-teal below
+     for that job. Matches SkillLynk-Mobile's AppColors.accentGold. */
+  --accent: #E3A008;
+  --accent-strong: #F5B82E;
   --on-accent: #14100A;
-  --success: #1F7A50;
+
+  /* "Signal Teal" -- the primary action/CTA color (buttons, links, the
+     brand mark, section eyebrows, feature icons). Matches
+     SkillLynk-Mobile's AppColors.accentSignal/onAccentSignal, first rolled
+     out on the app's login/OTP/onboarding screens: gold means
+     "verified/credential," teal means "do this now." */
+  --accent-teal: #2FE6B8;
+  --on-accent-teal: #04231C;
+
+  --success: #3DAE7A;
+  --warning: #D98A2B;
+  --error: #E2586B;
 
   --font-display: 'Lexend', system-ui, sans-serif;
   --font-body: 'Public Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  /* Reserved for emotional/confidence moments only (hero headline, the
+     Skill Passport pitch, the closing CTA) -- mirrors the mobile app's
+     AppTypography.emotional() convention: never on buttons, labels, or
+     structural section headings, which stay on --font-display. */
+  --font-emotional: 'Fraunces', Georgia, serif;
 
   --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #12182B;
-    --surface: #1B2340;
-    --surface-2: #232C4E;
-    --border: #2B3560;
-    --text: #EDEFF7;
-    --text-dim: #A9B2D6;
-    --text-faint: #6E77A0;
-    --accent: #E3A008;
-    --accent-strong: #F5B82E;
-    --on-accent: #14100A;
-    --success: #3DAE7A;
-    color-scheme: dark;
-  }
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -53,9 +59,8 @@ body {
 
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; color: var(--text); }
 p { margin: 0; }
-a { color: var(--accent-strong); }
-@media (prefers-color-scheme: dark) { a { color: var(--accent); } }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+a { color: var(--accent-teal); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-teal); outline-offset: 2px; }
 img { max-width: 100%; display: block; }
 
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
@@ -64,9 +69,8 @@ img { max-width: 100%; display: block; }
 
 .eyebrow {
   font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--accent-strong); display: block; margin-bottom: 0.75rem;
+  color: var(--accent-teal); display: block; margin-bottom: 0.75rem;
 }
-@media (prefers-color-scheme: dark) { .eyebrow { color: var(--accent); } }
 
 /* ---- header ---- */
 .site-header {
@@ -76,7 +80,7 @@ img { max-width: 100%; display: block; }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand-mark {
-  width: 32px; height: 32px; border-radius: 8px; background: var(--accent);
+  width: 32px; height: 32px; border-radius: 8px; background: var(--accent-teal);
   display: flex; align-items: center; justify-content: center; flex: none;
 }
 .brand-mark svg { width: 18px; height: 18px; }
@@ -93,8 +97,8 @@ img { max-width: 100%; display: block; }
   text-decoration: none; transition: transform 160ms var(--ease-standard), background 160ms var(--ease-standard);
 }
 .btn:hover { transform: translateY(-1px); }
-.btn-primary { background: var(--accent); color: var(--on-accent); }
-.btn-primary:hover { background: var(--accent-strong); }
+.btn-primary { background: var(--accent-teal); color: var(--on-accent-teal); }
+.btn-primary:hover { background: color-mix(in srgb, var(--accent-teal) 85%, white); }
 .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
 .btn-ghost:hover { border-color: var(--text-faint); }
 
@@ -104,23 +108,24 @@ img { max-width: 100%; display: block; }
 /* ---- hero ---- */
 .hero { padding: 96px 0 72px; }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
-.hero h1 { font-size: clamp(2.2rem, 4.2vw, 3.4rem); letter-spacing: -0.01em; line-height: 1.08; margin-bottom: 20px; }
-.hero h1 .accent { color: var(--accent-strong); }
-@media (prefers-color-scheme: dark) { .hero h1 .accent { color: var(--accent); } }
+.hero h1 {
+  font-family: var(--font-emotional); font-weight: 600;
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem); letter-spacing: 0; line-height: 1.12; margin-bottom: 20px;
+}
+.hero h1 .accent { color: var(--accent-teal); }
 .hero p.lede { font-size: 1.15rem; color: var(--text-dim); max-width: 46ch; margin-bottom: 32px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
 .hero-note { font-size: 0.85rem; color: var(--text-faint); }
 
 .hero-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 28px; box-shadow: 0 1px 2px rgba(18,24,43,0.04), 0 16px 40px rgba(18,24,43,0.08);
+  padding: 28px; box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 48px rgba(0,0,0,0.35);
 }
 .hero-card .card-eyebrow { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
 .hero-card .card-score { font-family: var(--font-display); font-size: 2.1rem; font-weight: 700; margin-bottom: 18px; }
 .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
 .chip { font-family: var(--font-mono); font-size: 0.75rem; padding: 5px 11px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-dim); }
-.chip.gold { color: var(--accent-strong); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
-@media (prefers-color-scheme: dark) { .chip.gold { color: var(--accent); } }
+.chip.gold { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
 .hero-card .bar-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 10px; }
 .hero-card .bar-track { flex: 1; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
 .hero-card .bar-fill { height: 100%; background: var(--accent); border-radius: 3px; }
@@ -140,47 +145,52 @@ img { max-width: 100%; display: block; }
 }
 .feature-icon {
   width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--surface-2);
-  display: flex; align-items: center; justify-content: center; margin-bottom: 18px; color: var(--accent-strong);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 18px; color: var(--accent-teal);
 }
-@media (prefers-color-scheme: dark) { .feature-icon { color: var(--accent); } }
 .feature-icon svg { width: 22px; height: 22px; }
 .feature-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
 .feature-card p { color: var(--text-dim); font-size: 0.95rem; }
 
-/* ---- passport section (dark, always) ---- */
-.passport-section { background: #12182B; color: #EDEFF7; border-radius: var(--radius-lg); margin: 0 24px; }
+/* ---- passport section ---- */
+/* Was a hardcoded-dark "island" against a light page; now that the whole
+   page is permanently dark, it needs to step UP a level (--surface, then
+   --surface-2 for the nested card) to still read as an elevated spotlight
+   panel instead of blending into --bg. */
+.passport-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin: 0 24px; }
 .passport-inner { max-width: 1072px; margin: 0 auto; padding: 72px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-.passport-inner .eyebrow { color: #E3A008; }
-.passport-inner h2 { color: #EDEFF7; font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: 16px; }
-.passport-inner p.lede { color: #A9B2D6; font-size: 1.05rem; margin-bottom: 24px; max-width: 46ch; }
+.passport-inner .eyebrow { color: var(--accent); }
+.passport-inner h2 { font-family: var(--font-emotional); font-weight: 600; font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: 0; margin-bottom: 16px; }
+.passport-inner p.lede { color: var(--text-dim); font-size: 1.05rem; margin-bottom: 24px; max-width: 46ch; }
 .passport-list { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 12px; }
-.passport-list li { display: flex; gap: 10px; color: #C7CEEA; font-size: 0.95rem; }
-.passport-list li svg { flex: none; width: 18px; height: 18px; color: #3DAE7A; margin-top: 2px; }
+.passport-list li { display: flex; gap: 10px; color: var(--text-dim); font-size: 0.95rem; }
+.passport-list li svg { flex: none; width: 18px; height: 18px; color: var(--success); margin-top: 2px; }
 
-.passport-card { background: #1B2340; border: 1px solid #2B3560; border-radius: var(--radius-lg); padding: 26px; }
-.passport-card .card-eyebrow { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6E77A0; margin-bottom: 6px; }
-.passport-card .card-name { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: #EDEFF7; margin-bottom: 2px; }
-.passport-card .card-role { font-size: 0.9rem; color: #A9B2D6; margin-bottom: 20px; }
+.passport-card {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 20px 48px rgba(0,0,0,0.35);
+}
+.passport-card .card-eyebrow { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+.passport-card .card-name { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: var(--text); margin-bottom: 2px; }
+.passport-card .card-role { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px; }
 .passport-card .score-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
-.passport-card .score-row .num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: #E3A008; }
-.passport-card .score-row .label { font-family: var(--font-mono); font-size: 0.75rem; color: #6E77A0; text-transform: uppercase; letter-spacing: 0.08em; }
-.passport-card .strength-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #C7CEEA; padding: 8px 0; border-top: 1px solid #2B3560; }
+.passport-card .score-row .num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: var(--accent); }
+.passport-card .score-row .label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+.passport-card .strength-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-dim); padding: 8px 0; border-top: 1px solid var(--border); }
 
 /* ---- how it works ---- */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: step; }
 .step { position: relative; padding-top: 8px; }
 .step::before {
   counter-increment: step; content: counter(step, decimal-leading-zero);
-  font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-strong);
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-teal);
   display: block; margin-bottom: 12px;
 }
-@media (prefers-color-scheme: dark) { .step::before { color: var(--accent); } }
 .step h3 { font-size: 1.02rem; margin-bottom: 8px; }
 .step p { color: var(--text-dim); font-size: 0.92rem; }
 
 /* ---- final CTA ---- */
 .cta-section { text-align: center; padding: 96px 0; }
-.cta-section h2 { font-size: clamp(1.8rem, 3.4vw, 2.5rem); margin-bottom: 16px; }
+.cta-section h2 { font-family: var(--font-emotional); font-weight: 600; font-size: clamp(1.8rem, 3.4vw, 2.5rem); letter-spacing: 0; margin-bottom: 16px; }
 .cta-section p { color: var(--text-dim); font-size: 1.05rem; max-width: 46ch; margin: 0 auto 32px; }
 .store-row { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 .store-btn {
@@ -212,15 +222,13 @@ img { max-width: 100%; display: block; }
 .legal p, .legal li { color: var(--text-dim); font-size: 0.98rem; line-height: 1.7; }
 .legal ul { padding-left: 20px; margin: 12px 0; }
 .legal li { margin-bottom: 6px; }
-.legal a { color: var(--accent-strong); }
-@media (prefers-color-scheme: dark) { .legal a { color: var(--accent); } }
+.legal a { color: var(--accent); }
 
 /* ---- blog: article ---- */
 .article { padding: 56px 0 96px; }
 .article-inner { max-width: 700px; margin: 0 auto; }
 .article-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-.article-meta .tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-strong); background: var(--surface-2); padding: 4px 10px; border-radius: 20px; }
-@media (prefers-color-scheme: dark) { .article-meta .tag { color: var(--accent); } }
+.article-meta .tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--surface-2); padding: 4px 10px; border-radius: 20px; }
 .article-meta .meta-text { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-faint); }
 .article h1 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.2; margin-bottom: 24px; }
 .article .lede { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 36px; line-height: 1.6; }
@@ -235,8 +243,7 @@ img { max-width: 100%; display: block; }
    --on-accent (dark ink) text color with this gold-ish --accent-strong
    instead -- gold text on a gold button, functionally invisible. Every
    blog post's .article-cta button had this bug until found 2026-09-12. */
-.article a:not(.btn) { color: var(--accent-strong); }
-@media (prefers-color-scheme: dark) { .article a:not(.btn) { color: var(--accent); } }
+.article a:not(.btn) { color: var(--accent); }
 .article blockquote { margin: 28px 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--accent); color: var(--text-dim); font-style: italic; font-size: 1.05rem; }
 .article-cta { margin-top: 48px; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); text-align: center; }
 .article-cta p { margin-bottom: 16px; color: var(--text-dim); }
@@ -248,8 +255,7 @@ img { max-width: 100%; display: block; }
 .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; }
 .post-card { display: block; text-decoration: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; color: inherit; }
 .post-card:hover { border-color: var(--text-faint); }
-.post-card .tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-strong); }
-@media (prefers-color-scheme: dark) { .post-card .tag { color: var(--accent); } }
+.post-card .tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
 .post-card h3 { font-size: 1.15rem; margin: 10px 0 10px; color: var(--text); }
 .post-card p { color: var(--text-dim); font-size: 0.92rem; line-height: 1.6; margin: 0; }
 .post-card .meta-text { display: block; margin-top: 16px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-faint); }
