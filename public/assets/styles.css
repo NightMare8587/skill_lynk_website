@@ -1,24 +1,46 @@
-/* SkillLynk marketing site -- "Verified Signal" tokens.
-   Mirrors SkillLynk-Backend's design/tokens.css; see that file for the
-   full rationale. This site keeps its own copy rather than a cross-origin
-   import, same choice already made for the mobile app's Dart mirror. */
+/* SkillLynk marketing site -- "Growth Signal" tokens (replaces the earlier
+   "Verified Signal" gold/navy set — the mobile app and admin dashboard keep
+   that palette; this website deliberately runs its own, calmer identity).
+   Font is Inter throughout (display, body, and label/mono-style text) —
+   see the Inter <link> in every page's <head>.
+
+   COLOR DISCIPLINE — read before adding a new colored element:
+
+   1. 70 / 20 / 10 split. ~70% of any screen is neutral ground (--bg,
+      --surface, --border, body text in --text/--text-dim) — the page should
+      read as calm, mostly monochrome. ~20% is supporting structure (--text,
+      headings, --surface-2 raised panels, icon/label ink) — still neutral,
+      just darker/heavier for hierarchy. The remaining ~10%, at most, is
+      --accent/--accent-strong (brand emerald) — reserved for the one or two
+      things per section that should actually pull the eye.
+   2. "Needs focus" is earned per section, not per component. A page can
+      have MANY buttons, tags, and numbers — only the single primary action
+      or headline figure in a given section gets color. Everything else
+      (eyebrows, tag pills, step counters, feature icons) stays neutral ink
+      and earns attention through weight/size/spacing instead — bold, not
+      shiny. If you're tempted to color a THIRD thing in the same section,
+      it's not a highlight anymore, it's noise — pick one.
+   3. Don't add a new accent hue to reach for emphasis. Prioritize/warning/
+      error already exist for status; --accent is the only "this matters"
+      color and it stays scarce on purpose. */
 
 :root {
-  --bg: #F3F4F8;
+  --bg: #FAFAFA;
   --surface: #FFFFFF;
-  --surface-2: #E9ECF6;
-  --border: #DCE0EE;
-  --text: #12182B;
-  --text-dim: #454F74;
-  --text-faint: #767FA0;
-  --accent: #B8790A;
-  --accent-strong: #8F5D06;
-  --on-accent: #14100A;
-  --success: #1F7A50;
+  --surface-2: #F4F4F5;
+  --border: #E4E4E7;
+  --text: #09090B;
+  --text-dim: #52525B;
+  --text-faint: #71717A;
+  --accent: #059669;         /* primary — solid fills, the ONE colored focal point per section */
+  --accent-strong: #047857;  /* darker step — accent used as on-white TEXT (links, hero highlight word) */
+  --on-accent: #FFFFFF;      /* text/icon color placed on top of a solid --accent fill */
+  --secondary: #0D9488;      /* supporting hue, reserved — not yet used by any component below */
+  --success: #059669;
 
-  --font-display: 'Lexend', system-ui, sans-serif;
-  --font-body: 'Public Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Inter', system-ui, sans-serif; /* labels/eyebrows use Inter + letter-spacing, not a real mono face */
 
   --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
@@ -27,17 +49,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #12182B;
-    --surface: #1B2340;
-    --surface-2: #232C4E;
-    --border: #2B3560;
-    --text: #EDEFF7;
-    --text-dim: #A9B2D6;
-    --text-faint: #6E77A0;
-    --accent: #E3A008;
-    --accent-strong: #F5B82E;
-    --on-accent: #14100A;
-    --success: #3DAE7A;
+    --bg: #09090B;
+    --surface: #18181B;
+    --surface-2: #202023;
+    --border: #27272A;
+    --text: #FAFAFA;
+    --text-dim: #A1A1AA;
+    --text-faint: #71717A;
+    --accent: #34D399;         /* brighter mint reads as text on a near-black ground */
+    --accent-strong: #4ADE80;  /* hover/emphasis step, brighter still */
+    --on-accent: #064E3B;      /* deep-emerald ink — NOT black; dark text on a bright accent fill */
+    --secondary: #2DD4BF;
+    --success: #34D399;
     color-scheme: dark;
   }
 }
@@ -62,11 +85,12 @@ img { max-width: 100%; display: block; }
 .section { padding: 88px 0; }
 .section-narrow { max-width: 720px; margin: 0 auto; text-align: center; }
 
+/* Eyebrows are wayfinding, not a focal point -- neutral ink, weight carries
+   the emphasis instead of color (see the color-discipline note above). */
 .eyebrow {
-  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--accent-strong); display: block; margin-bottom: 0.75rem;
+  font-family: var(--font-mono); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-faint); display: block; margin-bottom: 0.75rem;
 }
-@media (prefers-color-scheme: dark) { .eyebrow { color: var(--accent); } }
 
 /* ---- header ---- */
 .site-header {
@@ -113,12 +137,16 @@ img { max-width: 100%; display: block; }
 
 .hero-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 28px; box-shadow: 0 1px 2px rgba(18,24,43,0.04), 0 16px 40px rgba(18,24,43,0.08);
+  padding: 28px; box-shadow: 0 1px 2px rgba(9,9,11,0.04), 0 16px 40px rgba(9,9,11,0.08);
 }
-.hero-card .card-eyebrow { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+.hero-card .card-eyebrow { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
 .hero-card .card-score { font-family: var(--font-display); font-size: 2.1rem; font-weight: 700; margin-bottom: 18px; }
 .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-.chip { font-family: var(--font-mono); font-size: 0.75rem; padding: 5px 11px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-dim); }
+.chip { font-family: var(--font-mono); font-weight: 600; font-size: 0.75rem; padding: 5px 11px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-dim); }
+/* .gold keeps its old class name for a minimal diff, but it's now the site's
+   ONE deliberately-highlighted chip variant -- used for 1-2 tags out of a
+   row of otherwise-plain chips (see index.html's hero card), never for a
+   whole row. That contrast is what makes it a highlight, not decoration. */
 .chip.gold { color: var(--accent-strong); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
 @media (prefers-color-scheme: dark) { .chip.gold { color: var(--accent); } }
 .hero-card .bar-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 10px; }
@@ -138,43 +166,49 @@ img { max-width: 100%; display: block; }
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
   padding: 28px; height: 100%;
 }
+/* Every card on the page gets one of these -- coloring all of them would be
+   exactly the "everything shines" pattern this file's top comment warns
+   about, so they stay neutral ink on a raised neutral chip. */
 .feature-icon {
   width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--surface-2);
-  display: flex; align-items: center; justify-content: center; margin-bottom: 18px; color: var(--accent-strong);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 18px; color: var(--text-dim);
 }
-@media (prefers-color-scheme: dark) { .feature-icon { color: var(--accent); } }
 .feature-icon svg { width: 22px; height: 22px; }
 .feature-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
 .feature-card p { color: var(--text-dim); font-size: 0.95rem; }
 
-/* ---- passport section (dark, always) ---- */
-.passport-section { background: #12182B; color: #EDEFF7; border-radius: var(--radius-lg); margin: 0 24px; }
+/* ---- passport section (dark, always -- literal hex, not the light/dark
+   vars above, since this block stays dark regardless of the visitor's
+   color-scheme preference). Only the verified-score number carries the
+   accent color; everything else in this section is neutral, on purpose. */
+.passport-section { background: #09090B; color: #FAFAFA; border-radius: var(--radius-lg); margin: 0 24px; }
 .passport-inner { max-width: 1072px; margin: 0 auto; padding: 72px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-.passport-inner .eyebrow { color: #E3A008; }
-.passport-inner h2 { color: #EDEFF7; font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: 16px; }
-.passport-inner p.lede { color: #A9B2D6; font-size: 1.05rem; margin-bottom: 24px; max-width: 46ch; }
+.passport-inner .eyebrow { color: #A1A1AA; }
+.passport-inner h2 { color: #FAFAFA; font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: 16px; }
+.passport-inner p.lede { color: #A1A1AA; font-size: 1.05rem; margin-bottom: 24px; max-width: 46ch; }
 .passport-list { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 12px; }
-.passport-list li { display: flex; gap: 10px; color: #C7CEEA; font-size: 0.95rem; }
-.passport-list li svg { flex: none; width: 18px; height: 18px; color: #3DAE7A; margin-top: 2px; }
+.passport-list li { display: flex; gap: 10px; color: #D4D4D8; font-size: 0.95rem; }
+.passport-list li svg { flex: none; width: 18px; height: 18px; color: #34D399; margin-top: 2px; }
 
-.passport-card { background: #1B2340; border: 1px solid #2B3560; border-radius: var(--radius-lg); padding: 26px; }
-.passport-card .card-eyebrow { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6E77A0; margin-bottom: 6px; }
-.passport-card .card-name { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: #EDEFF7; margin-bottom: 2px; }
-.passport-card .card-role { font-size: 0.9rem; color: #A9B2D6; margin-bottom: 20px; }
+.passport-card { background: #18181B; border: 1px solid #27272A; border-radius: var(--radius-lg); padding: 26px; }
+.passport-card .card-eyebrow { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #71717A; margin-bottom: 6px; }
+.passport-card .card-name { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: #FAFAFA; margin-bottom: 2px; }
+.passport-card .card-role { font-size: 0.9rem; color: #A1A1AA; margin-bottom: 20px; }
 .passport-card .score-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
-.passport-card .score-row .num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: #E3A008; }
-.passport-card .score-row .label { font-family: var(--font-mono); font-size: 0.75rem; color: #6E77A0; text-transform: uppercase; letter-spacing: 0.08em; }
-.passport-card .strength-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #C7CEEA; padding: 8px 0; border-top: 1px solid #2B3560; }
+.passport-card .score-row .num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: #34D399; }
+.passport-card .score-row .label { font-family: var(--font-mono); font-weight: 600; font-size: 0.75rem; color: #71717A; text-transform: uppercase; letter-spacing: 0.08em; }
+.passport-card .strength-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #D4D4D8; padding: 8px 0; border-top: 1px solid #27272A; }
 
 /* ---- how it works ---- */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: step; }
 .step { position: relative; padding-top: 8px; }
+/* Four numbers on screen at once -- neutral ink, bold weight and larger
+   size carry the emphasis instead of four identical accent-colored digits. */
 .step::before {
   counter-increment: step; content: counter(step, decimal-leading-zero);
-  font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-strong);
+  font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-faint);
   display: block; margin-bottom: 12px;
 }
-@media (prefers-color-scheme: dark) { .step::before { color: var(--accent); } }
 .step h3 { font-size: 1.02rem; margin-bottom: 8px; }
 .step p { color: var(--text-dim); font-size: 0.92rem; }
 
@@ -197,7 +231,7 @@ img { max-width: 100%; display: block; }
 .site-footer { border-top: 1px solid var(--border); padding: 56px 0 32px; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
 .footer-brand p { color: var(--text-dim); font-size: 0.92rem; margin-top: 12px; max-width: 36ch; }
-.footer-col h4 { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 14px; }
+.footer-col h4 { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 14px; }
 .footer-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .footer-col a { color: var(--text-dim); text-decoration: none; font-size: 0.92rem; }
 .footer-col a:hover { color: var(--text); }
@@ -207,7 +241,7 @@ img { max-width: 100%; display: block; }
 .legal { padding: 64px 0 96px; }
 .legal .legal-inner { max-width: 720px; margin: 0 auto; }
 .legal h1 { font-size: 2rem; margin-bottom: 8px; }
-.legal .updated { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-faint); margin-bottom: 40px; display: block; }
+.legal .updated { font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem; color: var(--text-faint); margin-bottom: 40px; display: block; }
 .legal h2 { font-size: 1.2rem; margin: 36px 0 12px; }
 .legal p, .legal li { color: var(--text-dim); font-size: 0.98rem; line-height: 1.7; }
 .legal ul { padding-left: 20px; margin: 12px 0; }
@@ -219,9 +253,10 @@ img { max-width: 100%; display: block; }
 .article { padding: 56px 0 96px; }
 .article-inner { max-width: 700px; margin: 0 auto; }
 .article-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-.article-meta .tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-strong); background: var(--surface-2); padding: 4px 10px; border-radius: 20px; }
-@media (prefers-color-scheme: dark) { .article-meta .tag { color: var(--accent); } }
-.article-meta .meta-text { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-faint); }
+/* One tag per article -- kept neutral (not accent) since it repeats on
+   every post-card in the index/blog listing too; see .post-card .tag. */
+.article-meta .tag { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); background: var(--surface-2); padding: 4px 10px; border-radius: 20px; }
+.article-meta .meta-text { font-family: var(--font-mono); font-weight: 600; font-size: 0.82rem; color: var(--text-faint); }
 .article h1 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.2; margin-bottom: 24px; }
 .article .lede { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 36px; line-height: 1.6; }
 .article h2 { font-size: 1.35rem; margin: 40px 0 14px; }
@@ -232,9 +267,10 @@ img { max-width: 100%; display: block; }
 /* :not(.btn) is load-bearing, not decorative -- without it, this rule's
    specificity (0,1,1) beats .btn-primary's (0,1,0) for any CTA button
    living inside article body text, silently overriding its intended
-   --on-accent (dark ink) text color with this gold-ish --accent-strong
-   instead -- gold text on a gold button, functionally invisible. Every
-   blog post's .article-cta button had this bug until found 2026-09-12. */
+   --on-accent text color with this green --accent-strong instead --
+   near-invisible low-contrast text on the button. Every blog post's
+   .article-cta button had this exact bug (with the old gold palette) until
+   found 2026-09-12; keeping the guard now that the colors have changed. */
 .article a:not(.btn) { color: var(--accent-strong); }
 @media (prefers-color-scheme: dark) { .article a:not(.btn) { color: var(--accent); } }
 .article blockquote { margin: 28px 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--accent); color: var(--text-dim); font-style: italic; font-size: 1.05rem; }
@@ -248,11 +284,10 @@ img { max-width: 100%; display: block; }
 .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; }
 .post-card { display: block; text-decoration: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; color: inherit; }
 .post-card:hover { border-color: var(--text-faint); }
-.post-card .tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-strong); }
-@media (prefers-color-scheme: dark) { .post-card .tag { color: var(--accent); } }
+.post-card .tag { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
 .post-card h3 { font-size: 1.15rem; margin: 10px 0 10px; color: var(--text); }
 .post-card p { color: var(--text-dim); font-size: 0.92rem; line-height: 1.6; margin: 0; }
-.post-card .meta-text { display: block; margin-top: 16px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-faint); }
+.post-card .meta-text { display: block; margin-top: 16px; font-family: var(--font-mono); font-weight: 600; font-size: 0.78rem; color: var(--text-faint); }
 
 /* ---- responsive ---- */
 @media (max-width: 1024px) {
