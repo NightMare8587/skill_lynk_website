@@ -161,3 +161,15 @@ real SkillLynk product (`SkillLynk-Mobile`'s Flutter web build) — a
 returning logged-in visitor to `/` is redirected straight to `/app/` via the
 `sl_auth` cookie check in `public/index.html` (see `SkillLynk-Mobile`'s
 `web_auth_flag_web.dart` for where that cookie gets set/cleared).
+
+## Auto-rebuild on mobile pushes (added 2026-09-26)
+
+`skillynk.in/app/` is built from `SkillLynk-Mobile` by this repo's `deploy-web.yml`, so it used to update only when *this* repo was pushed. Now `SkillLynk-Mobile`'s `.github/workflows/notify-website.yml` sends a `repository_dispatch` (event type `mobile-web-updated`) here on every push to its `main` that touches the web build (`lib/`, `web/`, `assets/`, `pubspec.yaml`, `pubspec.lock`), and `deploy-web.yml` listens for it. The deploy always builds the latest mobile `main` (the dispatched SHA is only logged), so an out-of-order dispatch can never roll `/app/` back.
+
+**One-time setup (needs the repo owner):**
+
+1. Create a **fine-grained personal access token** limited to the repository `NightMare8587/skill_lynk_website`, with the repository permission **Contents: Read and write**. That is the permission GitHub requires to send a `repository_dispatch`. It grants nothing on any other repo.
+2. In `SkillLynk-Mobile`: Settings → Secrets and variables → Actions → New repository secret, named **`WEBSITE_DISPATCH_TOKEN`**, with the token as its value.
+
+Until that secret exists, the mobile workflow does not fail. It logs a warning ("WEBSITE_DISPATCH_TOKEN not set") and `/app/` keeps updating only on pushes here or a manual run of this workflow. Rotate the token like any other credential.
+

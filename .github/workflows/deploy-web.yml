@@ -9,11 +9,13 @@ name: Deploy to Firebase Hosting
 # old pre-rebuild marketing-Flutter-site into /app/ instead -- that content
 # was superseded by the new static public/index.html and was never the real
 # product, just kept around rather than deleted. workflow_dispatch lets a
-# manual re-run happen without an empty commit, and also lets a
-# SkillLynk-Mobile release trigger this deploy via
-# repository_dispatch/workflow_dispatch from that repo's own CI (not wired
-# up yet -- until it is, a change to SkillLynk-Mobile's web build doesn't
-# auto-redeploy here, only a push to this repo's own main does).
+# manual re-run happen without an empty commit. repository_dispatch
+# (event type `mobile-web-updated`) is sent by SkillLynk-Mobile's own
+# `notify-website.yml` on every push to its main that touches the web build
+# (added 2026-09-26), so a mobile change now redeploys /app/ here too. That
+# needs a token secret on the mobile side (see firebase-deploy-setup.md,
+# "Auto-rebuild on mobile pushes"); without it the mobile workflow logs a
+# warning and /app/ only updates on a push to this repo.
 #
 # That gap actually bit us (2026-09-06): this repo's last push before then was
 # 2026-09-05 11:36 UTC; SkillLynk-Mobile kept moving after that (the
@@ -24,11 +26,14 @@ name: Deploy to Firebase Hosting
 # near-full desktop width (no letterbox fix live yet) instead of a sane
 # phone-width column. This comment doubles as the trigger for that
 # redeploy. Still worth wiring the repository_dispatch properly as a
-# follow-up so this can't silently recur.
+# follow-up so this can't silently recur. (Wired 2026-09-26; it had recurred:
+# /app/ was still on a morning build after a full day of mobile theme work.)
 on:
   push:
     branches: [main]
   workflow_dispatch: {}
+  repository_dispatch:
+    types: [mobile-web-updated]
 
 # id-token: write is required for google-github-actions/auth to mint a
 # short-lived GCP access token via Workload Identity Federation (OIDC).
@@ -61,6 +66,12 @@ jobs:
           repository: NightMare8587/SkillLynk-Mobile
           token: ${{ secrets.MOBILE_REPO_PAT }}
           path: skilllynk-mobile
+
+      - name: Log which mobile commit is being built
+        working-directory: skilllynk-mobile
+        env:
+          DISPATCHED_SHA: ${{ github.event.client_payload.sha }}
+        run: echo "Building SkillLynk-Mobile $(git rev-parse --short HEAD) (trigger ${GITHUB_EVENT_NAME}, dispatched for ${DISPATCHED_SHA:-n/a})"
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
