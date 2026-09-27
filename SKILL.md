@@ -42,6 +42,18 @@
 
 ---
 
+## 🔎 Search indexing (added 2026-09-27)
+
+Google Search Console listed every blog post as "Discovered - currently not indexed". Each post had a single internal link (from `/blog/`), and the sitemap had no `<lastmod>`. Google uses `lastmod` and ignores `<priority>`/`<changefreq>`.
+
+**When you add or edit a post:**
+1. Add its card to the top of `public/blog/index.html` (newest first). Its page needs `"datePublished"` in its JSON-LD.
+2. Optionally pick its related posts in `RELATED` in `scripts/update_blog_links.py`. A post that isn't listed gets the newest other posts.
+3. Run `python3 scripts/update_blog_links.py`. It rewrites the "Keep reading" block at the end of every post, the homepage's "From the blog" section (3 newest) and `public/sitemap.xml` (with `lastmod`). Generated blocks sit between `<!-- name:start -->`/`<!-- name:end -->` markers; edit the script, not the block. Re-running with no changes changes nothing.
+4. After deploy, use "Request indexing" for the new URL in Search Console's URL Inspection.
+
+`admin.skillynk.in` and `portal.skillynk.in` send `noindex` (their own repos), so they don't compete with this site.
+
 ## 🚀 Deployment Instructions (Firebase)
 
 **Changed 2026-08-25** — as part of the SkillLynk rebuild initiative (see `SkillLynk-Backend`'s `PRODUCT_ROADMAP.md`), this site's root domain is now a static HTML/CSS/JS landing page for real SEO (Flutter web renders nothing crawlable on first fetch). The old Flutter site (this repo's own `lib/`) was originally kept and relocated to `/app/` rather than deleted.
@@ -55,7 +67,7 @@ public/
 ├── privacy/index.html  # static, ported from PRIVACY_POLICY.md
 ├── terms/index.html    # static, ported from TERMS_AND_CONDITIONS.md
 ├── assets/              # styles.css, site.js (hand-written, no build step)
-├── robots.txt, sitemap.xml
+├── robots.txt, sitemap.xml   # sitemap is generated: scripts/update_blog_links.py
 └── app/                  # SkillLynk-Mobile's Flutter web build goes HERE -- gitignored, not source
 ```
 
