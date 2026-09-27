@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL Interview Questions: 10 You'll Actually Be Asked, With Answers — SkillLynk</title>
+<meta name="description" content="The SQL interview questions that come up again and again: second-highest salary, top N per group, joins, GROUP BY vs HAVING, duplicates, window functions and NULL traps. Worked answers and the mistakes interviewers look for.">
+<link rel="canonical" href="https://skillynk.in/blog/sql-interview-questions/">
+<meta name="theme-color" content="#09090B">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Interview Questions: 10 You'll Actually Be Asked, With Answers">
+<meta property="og:description" content="Second-highest salary, top N per group, joins, HAVING, duplicates, window functions and NULL traps. Worked answers and the mistakes interviewers look for.">
+<meta property="og:url" content="https://skillynk.in/blog/sql-interview-questions/">
+<meta property="og:image" content="https://skillynk.in/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SQL Interview Questions: 10 You'll Actually Be Asked, With Answers">
+<meta name="twitter:description" content="Second-highest salary, top N per group, joins, HAVING, duplicates, window functions and NULL traps. Worked answers and the mistakes interviewers look for.">
+<meta name="twitter:image" content="https://skillynk.in/assets/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/assets/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SQL Interview Questions: 10 You'll Actually Be Asked, With Answers",
+  "datePublished": "2026-09-27",
+  "author": { "@type": "Organization", "name": "SkillLynk" },
+  "publisher": { "@type": "Organization", "name": "SkillLynk" }
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#FFFFFF" stroke-width="2"/></svg></span>
+      <span class="brand-name">SkillLynk</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#practice">Practice</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#passport">Skill Passport</a>
+      <a href="/for-companies/">For Companies</a>
+    </nav>
+    <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile" rel="noopener">Get the app</a>
+  </div>
+</header>
+
+<main class="article">
+  <div class="wrap article-inner">
+    <a href="/blog/" class="article-back">← Back to blog</a>
+    <div class="article-meta">
+      <span class="tag">SQL</span>
+      <span class="meta-text">Sep 27, 2026 · 10 min read</span>
+    </div>
+    <h1>SQL Interview Questions: 10 You'll Actually Be Asked, With Answers</h1>
+    <p class="lede">SQL rounds look endless from the outside: lists of 200 questions, every one slightly different. In practice they come back to about ten patterns. If you can write these from memory and explain why they work, you can handle most of what a fresher or mid-level SQL round throws at you.</p>
+
+    <p>Every example below uses the same three tables, so you can focus on the pattern, not the schema:</p>
+<pre><code>employees   (id, name, department_id, manager_id, salary, hired_on)
+departments (id, name)
+orders      (id, customer_id, amount, created_at)</code></pre>
+    <p>The queries are standard SQL and run on MySQL 8 and PostgreSQL unless a note says otherwise.</p>
+
+    <h2>1. Find the second-highest salary</h2>
+    <p>The classic opener. The simplest correct answer:</p>
+<pre><code>SELECT MAX(salary) AS second_highest
+FROM employees
+WHERE salary &lt; (SELECT MAX(salary) FROM employees);</code></pre>
+    <p>It handles ties at the top (two people on the highest salary still gives you the next distinct value) and returns <code>NULL</code> when there's no second value, which is usually what the interviewer wants to hear you mention.</p>
+    <p>The follow-up is always "now the Nth highest". Reach for <code>DENSE_RANK</code>:</p>
+<pre><code>SELECT DISTINCT salary
+FROM (
+  SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk
+  FROM employees
+) ranked
+WHERE rnk = 3;</code></pre>
+    <p><strong>The trap:</strong> <code>ORDER BY salary DESC LIMIT 1 OFFSET 1</code> looks right but returns the top salary again if two people share it. Say that out loud before the interviewer does.</p>
+
+    <h2>2. Highest-paid employee in each department</h2>
+    <p>"Top N per group" is the single most common window-function question.</p>
+<pre><code>SELECT department_id, name, salary
+FROM (
+  SELECT department_id, name, salary,
+         RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS rnk
+  FROM employees
+) ranked
+WHERE rnk = 1;</code></pre>
+    <p>Be ready to explain the choice of function. <code>RANK</code> returns everyone tied for first. <code>ROW_NUMBER</code> returns exactly one row per department and picks between ties arbitrarily unless you add a tie-breaker to the <code>ORDER BY</code>. Neither is wrong; the right one depends on what the business question means by "the highest-paid".</p>
+
+    <h2>3. Departments with no employees</h2>
+    <p>This tests whether you understand what a <code>LEFT JOIN</code> produces when nothing matches:</p>
+<pre><code>SELECT d.name
+FROM departments d
+LEFT JOIN employees e ON e.department_id = d.id
+WHERE e.id IS NULL;</code></pre>
+    <p><strong>The trap</strong> is a close cousin of this query. Suppose you want every department with its count of well-paid employees, including departments with none:</p>
+<pre><code>-- Wrong: the WHERE removes the departments with no match
+SELECT d.name, COUNT(e.id)
+FROM departments d
+LEFT JOIN employees e ON e.department_id = d.id
+WHERE e.salary &gt; 50000
+GROUP BY d.name;
+
+-- Right: filter inside the join
+SELECT d.name, COUNT(e.id)
+FROM departments d
+LEFT JOIN employees e ON e.department_id = d.id AND e.salary &gt; 50000
+GROUP BY d.name;</code></pre>
+    <p>A condition on the right-hand table in <code>WHERE</code> quietly turns a <code>LEFT JOIN</code> back into an <code>INNER JOIN</code>. Interviewers love this one because the wrong query runs without an error.</p>
+
+    <h2>4. WHERE vs HAVING</h2>
+    <p>"Which departments hired more than five people since 2024?"</p>
+<pre><code>SELECT department_id, COUNT(*) AS hires
+FROM employees
+WHERE hired_on &gt;= '2024-01-01'
+GROUP BY department_id
+HAVING COUNT(*) &gt; 5;</code></pre>
+    <p><code>WHERE</code> filters rows before grouping; <code>HAVING</code> filters groups after. The clearest way to explain it is the logical order a query runs in:</p>
+    <p><code>FROM</code> → <code>WHERE</code> → <code>GROUP BY</code> → <code>HAVING</code> → <code>SELECT</code> → <code>ORDER BY</code> → <code>LIMIT</code></p>
+    <p>That order also answers the follow-up "why can't I use my column alias in <code>WHERE</code>?": the alias is defined in <code>SELECT</code>, which runs later. (MySQL lets you use an alias in <code>HAVING</code>; PostgreSQL doesn't, so repeating <code>COUNT(*)</code> works everywhere.)</p>
+
+    <h2>5. Find duplicates, then delete them</h2>
+    <p>Finding them is a <code>GROUP BY</code>:</p>
+<pre><code>SELECT email, COUNT(*) AS copies
+FROM customers
+GROUP BY email
+HAVING COUNT(*) &gt; 1;</code></pre>
+    <p>Deleting all but one copy is where the dialects differ. Keep the row with the lowest <code>id</code>:</p>
+<pre><code>-- MySQL
+DELETE c1
+FROM customers c1
+JOIN customers c2 ON c1.email = c2.email AND c1.id &gt; c2.id;
+
+-- PostgreSQL
+DELETE FROM customers c1
+USING customers c2
+WHERE c1.email = c2.email AND c1.id &gt; c2.id;</code></pre>
+    <p>Mention that you'd run it as a <code>SELECT</code> first, and inside a transaction on real data. That's the answer of someone who has deleted the wrong rows before.</p>
+
+    <h2>6. Employees who earn more than their manager</h2>
+    <p>A self-join: the same table, joined to itself under two names.</p>
+<pre><code>SELECT e.name, e.salary, m.name AS manager, m.salary AS manager_salary
+FROM employees e
+JOIN employees m ON e.manager_id = m.id
+WHERE e.salary &gt; m.salary;</code></pre>
+    <p>People without a manager drop out because of the inner join, which is correct here. If the question were "list everyone with their manager, if any", it would be a <code>LEFT JOIN</code>.</p>
+
+    <h2>7. A running total</h2>
+<pre><code>SELECT id, created_at, amount,
+       SUM(amount) OVER (ORDER BY created_at, id) AS running_total
+FROM orders;</code></pre>
+    <p>The detail worth mentioning: with an <code>ORDER BY</code> and no explicit frame, the window includes every row with the same <code>created_at</code> as the current one. Two orders at the same timestamp would show the same running total. Adding <code>id</code> as a tie-breaker makes each row's total distinct and the output deterministic.</p>
+
+    <h2>8. Compare each row with the previous one</h2>
+    <p>"Show month-over-month revenue change" is a <code>LAG</code> question:</p>
+<pre><code>SELECT month, revenue,
+       revenue - LAG(revenue) OVER (ORDER BY month) AS revenue_change
+FROM (
+  SELECT DATE_FORMAT(created_at, '%Y-%m') AS month, SUM(amount) AS revenue
+  FROM orders
+  GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+) monthly
+ORDER BY month;</code></pre>
+    <p><code>DATE_FORMAT</code> is MySQL; in PostgreSQL use <code>to_char(created_at, 'YYYY-MM')</code> or <code>date_trunc('month', created_at)</code>. The first month's change is <code>NULL</code>, because there's no previous row. <code>LEAD</code> is the same idea looking forward.</p>
+
+    <h2>9. The NULL questions</h2>
+    <p>Three facts cover most of them:</p>
+    <ul>
+      <li><strong><code>= NULL</code> is never true.</strong> Use <code>IS NULL</code>. Any comparison with <code>NULL</code> is unknown, not false.</li>
+      <li><strong><code>COUNT(*)</code> counts rows; <code>COUNT(column)</code> skips NULLs.</strong> The same goes for <code>SUM</code> and <code>AVG</code>: <code>AVG</code> divides by the number of non-NULL values, not the number of rows.</li>
+      <li><strong><code>NOT IN</code> with a NULL in the list returns nothing.</strong> This is the one that catches experienced people:</li>
+    </ul>
+<pre><code>-- Returns no rows at all if any orders.customer_id is NULL
+SELECT id FROM customers
+WHERE id NOT IN (SELECT customer_id FROM orders);
+
+-- Safe
+SELECT c.id FROM customers c
+WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);</code></pre>
+
+    <h2>10. "Why is this query slow?"</h2>
+    <p>Mid-level rounds often end with performance. The most common planted problem is a function wrapped around an indexed column:</p>
+<pre><code>-- Can't use an index on created_at: the function hides the column
+WHERE YEAR(created_at) = 2026
+
+-- Can: a plain range on the column itself
+WHERE created_at &gt;= '2026-01-01' AND created_at &lt; '2027-01-01'</code></pre>
+    <p>Two more points worth having ready: a composite index on <code>(department_id, salary)</code> is built for queries that filter on <code>department_id</code> (optionally plus <code>salary</code>); a filter on <code>salary</code> alone generally can't use it well. That's the leftmost-prefix rule (newer MySQL and PostgreSQL versions have a limited "skip scan" workaround, but don't count on it). And <code>EXPLAIN</code> is how you check instead of guessing.</p>
+
+    <h2>Quick-fire questions for freshers</h2>
+    <p>These come up as one-line checks, often before the query-writing part:</p>
+    <ul>
+      <li><strong><code>UNION</code> vs <code>UNION ALL</code>:</strong> <code>UNION</code> removes duplicates (and pays for it); <code>UNION ALL</code> keeps everything and is faster.</li>
+      <li><strong><code>DELETE</code> vs <code>TRUNCATE</code> vs <code>DROP</code>:</strong> <code>DELETE</code> removes chosen rows and can be filtered; <code>TRUNCATE</code> empties the whole table quickly; <code>DROP</code> removes the table itself.</li>
+      <li><strong>Primary key vs unique key:</strong> both enforce uniqueness; a table has one primary key and it can't be NULL, while it can have several unique keys.</li>
+      <li><strong>Normalization:</strong> splitting data so each fact is stored once. Be ready to say why you'd sometimes denormalize on purpose, usually for read performance.</li>
+    </ul>
+
+    <h2>A cheat sheet: the words in the question tell you the tool</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>If the question says…</th><th>Reach for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>second / Nth highest</td><td><code>MAX</code> with a subquery, or <code>DENSE_RANK</code></td></tr>
+          <tr><td>top N in each group</td><td><code>RANK</code> / <code>ROW_NUMBER</code> with <code>PARTITION BY</code></td></tr>
+          <tr><td>has no matching…</td><td><code>LEFT JOIN … IS NULL</code>, or <code>NOT EXISTS</code></td></tr>
+          <tr><td>more than N per…</td><td><code>GROUP BY</code> + <code>HAVING</code></td></tr>
+          <tr><td>duplicates</td><td><code>GROUP BY … HAVING COUNT(*) &gt; 1</code></td></tr>
+          <tr><td>compared with their manager</td><td>self-join</td></tr>
+          <tr><td>running / cumulative</td><td><code>SUM() OVER (ORDER BY …)</code></td></tr>
+          <tr><td>compared with the previous row</td><td><code>LAG</code> / <code>LEAD</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How to practice so it sticks</h2>
+    <p>Reading answers feels productive and mostly isn't. What actually builds the skill:</p>
+    <ul>
+      <li><strong>Write each query before you look at the answer.</strong> On paper or in a blank editor, not by editing someone else's.</li>
+      <li><strong>Explain it out loud.</strong> In a real round you're graded on your reasoning as much as the final query. "I'm using <code>DENSE_RANK</code> because ties should share a rank" is the sentence that separates candidates.</li>
+      <li><strong>Revisit what you got wrong, sooner.</strong> The pattern you missed last week is the one to see again this week, not the one you already know.</li>
+    </ul>
+    <p>That last point is how SkillLynk's free daily practice drill works. It tracks topics as narrow as SQL joins or window functions, and a topic you miss comes back sooner than one you've got right. When you're ready to practise explaining out loud, an <a href="/blog/what-an-ai-mock-interview-feels-like/">AI voice mock interview</a> asks follow-up questions the way a real interviewer does. And if you have a specific job in mind, <a href="/blog/dsa-interview-prep/">Target Interview</a> builds practice from the actual job posting, so a data-heavy role gets data-heavy questions.</p>
+
+    <div class="article-cta">
+      <p>Practise SQL and the rest of your interview topics with a free daily drill that adapts to what you miss.</p>
+      <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile" rel="noopener">Start practising free</a>
+    </div>
+<!-- related:start -->
+    <section class="related-posts" aria-labelledby="related-heading">
+      <h2 id="related-heading">Keep reading</h2>
+      <div class="related-grid">
+        <a class="post-card" href="/blog/dsa-interview-prep/">
+          <span class="tag">Target Interview</span>
+          <h3>DSA Interview Prep That Adapts to the Actual Job You're Interviewing For</h3>
+          <p>Generic DSA prep builds pattern fluency but never matches your target job's real language or domain. Here's how to fix that.</p>
+          <span class="meta-text">Sep 17, 2026 · 6 min read</span>
+        </a>
+        <a class="post-card" href="/blog/daily-coding-challenge-practice/">
+          <span class="tag">Daily Coding Challenge</span>
+          <h3>Daily Coding Challenge Practice: How to Actually Build the Habit</h3>
+          <p>Cramming the week before an interview doesn't work. Here's how a daily coding challenge routine builds the habit that does.</p>
+          <span class="meta-text">Sep 16, 2026 · 6 min read</span>
+        </a>
+        <a class="post-card" href="/blog/what-an-ai-mock-interview-feels-like/">
+          <span class="tag">AI Interviews</span>
+          <h3>What an AI Mock Interview Actually Feels Like</h3>
+          <p>The good parts, the awkward parts, and how a live AI interview actually gets graded.</p>
+          <span class="meta-text">Aug 30, 2026 · 6 min read</span>
+        </a>
+      </div>
+    </section>
+<!-- related:end -->
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> SkillLynk. All rights reserved.</span>
+      <span><a href="/blog/">More from the blog</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

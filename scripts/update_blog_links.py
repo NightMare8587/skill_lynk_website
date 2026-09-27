@@ -30,8 +30,9 @@ SITE = "https://skillynk.in"
 # Hand-picked related posts; anything not listed falls back to the newest
 # other posts.
 RELATED = {
-    "dsa-interview-prep": ["daily-coding-challenge-practice", "how-to-practice-system-design-interviews", "free-resume-ats-checker"],
-    "daily-coding-challenge-practice": ["dsa-interview-prep", "interview-readiness-score", "what-an-ai-mock-interview-feels-like"],
+    "sql-interview-questions": ["dsa-interview-prep", "daily-coding-challenge-practice", "what-an-ai-mock-interview-feels-like"],
+    "dsa-interview-prep": ["sql-interview-questions", "daily-coding-challenge-practice", "how-to-practice-system-design-interviews"],
+    "daily-coding-challenge-practice": ["dsa-interview-prep", "sql-interview-questions", "interview-readiness-score"],
     "why-we-built-skilllynk": ["what-an-ai-mock-interview-feels-like", "interview-readiness-score", "dsa-interview-prep"],
     "interview-readiness-score": ["what-an-ai-mock-interview-feels-like", "daily-coding-challenge-practice", "why-we-built-skilllynk"],
     "what-an-ai-mock-interview-feels-like": ["how-to-practice-system-design-interviews", "interview-readiness-score", "free-resume-ats-checker"],
