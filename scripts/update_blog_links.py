@@ -30,7 +30,8 @@ SITE = "https://skillynk.in"
 # Hand-picked related posts; anything not listed falls back to the newest
 # other posts.
 RELATED = {
-    "behavioral-interview-questions": ["what-an-ai-mock-interview-feels-like", "interview-readiness-score", "sql-interview-questions"],
+    "hr-interview-questions-for-freshers": ["behavioral-interview-questions", "what-an-ai-mock-interview-feels-like", "free-resume-ats-checker"],
+    "behavioral-interview-questions": ["hr-interview-questions-for-freshers", "what-an-ai-mock-interview-feels-like", "interview-readiness-score"],
     "sql-interview-questions": ["dsa-interview-prep", "daily-coding-challenge-practice", "what-an-ai-mock-interview-feels-like"],
     "dsa-interview-prep": ["sql-interview-questions", "daily-coding-challenge-practice", "how-to-practice-system-design-interviews"],
     "daily-coding-challenge-practice": ["dsa-interview-prep", "sql-interview-questions", "interview-readiness-score"],
@@ -38,7 +39,7 @@ RELATED = {
     "interview-readiness-score": ["behavioral-interview-questions", "what-an-ai-mock-interview-feels-like", "daily-coding-challenge-practice"],
     "what-an-ai-mock-interview-feels-like": ["behavioral-interview-questions", "how-to-practice-system-design-interviews", "free-resume-ats-checker"],
     "how-to-practice-system-design-interviews": ["what-an-ai-mock-interview-feels-like", "dsa-interview-prep", "daily-coding-challenge-practice"],
-    "free-resume-ats-checker": ["dsa-interview-prep", "what-an-ai-mock-interview-feels-like", "why-we-built-skilllynk"],
+    "free-resume-ats-checker": ["hr-interview-questions-for-freshers", "dsa-interview-prep", "what-an-ai-mock-interview-feels-like"],
 }
 
 # Non-blog pages in the sitemap, in order.
