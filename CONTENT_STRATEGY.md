@@ -13,7 +13,8 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | `/app/` | **Reclassified 2026-09-12.** No longer "archived" — this now serves the real product (`SkillLynk-Mobile`'s Flutter web build, see `SKILL.md`'s deploy section). Correctly `Disallow`'d in `robots.txt` as of this pass — it's the authenticated app, not marketing content, and crawling a large SPA build wastes crawl budget for zero SEO benefit. |
 | `/how-it-works/` | Currently an anchor section on Home (`#how-it-works`), not a standalone page — fine for now, split out once it needs its own search-intent targeting (see keyword map) |
 | `/for-companies/` | ✅ **Live** (shipped `08680e5`). B2B landing page. Has OG/Twitter card tags as of 2026-09-12. |
-| `/blog/` | ✅ **Live** (shipped `7c0cd1d`, extended 2026-09-12/13/16/17). 7 posts as of this pass — see "Published posts" below. Still hand-written static (see "Decision" below, now resolved for launch). |
+| `/blog/` | ✅ **Live** (shipped `7c0cd1d`, extended 2026-09-12/13/14/16/17). 8 posts as of this pass — see "Published posts" below. Still hand-written static (see "Decision" below, now resolved for launch). |
+| `/blog/sql-interview-questions-practice/` | ✅ **Added 2026-09-14** — the `SQL interview questions practice` keyword row below, the last one that was unwritten. Written as part of the autonomous daily content loop's Day 3 content-day plan (see `SkillLynk-Backend`'s `AUTONOMOUS_SPRINT_LOG.md`). |
 | `/blog/interview-readiness-score/` | ✅ **Added 2026-09-12** — the "interview readiness score" keyword row below, previously unwritten. |
 | `/blog/why-we-built-skilllynk/` | ✅ **Added 2026-09-13** — launch-week narrative post (not tied to a specific SEO keyword row; part of the Launch Week Playbook's Day 1 "why we built SkillLynk / a how-to / a feature deep-dive" content plan, see that Artifact and the "Launch Week Content Kit" companion). |
 | `/blog/daily-coding-challenge-practice/` | ✅ **Added 2026-09-16** — the launch-week "how-to" post (blog post #2), and fills the `daily coding challenge practice` keyword row below. |
@@ -39,7 +40,7 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | behavioral interview practice AI | Informational | Mid | Blog post | AI voice interviews handle this; not currently called out distinctly from technical prep |
 | mock interview with AI voice interviewer | Informational/navigational | Top | Home (already targeted) + blog post going deeper | |
 | DSA interview prep | Informational | Mid | ✅ Written 2026-09-17 — `/blog/dsa-interview-prep/` | Common competitor-adjacent term (LeetCode audience) — a real acquisition wedge; ties to Target Interview's JD-seeded, language-matched coding rounds |
-| SQL interview questions practice | Informational | Long-tail | Blog post | Ties to the "SQL & Databases" topic already surfaced in the passport mockup |
+| SQL interview questions practice | Informational | Long-tail | ✅ Written 2026-09-14 — `/blog/sql-interview-questions-practice/` | Ties to the "SQL & Databases" topic already surfaced in the passport mockup |
 | resume ATS score checker | Transactional | Mid | Blog post + link to the in-app Resume Review feature | Real, free, standalone feature (`POST /resume-review`) with almost no current external surface |
 | peer mock interview practice free | Transactional | Top | Home (already targeted) | |
 
@@ -54,5 +55,5 @@ This was left open pending a first batch of posts to prove out the keyword map �
 
 - **Blog RSS feed** — no templating engine here to generate one from; would need either a hand-maintained `feed.xml` or the Next.js migration above.
 - **`/passport/[slug]` cross-linking** from this site — see the table above; the actual fix belongs in the mobile app's share flow, not here.
-- **`SQL interview questions practice` blog post** — the one remaining keyword-map row without a post. `daily coding challenge practice` and `DSA interview prep` are both now written (blog posts #2 and #3 from the Launch Week Content Kit, shipped 2026-09-16/17).
+- ~~`SQL interview questions practice` blog post~~ — **written 2026-09-14**, closing out the keyword map: every row now has a post. `daily coding challenge practice` and `DSA interview prep` were the prior two (blog posts #2 and #3 from the Launch Week Content Kit, shipped 2026-09-16/17).
 - **OG images on `/privacy/` and `/terms/`** — deliberately skipped, low value (nobody shares a privacy policy link socially).
