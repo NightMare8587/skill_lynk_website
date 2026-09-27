@@ -52,6 +52,8 @@ Google Search Console listed every blog post as "Discovered - currently not inde
 3. Run `python3 scripts/update_blog_links.py`. It rewrites the "Keep reading" block at the end of every post, the homepage's "From the blog" section (3 newest) and `public/sitemap.xml` (with `lastmod`). Generated blocks sit between `<!-- name:start -->`/`<!-- name:end -->` markers; edit the script, not the block. Re-running with no changes changes nothing.
 4. After deploy, use "Request indexing" for the new URL in Search Console's URL Inspection.
 
+`public/404.html` is the branded not-found page (Firebase Hosting serves it automatically with a 404 status). It's `noindex` and not in the sitemap.
+
 `admin.skillynk.in` and `portal.skillynk.in` send `noindex` (their own repos), so they don't compete with this site.
 
 ## 🚀 Deployment Instructions (Firebase)
