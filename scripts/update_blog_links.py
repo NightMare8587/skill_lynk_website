@@ -30,7 +30,8 @@ SITE = "https://skillynk.in"
 # Hand-picked related posts; anything not listed falls back to the newest
 # other posts.
 RELATED = {
-    "hr-interview-questions-for-freshers": ["behavioral-interview-questions", "what-an-ai-mock-interview-feels-like", "free-resume-ats-checker"],
+    "aptitude-test-questions-for-placements": ["hr-interview-questions-for-freshers", "daily-coding-challenge-practice", "interview-readiness-score"],
+    "hr-interview-questions-for-freshers": ["aptitude-test-questions-for-placements", "behavioral-interview-questions", "what-an-ai-mock-interview-feels-like"],
     "behavioral-interview-questions": ["hr-interview-questions-for-freshers", "what-an-ai-mock-interview-feels-like", "interview-readiness-score"],
     "sql-interview-questions": ["dsa-interview-prep", "daily-coding-challenge-practice", "what-an-ai-mock-interview-feels-like"],
     "dsa-interview-prep": ["sql-interview-questions", "daily-coding-challenge-practice", "how-to-practice-system-design-interviews"],

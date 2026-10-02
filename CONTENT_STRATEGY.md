@@ -8,7 +8,7 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 
 | Page | Status |
 |---|---|
-| `/` (Home) | ✅ Live — static |
+| `/` (Home) | ✅ Live — static. **Repositioned 2026-10-02** for every career, not just developers: title/meta/hero, a non-tech passport example, and "for technical roles" wherever coding is mentioned. |
 | `/privacy/`, `/terms/` | ✅ Live — static, no OG image (low priority — nobody shares a privacy policy link) |
 | `/app/` | **Reclassified 2026-09-12.** No longer "archived" — this now serves the real product (`SkillLynk-Mobile`'s Flutter web build, see `SKILL.md`'s deploy section). Correctly `Disallow`'d in `robots.txt` as of this pass — it's the authenticated app, not marketing content, and crawling a large SPA build wastes crawl budget for zero SEO benefit. |
 | `/how-it-works/` | Currently an anchor section on Home (`#how-it-works`), not a standalone page — fine for now, split out once it needs its own search-intent targeting (see keyword map) |
@@ -19,6 +19,7 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | `/blog/daily-coding-challenge-practice/` | ✅ **Added 2026-09-16** — the launch-week "how-to" post (blog post #2), and fills the `daily coding challenge practice` keyword row below. |
 | `/blog/dsa-interview-prep/` | ✅ **Added 2026-09-17** — the launch-week "feature deep-dive" post (blog post #3), and fills the `DSA interview prep` keyword row below. |
 | `/blog/hr-interview-questions-for-freshers/` | ✅ **Added 2026-09-27** — not in the original keyword map; targets `HR interview questions for freshers` (high-volume in India): salary, relocation, service agreements, backlogs and gaps, plus the standard HR questions. |
+| `/blog/aptitude-test-questions-for-placements/` | ✅ **Added 2026-10-02** — fills the `aptitude test questions for placements` row below. First post aimed at every field, not just tech (Phase 3 positioning). Every worked answer was checked by calculation before publishing. |
 | `/blog/behavioral-interview-questions/` | ✅ **Added 2026-09-27** — fills the `behavioral interview practice AI` keyword row below (STAR method, the recurring questions, a story bank, situational questions). |
 | `/blog/sql-interview-questions/` | ✅ **Added 2026-09-27** — fills the `SQL interview questions practice` keyword row below. Every query was run on MySQL 8 before publishing. |
 | `/passport/[slug]` (public Skill Passport pages) | **Still not built here.** Backend already server-renders `GET /passport/public/:slug` with its own OG tags (see `SkillLynk-Backend`'s CLAUDE.md, "Skill Passport" section) — a shared passport link already works and is already indexable on its own, it just isn't cross-linked from this site's nav/footer. Lower priority than it looks: each passport URL is one specific candidate's, so there's no single static page to add here — the real fix (linking to "yours" from the site) has to happen in the mobile app's own share flow, not this repo. |
@@ -26,7 +27,7 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 
 ## Keyword map
 
-15 target topics, each mapped to real product surface — no keyword here targets something the product doesn't actually do.
+17 target topics, each mapped to real product surface — no keyword here targets something the product doesn't actually do.
 
 | Keyword / topic | Intent | Funnel stage | Content type | Notes |
 |---|---|---|---|---|
@@ -35,7 +36,7 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | technical interview practice online | Informational | Top | Home | Already covered by hero copy |
 | system design interview practice | Informational | Mid | Blog post | Ties directly to the "System Design" topic tag already shown in the passport mockup on Home |
 | coding interview practice free | Transactional | Mid | Blog post + Home CTA | "Free" is a real, honest claim (peer interviews + daily practice are free) — lead with it |
-| Skill Passport verified activity | Navigational/branded | Bottom | The "interview readiness score" post below + public passport pages | **Row corrected 2026-09-12** — this used to say "verified score," but the backend dropped a single `verified_score` from the public card entirely (2026-09-06 redesign) in favor of activity counts (topics demonstrated, interviews completed, coding problems solved, drives completed). Don't target "verified score" as a keyword going forward — it no longer describes the real product and would set the wrong expectation. |
+| Skill Passport verified activity | Navigational/branded | Bottom | The "interview readiness score" post below + public passport pages | **Row corrected 2026-09-12** — this used to say "verified score," but the backend dropped a single `verified_score` from the public card entirely (2026-09-06 redesign) in favor of activity counts (topics demonstrated, interviews completed, challenges solved, drives completed). Don't target "verified score" as a keyword going forward — it no longer describes the real product and would set the wrong expectation. |
 | hiring drive assessment platform | Commercial (B2B) | Bottom | `/for-companies/` (now live) | Live as of `08680e5` |
 | daily coding challenge practice | Informational | Mid | ✅ Written 2026-09-16 — `/blog/daily-coding-challenge-practice/` | Ties to the real Daily Coding Challenge feature: shared daily problem, run/submit split, streak integration |
 | interview readiness score | Informational | Mid | ✅ Written 2026-09-12 — `/blog/interview-readiness-score/` | Deliberately answers the search intent honestly: explains why SkillLynk doesn't reduce readiness to one gamified number, and what it shows instead |
@@ -45,6 +46,8 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | SQL interview questions practice | Informational | Long-tail | ✅ Written 2026-09-27 — `/blog/sql-interview-questions/` | Ties to the "SQL & Databases" topic already surfaced in the passport mockup |
 | resume ATS score checker | Transactional | Mid | Blog post + link to the in-app Resume Review feature | Real, free, standalone feature (`POST /resume-review`) with almost no current external surface |
 | peer mock interview practice free | Transactional | Top | Home (already targeted) | |
+| aptitude test questions for placements | Informational | Top | ✅ Written 2026-10-02 — `/blog/aptitude-test-questions-for-placements/` | Same test across every field; ties to the Daily Challenge reasoning set and the Practice Aptitude track |
+| AI mock interview for any career (HR, sales, finance) | Informational | Top | Home (targeted 2026-10-02) | Next posts in this lane: a sales interview guide and a finance/accounting interview guide. Keep the mix at roughly one non-tech post for every tech post |
 
 ## Decision: hand-written static, for now (resolved 2026-09-12)
 
