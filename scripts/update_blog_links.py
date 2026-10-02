@@ -30,9 +30,11 @@ SITE = "https://skillynk.in"
 # Hand-picked related posts; anything not listed falls back to the newest
 # other posts.
 RELATED = {
-    "aptitude-test-questions-for-placements": ["hr-interview-questions-for-freshers", "daily-coding-challenge-practice", "interview-readiness-score"],
-    "hr-interview-questions-for-freshers": ["aptitude-test-questions-for-placements", "behavioral-interview-questions", "what-an-ai-mock-interview-feels-like"],
-    "behavioral-interview-questions": ["hr-interview-questions-for-freshers", "what-an-ai-mock-interview-feels-like", "interview-readiness-score"],
+    "sales-interview-questions": ["behavioral-interview-questions", "hr-interview-questions-for-freshers", "what-an-ai-mock-interview-feels-like"],
+    "finance-interview-questions": ["aptitude-test-questions-for-placements", "behavioral-interview-questions", "hr-interview-questions-for-freshers"],
+    "aptitude-test-questions-for-placements": ["finance-interview-questions", "hr-interview-questions-for-freshers", "sales-interview-questions"],
+    "hr-interview-questions-for-freshers": ["aptitude-test-questions-for-placements", "sales-interview-questions", "behavioral-interview-questions"],
+    "behavioral-interview-questions": ["hr-interview-questions-for-freshers", "sales-interview-questions", "what-an-ai-mock-interview-feels-like"],
     "sql-interview-questions": ["dsa-interview-prep", "daily-coding-challenge-practice", "what-an-ai-mock-interview-feels-like"],
     "dsa-interview-prep": ["sql-interview-questions", "daily-coding-challenge-practice", "how-to-practice-system-design-interviews"],
     "daily-coding-challenge-practice": ["dsa-interview-prep", "sql-interview-questions", "interview-readiness-score"],

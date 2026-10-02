@@ -19,6 +19,8 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | `/blog/daily-coding-challenge-practice/` | ✅ **Added 2026-09-16** — the launch-week "how-to" post (blog post #2), and fills the `daily coding challenge practice` keyword row below. |
 | `/blog/dsa-interview-prep/` | ✅ **Added 2026-09-17** — the launch-week "feature deep-dive" post (blog post #3), and fills the `DSA interview prep` keyword row below. |
 | `/blog/hr-interview-questions-for-freshers/` | ✅ **Added 2026-09-27** — not in the original keyword map; targets `HR interview questions for freshers` (high-volume in India): salary, relocation, service agreements, backlogs and gaps, plus the standard HR questions. |
+| `/blog/sales-interview-questions/` | ✅ **Added 2026-10-02** — first field-specific non-tech post: sell me this pen, objections, missed targets, a funnel-maths question (checked by calculation), role-plays. |
+| `/blog/finance-interview-questions/` | ✅ **Added 2026-10-02** — journal entries, the three statements, the depreciation walk-through, ratios, NPV, GST and Excel; every worked number checked by calculation. |
 | `/blog/aptitude-test-questions-for-placements/` | ✅ **Added 2026-10-02** — fills the `aptitude test questions for placements` row below. First post aimed at every field, not just tech (Phase 3 positioning). Every worked answer was checked by calculation before publishing. |
 | `/blog/behavioral-interview-questions/` | ✅ **Added 2026-09-27** — fills the `behavioral interview practice AI` keyword row below (STAR method, the recurring questions, a story bank, situational questions). |
 | `/blog/sql-interview-questions/` | ✅ **Added 2026-09-27** — fills the `SQL interview questions practice` keyword row below. Every query was run on MySQL 8 before publishing. |
@@ -27,7 +29,7 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 
 ## Keyword map
 
-17 target topics, each mapped to real product surface — no keyword here targets something the product doesn't actually do.
+19 target topics, each mapped to real product surface — no keyword here targets something the product doesn't actually do.
 
 | Keyword / topic | Intent | Funnel stage | Content type | Notes |
 |---|---|---|---|---|
@@ -46,8 +48,10 @@ Sprint 2 deliverable of the SkillLynk rebuild initiative (see `SkillLynk-Backend
 | SQL interview questions practice | Informational | Long-tail | ✅ Written 2026-09-27 — `/blog/sql-interview-questions/` | Ties to the "SQL & Databases" topic already surfaced in the passport mockup |
 | resume ATS score checker | Transactional | Mid | Blog post + link to the in-app Resume Review feature | Real, free, standalone feature (`POST /resume-review`) with almost no current external surface |
 | peer mock interview practice free | Transactional | Top | Home (already targeted) | |
+| sales interview questions | Informational | Top | ✅ Written 2026-10-02 — `/blog/sales-interview-questions/` | Field: Sales & Business Development |
+| finance interview questions | Informational | Top | ✅ Written 2026-10-02 — `/blog/finance-interview-questions/` | Field: Finance & Accounting |
 | aptitude test questions for placements | Informational | Top | ✅ Written 2026-10-02 — `/blog/aptitude-test-questions-for-placements/` | Same test across every field; ties to the Daily Challenge reasoning set and the Practice Aptitude track |
-| AI mock interview for any career (HR, sales, finance) | Informational | Top | Home (targeted 2026-10-02) | Next posts in this lane: a sales interview guide and a finance/accounting interview guide. Keep the mix at roughly one non-tech post for every tech post |
+| AI mock interview for any career (HR, sales, finance) | Informational | Top | Home (targeted 2026-10-02) + ✅ `/blog/sales-interview-questions/`, `/blog/finance-interview-questions/` (2026-10-02) | Next in this lane: HR/recruiter, marketing, and customer success interview guides. Keep the mix at roughly one non-tech post for every tech post |
 
 ## Decision: hand-written static, for now (resolved 2026-09-12)
 
