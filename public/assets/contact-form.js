@@ -21,7 +21,11 @@ if (contactForm) {
       message,
     ].join('\n');
 
-    const mailto = `mailto:skill.lynkk@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    if (window.openEmail) {
+      // Also offers Gmail and copy, for computers with no mail app set up.
+      window.openEmail('skill.lynkk@gmail.com', subject, body);
+    } else {
+      window.location.href = `mailto:skill.lynkk@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
   });
 }
