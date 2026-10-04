@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Passport · SkillLynk</title>
+<meta name="description" content="A Skill Passport built from real interview practice on SkillLynk: AI mock interviews, daily challenges and practice, for every career.">
+<!-- Personal pages: shareable by link, but kept out of search results. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#09090B">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="SkillLynk">
+<meta property="og:title" content="Skill Passport · SkillLynk">
+<meta property="og:description" content="Interview skills shown in real practice on SkillLynk. Build your own, free.">
+<meta property="og:image" content="https://skillynk.in/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@SkillLynk">
+<meta name="twitter:title" content="Skill Passport · SkillLynk">
+<meta name="twitter:description" content="Interview skills shown in real practice on SkillLynk. Build your own, free.">
+<meta name="twitter:image" content="https://skillynk.in/assets/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.skillynk.in" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/assets/styles.css?v=20261004">
+<style>
+  .pp-main { max-width: 680px; margin: 0 auto; padding: 28px 16px 140px; }
+  .pp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 14px; }
+  .pp-hero { position: relative; overflow: hidden; padding: 0; }
+  .pp-band { height: 84px; background: radial-gradient(120% 140% at 0% 0%, rgba(52,211,153,.55), transparent 60%), linear-gradient(135deg, #047857, #0f766e 55%, #18181b); }
+  .pp-hero-body { padding: 0 22px 22px; margin-top: -38px; }
+  .pp-avatar { width: 76px; height: 76px; border-radius: 22px; display: grid; place-items: center; font-weight: 800; font-size: 1.6rem; color: #052e1c; background: linear-gradient(135deg, #6ee7b7, #34d399); border: 4px solid var(--surface); }
+  .pp-eyebrow { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .pp-name { font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.15; margin: 6px 0 4px; letter-spacing: -.02em; }
+  .pp-sub { color: var(--text-dim); margin: 0; }
+  .pp-headline { margin: 10px 0 0; font-size: 1.02rem; }
+  .pp-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .86rem; color: var(--text-faint); }
+  .pp-verified { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-weight: 600; }
+  .pp-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+  @media (min-width: 560px) { .pp-stats.n3 { grid-template-columns: repeat(3, 1fr); } .pp-stats.n4 { grid-template-columns: repeat(4, 1fr); } }
+  .pp-stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; }
+  .pp-stat-icon { color: var(--accent); }
+  .pp-stat-value { font-size: 1.7rem; font-weight: 800; line-height: 1.1; margin-top: 4px; }
+  .pp-stat-label { color: var(--text-dim); font-size: .82rem; }
+  .pp-card h2 { font-size: 1.1rem; margin: 0 0 4px; }
+  .pp-muted { color: var(--text-dim); font-size: .92rem; margin: 0; }
+  .pp-strengths { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 12px; }
+  .pp-strength-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; font-weight: 600; }
+  .pp-pill { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+  .pp-bar { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+  .pp-bar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #059669, #34d399); }
+  .pp-hook { text-align: center; padding: 26px 22px; background: radial-gradient(120% 120% at 50% 0%, rgba(52,211,153,.16), transparent 60%), var(--surface); border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
+  .pp-hook h2 { font-size: 1.35rem; margin: 6px 0 8px; }
+  .pp-hook ul { list-style: none; padding: 0; margin: 14px auto 18px; max-width: 420px; text-align: left; display: grid; gap: 8px; }
+  .pp-hook li { display: flex; gap: 8px; align-items: flex-start; color: var(--text-dim); font-size: .94rem; }
+  .pp-hook li svg { flex: none; color: var(--accent); margin-top: 3px; }
+  .pp-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .pp-actions .btn { min-width: 170px; }
+  .pp-small { font-size: .8rem; color: var(--text-faint); margin-top: 12px; }
+  .pp-sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--border); transform: translateY(110%); transition: transform .3s var(--ease-standard); }
+  .pp-sticky.show { transform: none; }
+  .pp-sticky-inner { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+  .pp-sticky-mark { width: 38px; height: 38px; flex: none; border-radius: 10px; background: #059669; display: grid; place-items: center; }
+  .pp-sticky-text { flex: 1; min-width: 0; line-height: 1.25; }
+  .pp-sticky-text b { display: block; font-size: .92rem; }
+  .pp-sticky-text span { font-size: .8rem; color: var(--text-dim); }
+  .pp-sticky .btn { padding: 10px 16px; white-space: nowrap; }
+  .pp-skel { background: var(--surface-2); border-radius: 8px; animation: pp-pulse 1.4s ease-in-out infinite; }
+  @keyframes pp-pulse { 50% { opacity: .5; } }
+  .pp-center { text-align: center; padding: 48px 22px; }
+  .pp-header-cta { padding: 9px 16px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#FFFFFF" stroke-width="2"/></svg></span>
+      <span class="brand-name">SkillLynk</span>
+    </a>
+    <a class="btn btn-primary pp-header-cta" id="ppHeaderCta" href="/download/">Get the app</a>
+  </div>
+</header>
+
+<main class="pp-main" id="pp" aria-live="polite">
+  <div class="pp-card pp-hero">
+    <div class="pp-band"></div>
+    <div class="pp-hero-body">
+      <div class="pp-avatar pp-skel" style="border-color:var(--surface)"></div>
+      <div class="pp-skel" style="height:14px;width:120px;margin-top:18px"></div>
+      <div class="pp-skel" style="height:30px;width:60%;margin-top:12px"></div>
+      <div class="pp-skel" style="height:14px;width:40%;margin-top:12px"></div>
+    </div>
+  </div>
+</main>
+
+<div class="pp-sticky" id="ppSticky" role="complementary" aria-label="Get SkillLynk">
+  <div class="pp-sticky-inner">
+    <span class="pp-sticky-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#fff" stroke-width="2.2"/><path d="M8.6 12.2l2.3 2.3 4.4-4.7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <div class="pp-sticky-text"><b>Build your own Skill Passport</b><span>Free AI mock interviews for every career</span></div>
+    <a class="btn btn-primary" id="ppStickyCta" href="/download/">Get the app</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var API = 'https://api.skillynk.in/v2/passport/public/';
+  var PLAY = 'https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile';
+  var ua = navigator.userAgent || '';
+  var isAndroid = /Android/i.test(ua);
+  var main = document.getElementById('pp');
+
+  // Builds DOM without innerHTML for any user-supplied text.
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'text') node.textContent = attrs[k];
+      else if (k === 'html') node.innerHTML = attrs[k]; // static markup only
+      else node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c) node.appendChild(c); });
+    return node;
+  }
+  var ICON = {
+    mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+    target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+    bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+    flame: '<path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-9-1 2-2 3-4 3 0-2-1-4-2-5-1 4-4 6-4 11 0 4 3 7 7 7z"/>',
+    briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/>',
+    shield: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    check: '<path d="m5 12 5 5L20 7"/>'
+  };
+  function icon(name, size) {
+    var s = size || 18;
+    return el('span', { 'aria-hidden': 'true', html: '<svg viewBox="0 0 24 24" width="' + s + '" height="' + s + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICON[name] + '</svg>' });
+  }
+  function initials(name) {
+    var parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+    return ((parts[0] || 'S')[0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+  }
+  var ACRONYMS = { crm: 'CRM', sql: 'SQL', hr: 'HR', ui: 'UI', ux: 'UX', api: 'API', apis: 'APIs', gst: 'GST', seo: 'SEO', b2b: 'B2B', b2c: 'B2C', kpi: 'KPI', kpis: 'KPIs', ai: 'AI', ml: 'ML', dsa: 'DSA', oop: 'OOP', css: 'CSS', html: 'HTML', aws: 'AWS', sla: 'SLA', p2p: 'P2P' };
+  function topicLabel(t) {
+    var words = String(t || '').replace(/[-_]+/g, ' ').trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return 'Topic';
+    return words.map(function (w, i) {
+      var key = w.toLowerCase();
+      if (ACRONYMS[key]) return ACRONYMS[key];
+      return i === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+    }).join(' ');
+  }
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function monthYear(v) { var d = new Date(v); return isNaN(d) ? '' : MONTHS[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); }
+
+  // The download hook: Android gets the store through the owner's invite
+  // link (so the install counts as their referral); others get the
+  // per-device download page. Everyone can try the web app straight away.
+  function setAppLinks(joinUrl) {
+    var href = isAndroid ? (joinUrl || PLAY) : '/download/';
+    ['ppHeaderCta', 'ppStickyCta'].forEach(function (id) { document.getElementById(id).setAttribute('href', href); });
+    return href;
+  }
+
+  function showSticky() {
+    var sticky = document.getElementById('ppSticky');
+    var shown = false;
+    function check() {
+      if (!shown && window.scrollY > 220) { shown = true; sticky.classList.add('show'); }
+    }
+    window.addEventListener('scroll', check, { passive: true });
+    setTimeout(function () { if (!shown) { shown = true; sticky.classList.add('show'); } }, 4000);
+  }
+
+  function hookCard(firstName, appHref) {
+    var list = el('ul', null, [
+      'Live AI voice interviews that remember your weak spots',
+      'A detailed report after every interview',
+      'Daily challenges and practice for your field',
+      'A Skill Passport you can share with recruiters'
+    ].map(function (t) { return el('li', null, [icon('check', 16), el('span', { text: t })]); }));
+    return el('section', { class: 'pp-card pp-hook' }, [
+      el('div', { class: 'pp-eyebrow', text: 'Your turn' }),
+      el('h2', { text: firstName ? 'Practise like ' + firstName + '. Build your own passport.' : 'Build your own Skill Passport.' }),
+      el('p', { class: 'pp-muted', text: 'Free interview practice for every career: sales, finance, HR, marketing, operations, teaching or tech.' }),
+      list,
+      el('div', { class: 'pp-actions' }, [
+        el('a', { class: 'btn btn-primary', href: appHref, text: 'Get the app' }),
+        el('a', { class: 'btn btn-ghost', href: '/app/', text: 'Try it in your browser' })
+      ]),
+      el('p', { class: 'pp-small', text: 'Free to start. No credit card.' })
+    ]);
+  }
+
+  function render(p) {
+    var name = String(p.name || '').trim() || 'A SkillLynk candidate';
+    var first = name.split(/\s+/)[0];
+    document.title = name + "'s Skill Passport · SkillLynk";
+    var appHref = setAppLinks(p.join_url);
+
+    var profile = p.profile || null;
+    var subParts = [];
+    if (profile && profile.current_role) subParts.push(profile.current_role);
+    else if (profile && profile.field_label && profile.field !== 'other') subParts.push(profile.field_label);
+    if (profile && profile.stage === 'fresher') subParts.push('Fresher');
+    if (profile && profile.stage === 'working') subParts.push('Working professional');
+
+    var interviews = Number(p.interviews_completed_count) || 0;
+    var topics = Number(p.topics_demonstrated_count) || 0;
+    var challenges = Number(p.challenges_solved_count != null ? p.challenges_solved_count : p.coding_problems_solved_count) || 0;
+    var drives = Number(p.drives_completed) || 0;
+    var streak = Number(p.longest_streak) || 0;
+    var stats = [
+      { v: interviews, l: interviews === 1 ? 'Interview completed' : 'Interviews completed', i: 'mic', always: true },
+      { v: topics, l: topics === 1 ? 'Topic demonstrated' : 'Topics demonstrated', i: 'target' },
+      { v: challenges, l: challenges === 1 ? 'Challenge solved' : 'Challenges solved', i: 'bolt' },
+      { v: drives, l: drives === 1 ? 'Hiring Drive completed' : 'Hiring Drives completed', i: 'briefcase' },
+      { v: streak >= 2 ? streak : 0, l: 'Day best streak', i: 'flame' }
+    ].filter(function (s) { return s.always || s.v > 0; }).slice(0, 4);
+
+    var joined = monthYear(p.joined_at);
+    var hero = el('section', { class: 'pp-card pp-hero' }, [
+      el('div', { class: 'pp-band', 'aria-hidden': 'true' }),
+      el('div', { class: 'pp-hero-body' }, [
+        el('div', { class: 'pp-avatar', 'aria-hidden': 'true', text: initials(name) }),
+        el('div', { class: 'pp-eyebrow' }, [icon('shield', 15), el('span', { text: 'Skill Passport' })]),
+        el('h1', { class: 'pp-name', text: name }),
+        subParts.length ? el('p', { class: 'pp-sub', text: subParts.join(' · ') }) : null,
+        profile && profile.headline ? el('p', { class: 'pp-headline', text: profile.headline }) : null,
+        el('div', { class: 'pp-meta' }, [
+          el('span', { class: 'pp-verified' }, [icon('check', 15), el('span', { text: 'Activity verified by SkillLynk' })]),
+          joined ? el('span', { text: 'Member since ' + joined }) : null
+        ])
+      ])
+    ]);
+
+    var statGrid = el('section', { class: 'pp-stats n' + stats.length, 'aria-label': 'Activity' }, stats.map(function (s) {
+      return el('div', { class: 'pp-stat' }, [
+        el('div', { class: 'pp-stat-icon' }, [icon(s.i)]),
+        el('div', { class: 'pp-stat-value', text: String(s.v) }),
+        el('div', { class: 'pp-stat-label', text: s.l })
+      ]);
+    }));
+
+    var strengths = (p.demonstrated_strengths || []).slice(0, 8);
+    var strengthCard = null;
+    if (strengths.length) {
+      strengthCard = el('section', { class: 'pp-card' }, [
+        el('h2', { text: 'Demonstrated strengths' }),
+        el('p', { class: 'pp-muted', text: 'Topics where ' + first + ' has consistently answered well in practice and interviews.' }),
+        el('ul', { class: 'pp-strengths' }, strengths.map(function (s) {
+          var score = Math.max(0, Math.min(100, Number(s.mastery_score) || 0));
+          var level = score >= 90 ? 'Expert' : score >= 80 ? 'Advanced' : 'Strong';
+          var bar = el('div', { class: 'pp-bar', role: 'img', 'aria-label': level });
+          var fill = el('span'); fill.style.width = score + '%'; bar.appendChild(fill);
+          return el('li', null, [
+            el('div', { class: 'pp-strength-top' }, [el('span', { text: topicLabel(s.topic) }), el('span', { class: 'pp-pill', text: level })]),
+            bar
+          ]);
+        }))
+      ]);
+    }
+
+    var how = el('section', { class: 'pp-card' }, [
+      el('h2', { text: 'How this passport works' }),
+      el('p', { class: 'pp-muted', text: 'Every number here comes from real activity on SkillLynk: AI voice and peer mock interviews, daily challenges and practice' + (drives ? ', and company Hiring Drives' : '') + '. Nothing on it is self-reported.' })
+    ]);
+
+    main.textContent = '';
+    [hero, statGrid, strengthCard, hookCard(first, appHref), how].forEach(function (n) { if (n) main.appendChild(n); });
+    showSticky();
+  }
+
+  function renderMissing(title, text) {
+    var appHref = setAppLinks(null);
+    main.textContent = '';
+    main.appendChild(el('section', { class: 'pp-card pp-center' }, [
+      el('div', { class: 'pp-eyebrow' }, [icon('shield', 15), el('span', { text: 'Skill Passport' })]),
+      el('h1', { class: 'pp-name', text: title }),
+      el('p', { class: 'pp-muted', text: text })
+    ]));
+    main.appendChild(hookCard('', appHref));
+    showSticky();
+  }
+
+  var slug = (location.pathname.split('/p/')[1] || '').split('/')[0];
+  if (!/^[A-Za-z0-9]{4,32}$/.test(slug)) {
+    renderMissing("This passport isn't available", 'The link may be incomplete. Ask the person to share it again.');
+    return;
+  }
+  fetch(API + encodeURIComponent(slug) + '/data', { headers: { Accept: 'application/json' } })
+    .then(function (res) {
+      if (res.status === 404) { renderMissing("This passport isn't available", 'Its owner may have made it private, or the link is wrong.'); return null; }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function (data) { if (data) render(data); })
+    .catch(function () { renderMissing("Couldn't load this passport", 'Check your connection and refresh the page.'); });
+})();
+</script>
+</body>
+</html>
