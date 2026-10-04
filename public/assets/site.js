@@ -78,3 +78,16 @@ document.addEventListener('click', (event) => {
   const url = new URL(link.href);
   window.openEmail(decodeURIComponent(url.pathname), url.searchParams.get('subject'), url.searchParams.get('body'));
 });
+
+// On Android, "Get it on Google Play" opens the app when it's already
+// installed: an intent link targets the app's https link filter and falls
+// back to the store listing when the app isn't there.
+(function () {
+  if (!/Android/i.test(navigator.userAgent || '')) return;
+  const PKG = 'com.consumers.skilllynkmobile.skilllynkmobile';
+  document.querySelectorAll('a[href*="play.google.com/store/apps/details"]').forEach((a) => {
+    if (a.href.indexOf(PKG) === -1) return;
+    a.href = 'intent://api.skillynk.in/v2/link/open#Intent;scheme=https;package=' + PKG +
+      ';S.browser_fallback_url=' + encodeURIComponent(a.href) + ';end';
+  });
+})();

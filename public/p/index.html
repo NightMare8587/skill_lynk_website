@@ -160,8 +160,20 @@
   // The download hook: Android gets the store through the owner's invite
   // link (so the install counts as their referral); others get the
   // per-device download page. Everyone can try the web app straight away.
+  // On Android it's an intent link: an installed app opens straight away;
+  // otherwise the browser follows the invite link (to the store, with the
+  // referral) as before.
+  function androidHref(joinUrl) {
+    var fallback = joinUrl || PLAY;
+    var target = 'api.skillynk.in/v2/link/open';
+    var m = /^https:\/\/(api\.skillynk\.in\/v2\/link\/join\?.*)$/.exec(joinUrl || '');
+    if (m) target = m[1];
+    return 'intent://' + target + '#Intent;scheme=https;package=com.consumers.skilllynkmobile.skilllynkmobile;' +
+      'S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
+  }
+
   function setAppLinks(joinUrl) {
-    var href = isAndroid ? (joinUrl || PLAY) : '/download/';
+    var href = isAndroid ? androidHref(joinUrl) : '/download/';
     ['ppHeaderCta', 'ppStickyCta'].forEach(function (id) { document.getElementById(id).setAttribute('href', href); });
     return href;
   }
