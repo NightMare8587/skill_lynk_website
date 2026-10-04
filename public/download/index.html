@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Download SkillLynk</title>
-<meta name="description" content="Get the SkillLynk app on Android. iOS is coming soon — practice on the web in the meantime.">
+<meta name="description" content="Use SkillLynk in your browser, or get the Android app. iOS is coming soon.">
 <link rel="canonical" href="https://skillynk.in/download/">
 <meta name="theme-color" content="#09090B">
 <link rel="icon" type="image/png" href="/favicon.png">
@@ -37,6 +37,7 @@
       <a href="/#passport">Skill Passport</a>
       <a href="/blog/">Blog</a>
       <a href="/for-companies/">For Companies</a>
+      <a href="/download/">Get the app</a>
     </nav>
   </div>
 </header>
@@ -47,6 +48,10 @@
       <h2 id="dl-heading">Get the SkillLynk app</h2>
       <p id="dl-sub">Free to start — peer interviews and daily practice never cost anything.</p>
       <div class="store-row" id="dl-buttons">
+        <a class="store-btn" id="dl-web" href="/app/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
+          <span><span class="label-small">Start now in your</span><span class="label-big">Browser</span></span>
+        </a>
         <a class="store-btn" id="dl-android" href="https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3.5v17a1 1 0 001.5.87l14-8.5a1 1 0 000-1.74l-14-8.5A1 1 0 003 3.5z"/></svg>
           <span><span class="label-small">Get it on</span><span class="label-big">Google Play</span></span>
@@ -81,13 +86,13 @@
   const isAndroid = /Android/.test(ua);
   const note = document.getElementById('dl-note');
   if (isIOS) {
-    document.getElementById('dl-heading').textContent = "iOS isn't available yet";
-    document.getElementById('dl-sub').textContent = 'SkillLynk is Android-only for now. We\'ll announce here when iOS ships.';
-    note.textContent = 'In the meantime, ask a friend with an Android phone, or check back soon.';
+    document.getElementById('dl-heading').textContent = "Use SkillLynk in your browser";
+    document.getElementById('dl-sub').textContent = "The iPhone app isn't out yet, but everything works in Safari: sign in and start practicing.";
+    note.textContent = "We'll announce here when the iOS app ships.";
   } else if (isAndroid) {
-    note.textContent = "You're on Android — the button above will take you straight to the Play Store.";
+    note.textContent = "On Android, the app gives you notifications and a smoother interview call. You can also keep going in your browser.";
   } else {
-    note.textContent = 'Open this page on your Android phone, or tap the button above to view it on the Play Store.';
+    note.textContent = 'On a computer, the browser version has everything. Open this page on your Android phone to get the app.';
   }
 </script>
 </body>
