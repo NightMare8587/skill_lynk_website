@@ -79,7 +79,7 @@
     var saved = window.sklAttribution();
     if (!saved) return;
     var parts = [];
-    UTM_FIELDS.forEach(function (f) { if (saved[f]) parts.push(f + '=' + encodeURIComponent(saved[f])); });
+    UTM_FIELDS.concat(['fbclid']).forEach(function (f) { if (saved[f]) parts.push(f + '=' + encodeURIComponent(saved[f])); });
     if (!parts.length) return;
     document.querySelectorAll('a[href*="play.google.com/store/apps/details"]').forEach(function (a) {
       if (a.href.indexOf('referrer=') !== -1) return;
