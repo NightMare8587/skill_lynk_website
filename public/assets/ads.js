@@ -15,7 +15,7 @@
  * the pixel stays off and only the first-party attribution above runs.
  */
 (function () {
-  var META_PIXEL_ID = '';
+  var META_PIXEL_ID = '1902187317575606';
 
   var STORE_KEY = 'skl_attr';
   var CONSENT_KEY = 'skl_consent';
