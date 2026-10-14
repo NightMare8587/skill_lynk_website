@@ -81,13 +81,17 @@ document.addEventListener('click', (event) => {
 
 // On Android, "Get it on Google Play" opens the app when it's already
 // installed: an intent link targets the app's https link filter and falls
-// back to the store listing when the app isn't there.
-(function () {
+// back to the store listing when the app isn't there. Runs after ads.js has
+// tagged the store links (so the fallback keeps the campaign referrer) and
+// carries the ad's screen (dl) into the app.
+document.addEventListener('DOMContentLoaded', function () {
   if (!/Android/i.test(navigator.userAgent || '')) return;
   const PKG = 'com.consumers.skilllynkmobile.skilllynkmobile';
+  const target = typeof window.sklAdTarget === 'function' ? window.sklAdTarget() : null;
+  const query = target ? '?dl=' + encodeURIComponent(target) : '';
   document.querySelectorAll('a[href*="play.google.com/store/apps/details"]').forEach((a) => {
     if (a.href.indexOf(PKG) === -1) return;
-    a.href = 'intent://api.skillynk.in/v2/link/open#Intent;scheme=https;package=' + PKG +
+    a.href = 'intent://api.skillynk.in/v2/link/open' + query + '#Intent;scheme=https;package=' + PKG +
       ';S.browser_fallback_url=' + encodeURIComponent(a.href) + ';end';
   });
-})();
+});

@@ -6,6 +6,8 @@
  *    they arrive from an ad, for 30 days. The app sends it to the backend at
  *    signup (window.sklAttribution), which stores it and reports signups,
  *    activation and revenue per campaign.
+ *    A "dl" param (screen to open) is saved the same way and travels in the
+ *    Play Store referrer, so the app opens that screen after an ad install.
  * 2. Loads the Meta Pixel and sends PageView and Lead (clicks on "Start free"
  *    and the Play Store button) once the visitor has accepted cookies.
  *    Signup, activation and purchase are sent from the backend (Conversions
@@ -39,10 +41,16 @@
     var found = {};
     UTM_FIELDS.forEach(function (f) { if (query.get(f)) found[f] = query.get(f); });
     if (query.get('fbclid')) found.fbclid = query.get('fbclid');
+    // dl: the screen the ad promised (ai_voice, daily_challenge...). Kept
+    // apart from the campaign: the latest ad's screen wins, first touch
+    // still decides the campaign.
+    var dl = (query.get('dl') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+    if (dl) found.dl = dl;
     if (!Object.keys(found).length) return;
 
     var existing = read(STORE_KEY);
     var fresh = existing && existing.saved_at && Date.now() - existing.saved_at < TTL_MS;
+    if (fresh && dl && existing.dl !== dl) { existing.dl = dl; write(STORE_KEY, existing); }
     // First touch wins, unless what we hold has no campaign and this does.
     if (fresh && (existing.utm_source || existing.fbclid)) return;
 
@@ -71,6 +79,13 @@
     return out;
   };
 
+  // The screen the visitor's ad promised, or null.
+  window.sklAdTarget = function () {
+    var saved = read(STORE_KEY);
+    if (!saved || !saved.saved_at || Date.now() - saved.saved_at >= TTL_MS || !saved.dl) return null;
+    return saved.dl;
+  };
+
   capture();
 
   // Android installs: pass the campaign through the Play Store's referrer so
@@ -80,6 +95,8 @@
     if (!saved) return;
     var parts = [];
     UTM_FIELDS.concat(['fbclid']).forEach(function (f) { if (saved[f]) parts.push(f + '=' + encodeURIComponent(saved[f])); });
+    var target = window.sklAdTarget();
+    if (target) parts.push('dl=' + encodeURIComponent(target));
     if (!parts.length) return;
     document.querySelectorAll('a[href*="play.google.com/store/apps/details"]').forEach(function (a) {
       if (a.href.indexOf('referrer=') !== -1) return;
