@@ -86,6 +86,10 @@ document.addEventListener('click', (event) => {
 // carries the ad's screen (dl) into the app.
 document.addEventListener('DOMContentLoaded', function () {
   if (!/Android/i.test(navigator.userAgent || '')) return;
+  // Facebook and Instagram's in-app browsers can't open intent:// links (the
+  // visitor gets an error page), so ad traffic there keeps the plain, campaign-
+  // tagged Google Play link; Play itself shows "Open" if the app is installed.
+  if (/FBAN|FBAV|FB_IAB|Instagram/i.test(navigator.userAgent || '')) return;
   const PKG = 'com.consumers.skilllynkmobile.skilllynkmobile';
   const target = typeof window.sklAdTarget === 'function' ? window.sklAdTarget() : null;
   const query = target ? '?dl=' + encodeURIComponent(target) : '';
