@@ -74,6 +74,24 @@
   @keyframes pp-pulse { 50% { opacity: .5; } }
   .pp-center { text-align: center; padding: 48px 22px; }
   .pp-header-cta { padding: 9px 16px; }
+  .pp-ev { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; }
+  .pp-ev a.pp-ev-item { display: block; text-decoration: none; color: inherit; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px; }
+  .pp-ev a.pp-ev-item:hover { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+  .pp-ev-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-weight: 700; }
+  .pp-ev-line { margin: 4px 0 0; color: var(--text-dim); font-size: .92rem; }
+  .pp-ev-foot { margin: 8px 0 0; font-size: .8rem; color: var(--text-faint); display: flex; gap: 6px; align-items: center; }
+  .pp-ev-foot svg { color: var(--accent); }
+  .pp-facts { margin: 14px 0 0; display: grid; gap: 0; }
+  .pp-fact { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--border); font-size: .92rem; }
+  .pp-fact:first-child { border-top: 0; }
+  .pp-fact span:first-child { color: var(--text-dim); }
+  .pp-fact span:last-child { font-weight: 600; text-align: right; }
+  .pp-rows { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: .88rem; }
+  .pp-rows th { text-align: left; color: var(--text-faint); font-weight: 600; font-size: .76rem; padding: 6px 8px 6px 0; }
+  .pp-rows td { padding: 9px 8px 9px 0; border-top: 1px solid var(--border); }
+  .pp-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; font-weight: 700; }
+  .pp-note { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .pp-back { display: inline-block; margin-bottom: 12px; font-size: .9rem; color: var(--accent); text-decoration: none; }
 </style>
 </head>
 <body>
@@ -208,6 +226,101 @@
     ]);
   }
 
+  var DAY = function (v) { var d = new Date(v); return isNaN(d) ? '' : d.getUTCDate() + ' ' + MONTHS[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
+  function levelName(l) { return l ? l.charAt(0).toUpperCase() + l.slice(1) : ''; }
+
+  // The passport's evidence: one tappable row per card, each leading to its
+  // verify page (/p/<slug>/v/<key>).
+  function evidenceCard(items, slug, first) {
+    if (!items || !items.length) return null;
+    return el('section', { class: 'pp-card' }, [
+      el('h2', { text: 'Evidence' }),
+      el('p', { class: 'pp-muted', text: 'What this passport is based on, with dates. Open any item to see how it was measured.' }),
+      el('ul', { class: 'pp-ev' }, items.map(function (e) {
+        return el('li', null, [el('a', { class: 'pp-ev-item', href: '/p/' + encodeURIComponent(slug) + '/v/' + encodeURIComponent(e.key) }, [
+          el('div', { class: 'pp-ev-top' }, [el('span', { text: e.title }), e.level ? el('span', { class: 'pp-pill', text: levelName(e.level) }) : null]),
+          el('p', { class: 'pp-ev-line', text: e.headline }),
+          el('p', { class: 'pp-ev-foot' }, [icon('shield', 14), el('span', { text: (e.measured_on ? 'Measured ' + DAY(e.measured_on) + ' · ' : '') + 'See how this is verified' })])
+        ])]);
+      }))
+    ]);
+  }
+
+  // One evidence item, checked live: what it says, how it was measured, what
+  // it does not prove, and a record id that changes if the numbers change.
+  function renderVerify(v, slug) {
+    var item = v.item || {};
+    var owner = String((v.owner && v.owner.name) || '').trim() || 'A SkillLynk candidate';
+    var first = owner.split(/\s+/)[0];
+    document.title = item.title + ' · ' + owner + ' · SkillLynk';
+    var appHref = setAppLinks(null);
+
+    var hero = el('section', { class: 'pp-card' }, [
+      el('a', { class: 'pp-back', href: '/p/' + encodeURIComponent(slug), text: '← ' + owner + "'s Skill Passport" }),
+      el('div', { class: 'pp-eyebrow' }, [icon('shield', 15), el('span', { text: 'Evidence check' })]),
+      el('h1', { class: 'pp-name', text: item.title }),
+      el('p', { class: 'pp-headline', text: item.headline }),
+      el('div', { class: 'pp-meta' }, [
+        item.level ? el('span', { class: 'pp-pill', text: levelName(item.level) }) : null,
+        item.measured_on ? el('span', { text: 'Measured ' + DAY(item.measured_on) }) : null,
+        item.since ? el('span', { text: 'Since ' + DAY(item.since) }) : null
+      ]),
+      el('div', { class: 'pp-fact', style: 'margin-top:14px' }, [
+        el('span', { text: 'Record ID' }),
+        el('span', { class: 'pp-code', text: v.record_id })
+      ]),
+      el('div', { class: 'pp-fact' }, [
+        el('span', { text: 'Checked just now' }),
+        el('span', { text: DAY(v.verified_at) })
+      ])
+    ]);
+
+    var method = el('section', { class: 'pp-card' }, [
+      el('h2', { text: 'How this was measured' }),
+      el('p', { class: 'pp-muted', text: item.method })
+    ]);
+
+    var details = null;
+    if ((item.facts && item.facts.length) || (item.rows && item.rows.length)) {
+      var kids = [el('h2', { text: 'Details' })];
+      if (item.facts && item.facts.length) {
+        kids.push(el('div', { class: 'pp-facts' }, item.facts.map(function (f) {
+          return el('div', { class: 'pp-fact' }, [el('span', { text: f.label }), el('span', { text: f.value })]);
+        })));
+      }
+      if (item.rows && item.rows.length) {
+        var head = el('tr', null, ['Topic', 'Level', 'Answers', 'Accuracy', 'Last practised'].map(function (h) { return el('th', { text: h }); }));
+        var body = item.rows.map(function (r) {
+          return el('tr', null, [
+            el('td', { text: topicLabel(r.topic) }),
+            el('td', { text: levelName(r.level) }),
+            el('td', { text: String(r.answers) }),
+            el('td', { text: r.accuracy == null ? '-' : r.accuracy + '%' }),
+            el('td', { text: r.last_practised ? DAY(r.last_practised) : '-' })
+          ]);
+        });
+        kids.push(el('div', { style: 'overflow-x:auto' }, [el('table', { class: 'pp-rows' }, [el('thead', null, [head]), el('tbody', null, body)])]));
+      }
+      details = el('section', { class: 'pp-card' }, kids);
+    }
+
+    var limits = (item.limits && item.limits.length)
+      ? el('section', { class: 'pp-card' }, [
+          el('h2', { text: 'What this does not show' }),
+          el('p', { class: 'pp-muted', text: item.limits.join(' ') })
+        ])
+      : null;
+
+    var trust = el('section', { class: 'pp-card' }, [
+      el('h2', { text: 'About this page' }),
+      el('p', { class: 'pp-muted pp-note', text: 'SkillLynk generates this page live from ' + first + "'s recorded activity. " + first + ' can hide an item but cannot edit it. If a screenshot or PDF shows a different Record ID, the numbers have changed since it was taken.' })
+    ]);
+
+    main.textContent = '';
+    [hero, method, details, limits, trust, hookCard(first, appHref)].forEach(function (n) { if (n) main.appendChild(n); });
+    showSticky();
+  }
+
   function render(p) {
     var name = String(p.name || '').trim() || 'A SkillLynk candidate';
     var first = name.split(/\s+/)[0];
@@ -283,7 +396,7 @@
     ]);
 
     main.textContent = '';
-    [hero, statGrid, strengthCard, hookCard(first, appHref), how].forEach(function (n) { if (n) main.appendChild(n); });
+    [hero, statGrid, evidenceCard(p.evidence, slug, first), strengthCard, hookCard(first, appHref), how].forEach(function (n) { if (n) main.appendChild(n); });
     showSticky();
   }
 
@@ -299,18 +412,27 @@
     showSticky();
   }
 
-  var slug = (location.pathname.split('/p/')[1] || '').split('/')[0];
+  var parts = (location.pathname.split('/p/')[1] || '').split('/');
+  var slug = parts[0];
+  var evidenceKey = parts[1] === 'v' ? parts[2] : null;
   if (!/^[A-Za-z0-9]{4,32}$/.test(slug)) {
     renderMissing("This passport isn't available", 'The link may be incomplete. Ask the person to share it again.');
     return;
   }
-  fetch(API + encodeURIComponent(slug) + '/data', { headers: { Accept: 'application/json' } })
+  var url = evidenceKey && /^[a-z]{3,20}$/.test(evidenceKey)
+    ? API + encodeURIComponent(slug) + '/evidence/' + encodeURIComponent(evidenceKey)
+    : API + encodeURIComponent(slug) + '/data';
+  fetch(url, { headers: { Accept: 'application/json' } })
     .then(function (res) {
-      if (res.status === 404) { renderMissing("This passport isn't available", 'Its owner may have made it private, or the link is wrong.'); return null; }
+      if (res.status === 404) {
+        if (evidenceKey) renderMissing("This evidence isn't available", 'Its owner may have hidden it or made their passport private, or the link is wrong.');
+        else renderMissing("This passport isn't available", 'Its owner may have made it private, or the link is wrong.');
+        return null;
+      }
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     })
-    .then(function (data) { if (data) render(data); })
+    .then(function (data) { if (data) { if (evidenceKey) renderVerify(data, slug); else render(data); } })
     .catch(function () { renderMissing("Couldn't load this passport", 'Check your connection and refresh the page.'); });
 })();
 </script>
