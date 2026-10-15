@@ -91,6 +91,18 @@
   .pp-rows td { padding: 9px 8px 9px 0; border-top: 1px solid var(--border); }
   .pp-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; font-weight: 700; }
   .pp-note { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .pp-qr { display: grid; justify-items: center; gap: 12px; text-align: center; }
+  .pp-qr-box { background: #fff; padding: 14px; border-radius: 14px; width: 188px; height: 188px; }
+  .pp-qr-box svg { width: 100%; height: 100%; display: block; }
+  .pp-qr-url { font-size: .8rem; color: var(--text-faint); word-break: break-all; margin: 0; }
+  @media print {
+    .site-header, .pp-sticky, .pp-hook, .pp-noprint, #sklConsent { display: none !important; }
+    body { background: #fff !important; color: #000 !important; }
+    .pp-main { padding: 0; max-width: none; }
+    .pp-card, .pp-stat { background: #fff !important; border-color: #ccc !important; box-shadow: none !important; break-inside: avoid; }
+    .pp-band { display: none; }
+    .pp-muted, .pp-sub, .pp-stat-label, .pp-fact span:first-child, .pp-ev-line { color: #333 !important; }
+  }
   .pp-back { display: inline-block; margin-bottom: 12px; font-size: .9rem; color: var(--accent); text-decoration: none; }
 </style>
 </head>
@@ -226,6 +238,39 @@
     ]);
   }
 
+  // A QR code for a link, drawn client-side (the library loads only when a
+  // QR is shown). Dark on white with a quiet margin so it scans from a
+  // screenshot, a slide or a printed resume.
+  var qrLoading = null;
+  function loadQr() {
+    if (window.qrcode) return Promise.resolve();
+    if (!qrLoading) qrLoading = new Promise(function (resolve, reject) {
+      var tag = document.createElement('script');
+      tag.src = '/assets/qrcode.js?v=20261015';
+      tag.onload = resolve; tag.onerror = reject;
+      document.head.appendChild(tag);
+    });
+    return qrLoading;
+  }
+  function qrCard(url, heading, text) {
+    var box = el('div', { class: 'pp-qr-box', role: 'img', 'aria-label': 'QR code for ' + url });
+    var card = el('section', { class: 'pp-card pp-qr' }, [
+      el('h2', { text: heading }),
+      el('p', { class: 'pp-muted', text: text }),
+      box,
+      el('p', { class: 'pp-qr-url', text: url }),
+      el('button', { type: 'button', class: 'btn btn-ghost pp-noprint', text: 'Print or save as PDF' })
+    ]);
+    card.querySelector('button').addEventListener('click', function () { window.print(); });
+    loadQr().then(function () {
+      var qr = window.qrcode(0, 'M');
+      qr.addData(url);
+      qr.make();
+      box.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); // generated SVG, no user text
+    }).catch(function () { card.style.display = 'none'; });
+    return card;
+  }
+
   var DAY = function (v) { var d = new Date(v); return isNaN(d) ? '' : d.getUTCDate() + ' ' + MONTHS[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
   function levelName(l) { return l ? l.charAt(0).toUpperCase() + l.slice(1) : ''; }
 
@@ -317,7 +362,7 @@
     ]);
 
     main.textContent = '';
-    [hero, method, details, limits, trust, hookCard(first, appHref)].forEach(function (n) { if (n) main.appendChild(n); });
+    [hero, method, details, limits, qrCard((item.verify_url || (location.origin + location.pathname)), 'Check this record', 'Scan to open this page and compare the Record ID.'), trust, hookCard(first, appHref)].forEach(function (n) { if (n) main.appendChild(n); });
     showSticky();
   }
 
@@ -396,7 +441,7 @@
     ]);
 
     main.textContent = '';
-    [hero, statGrid, evidenceCard(p.evidence, slug, first), strengthCard, hookCard(first, appHref), how].forEach(function (n) { if (n) main.appendChild(n); });
+    [hero, statGrid, evidenceCard(p.evidence, slug, first), strengthCard, qrCard(p.page_url || (location.origin + '/p/' + slug), 'Share this passport', 'Scan to open ' + first + "'s Skill Passport."), hookCard(first, appHref), how].forEach(function (n) { if (n) main.appendChild(n); });
     showSticky();
   }
 
