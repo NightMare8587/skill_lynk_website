@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where I stand · SkillLynk</title>
+<meta name="description" content="How deep one candidate&#39;s answers went in a live AI interview on SkillLynk. Try your own, free.">
+<!-- Personal pages: shareable by link, but kept out of search results. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#09090B">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SkillLynk">
+<meta property="og:title" content="Where I stand · SkillLynk">
+<meta property="og:description" content="How deep answers went in a live AI interview. Try your own, free.">
+<meta property="og:image" content="https://skillynk.in/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@SkillLynk">
+<meta name="twitter:title" content="Where I stand · SkillLynk">
+<meta name="twitter:description" content="How deep answers went in a live AI interview. Try your own, free.">
+<meta name="twitter:image" content="https://skillynk.in/assets/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.skillynk.in" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/assets/styles.css?v=20261004">
+<style>
+  .pp-main { max-width: 680px; margin: 0 auto; padding: 28px 16px 140px; }
+  .pp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 14px; }
+  .pp-hero { position: relative; overflow: hidden; padding: 0; }
+  .pp-band { height: 84px; background: radial-gradient(120% 140% at 0% 0%, rgba(52,211,153,.55), transparent 60%), linear-gradient(135deg, #047857, #0f766e 55%, #18181b); }
+  .pp-hero-body { padding: 0 22px 22px; margin-top: -38px; }
+  .pp-avatar { width: 76px; height: 76px; border-radius: 22px; display: grid; place-items: center; font-weight: 800; font-size: 1.6rem; color: #052e1c; background: linear-gradient(135deg, #6ee7b7, #34d399); border: 4px solid var(--surface); }
+  .pp-eyebrow { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .pp-name { font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.15; margin: 6px 0 4px; letter-spacing: -.02em; }
+  .pp-sub { color: var(--text-dim); margin: 0; }
+  .pp-headline { margin: 10px 0 0; font-size: 1.02rem; }
+  .pp-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .86rem; color: var(--text-faint); }
+  .pp-verified { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-weight: 600; }
+  .pp-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+  @media (min-width: 560px) { .pp-stats.n3 { grid-template-columns: repeat(3, 1fr); } .pp-stats.n4 { grid-template-columns: repeat(4, 1fr); } }
+  .pp-stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; }
+  .pp-stat-icon { color: var(--accent); }
+  .pp-stat-value { font-size: 1.7rem; font-weight: 800; line-height: 1.1; margin-top: 4px; }
+  .pp-stat-label { color: var(--text-dim); font-size: .82rem; }
+  .pp-card h2 { font-size: 1.1rem; margin: 0 0 4px; }
+  .pp-muted { color: var(--text-dim); font-size: .92rem; margin: 0; }
+  .pp-strengths { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 12px; }
+  .pp-strength-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; font-weight: 600; }
+  .pp-pill { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+  .pp-bar { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+  .pp-bar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #059669, #34d399); }
+  .pp-hook { text-align: center; padding: 26px 22px; background: radial-gradient(120% 120% at 50% 0%, rgba(52,211,153,.16), transparent 60%), var(--surface); border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
+  .pp-hook h2 { font-size: 1.35rem; margin: 6px 0 8px; }
+  .pp-hook ul { list-style: none; padding: 0; margin: 14px auto 18px; max-width: 420px; text-align: left; display: grid; gap: 8px; }
+  .pp-hook li { display: flex; gap: 8px; align-items: flex-start; color: var(--text-dim); font-size: .94rem; }
+  .pp-hook li svg { flex: none; color: var(--accent); margin-top: 3px; }
+  .pp-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .pp-actions .btn { min-width: 170px; }
+  .pp-small { font-size: .8rem; color: var(--text-faint); margin-top: 12px; }
+  .pp-sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--border); transform: translateY(110%); transition: transform .3s var(--ease-standard); }
+  .pp-sticky.show { transform: none; }
+  .pp-sticky-inner { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+  .pp-sticky-mark { width: 38px; height: 38px; flex: none; border-radius: 10px; background: #059669; display: grid; place-items: center; }
+  .pp-sticky-text { flex: 1; min-width: 0; line-height: 1.25; }
+  .pp-sticky-text b { display: block; font-size: .92rem; }
+  .pp-sticky-text span { font-size: .8rem; color: var(--text-dim); }
+  .pp-sticky .btn { padding: 10px 16px; white-space: nowrap; }
+  .pp-skel { background: var(--surface-2); border-radius: 8px; animation: pp-pulse 1.4s ease-in-out infinite; }
+  @keyframes pp-pulse { 50% { opacity: .5; } }
+  .pp-center { text-align: center; padding: 48px 22px; }
+  .pp-header-cta { padding: 9px 16px; }
+  .pp-ev { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; }
+  .pp-ev a.pp-ev-item { display: block; text-decoration: none; color: inherit; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px; }
+  .pp-ev a.pp-ev-item:hover { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+  .pp-ev-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-weight: 700; }
+  .pp-ev-line { margin: 4px 0 0; color: var(--text-dim); font-size: .92rem; }
+  .pp-ev-foot { margin: 8px 0 0; font-size: .8rem; color: var(--text-faint); display: flex; gap: 6px; align-items: center; }
+  .pp-ev-foot svg { color: var(--accent); }
+  .pp-facts { margin: 14px 0 0; display: grid; gap: 0; }
+  .pp-fact { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--border); font-size: .92rem; }
+  .pp-fact:first-child { border-top: 0; }
+  .pp-fact span:first-child { color: var(--text-dim); }
+  .pp-fact span:last-child { font-weight: 600; text-align: right; }
+  .pp-rows { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: .88rem; }
+  .pp-rows th { text-align: left; color: var(--text-faint); font-weight: 600; font-size: .76rem; padding: 6px 8px 6px 0; }
+  .pp-rows td { padding: 9px 8px 9px 0; border-top: 1px solid var(--border); }
+  .pp-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; font-weight: 700; }
+  .pp-note { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .pp-qr { display: grid; justify-items: center; gap: 12px; text-align: center; }
+  .pp-qr-box { background: #fff; padding: 14px; border-radius: 14px; width: 188px; height: 188px; }
+  .pp-qr-box svg { width: 100%; height: 100%; display: block; }
+  .pp-qr-url { font-size: .8rem; color: var(--text-faint); word-break: break-all; margin: 0; }
+  @media print {
+    .site-header, .pp-sticky, .pp-hook, .pp-noprint, #sklConsent { display: none !important; }
+    body { background: #fff !important; color: #000 !important; }
+    .pp-main { padding: 0; max-width: none; }
+    .pp-card, .pp-stat { background: #fff !important; border-color: #ccc !important; box-shadow: none !important; break-inside: avoid; }
+    .pp-band { display: none; }
+    .pp-muted, .pp-sub, .pp-stat-label, .pp-fact span:first-child, .pp-ev-line { color: #333 !important; }
+  }
+  .pp-back { display: inline-block; margin-bottom: 12px; font-size: .9rem; color: var(--accent); text-decoration: none; }
+  .pp-gauge { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 16px 0 6px; }
+  .pp-step { height: 30px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); }
+  .pp-step.on { background: #38bdf8; border-color: #38bdf8; }
+  .pp-step.on.s2 { opacity: .8; } .pp-step.on.s3 { opacity: .9; } .pp-step.on.s4 { opacity: 1; }
+  .pp-gauge-marks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; min-height: 22px; }
+  .pp-gauge-marks span { text-align: center; font-size: .72rem; font-weight: 700; color: #f59e0b; }
+  .pp-gauge-ends { display: flex; justify-content: space-between; font-size: .75rem; color: var(--text-faint); }
+  .pp-sentence { font-size: 1.12rem; line-height: 1.5; font-weight: 600; margin: 16px 0 6px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#FFFFFF" stroke-width="2"/></svg></span>
+      <span class="brand-name">SkillLynk</span>
+    </a>
+    <a class="btn btn-primary pp-header-cta" id="ppHeaderCta" href="/download/">Get the app</a>
+  </div>
+</header>
+
+<main class="pp-main" id="pp" aria-live="polite">
+  <div class="pp-card pp-hero">
+    <div class="pp-band"></div>
+    <div class="pp-hero-body">
+      <div class="pp-avatar pp-skel" style="border-color:var(--surface)"></div>
+      <div class="pp-skel" style="height:14px;width:120px;margin-top:18px"></div>
+      <div class="pp-skel" style="height:30px;width:60%;margin-top:12px"></div>
+    </div>
+  </div>
+</main>
+
+<div class="pp-sticky" id="ppSticky" role="complementary" aria-label="Get SkillLynk">
+  <div class="pp-sticky-inner">
+    <span class="pp-sticky-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#fff" stroke-width="2.2"/><path d="M8.6 12.2l2.3 2.3 4.4-4.7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <div class="pp-sticky-text"><b>See how deep your answers go</b><span>Free live AI interviews for every career</span></div>
+    <a class="btn btn-primary" id="ppStickyCta" href="/download/">Get the app</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var API = 'https://api.skillynk.in/v2/ai-interview/share/';
+  var PLAY = 'https://play.google.com/store/apps/details?id=com.consumers.skilllynkmobile.skilllynkmobile';
+  var isAndroid = /Android/i.test(navigator.userAgent || '');
+  var main = document.getElementById('pp');
+
+  // Builds DOM without innerHTML for any user-supplied text.
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'text') node.textContent = attrs[k];
+      else node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c) node.appendChild(c); });
+    return node;
+  }
+  function svgIcon(path, size) {
+    var s = size || 16;
+    var span = document.createElement('span');
+    span.setAttribute('aria-hidden', 'true');
+    span.innerHTML = '<svg viewBox="0 0 24 24" width="' + s + '" height="' + s + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>'; // static markup only
+    return span;
+  }
+  var CHECK = '<path d="m5 12 5 5L20 7"/>';
+  var WAVES = '<path d="M2 8c2 0 2-2 4.5-2S9 8 11 8s2.5-2 5-2 2 2 5 2M2 14c2 0 2-2 4.5-2S9 14 11 14s2.5-2 5-2 2 2 5 2M2 20c2 0 2-2 4.5-2S9 20 11 20s2.5-2 5-2 2 2 5 2"/>';
+
+  function initials(name) { return String(name || 'S').trim().charAt(0).toUpperCase(); }
+
+  // Android gets the store through the sharer's invite link (so the install
+  // counts as their referral); an installed app opens straight away.
+  function androidHref(joinUrl) {
+    var fallback = joinUrl || PLAY;
+    var target = 'api.skillynk.in/v2/link/open';
+    var m = /^https:\/\/(api\.skillynk\.in\/v2\/link\/join\?.*)$/.exec(joinUrl || '');
+    if (m) target = m[1];
+    return 'intent://' + target + '#Intent;scheme=https;package=com.consumers.skilllynkmobile.skilllynkmobile;' +
+      'S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
+  }
+  function setAppLinks(joinUrl) {
+    var href = isAndroid ? androidHref(joinUrl) : '/download/';
+    ['ppHeaderCta', 'ppStickyCta'].forEach(function (id) { document.getElementById(id).setAttribute('href', href); });
+    return href;
+  }
+  function showSticky() {
+    var sticky = document.getElementById('ppSticky');
+    var shown = false;
+    function check() { if (!shown && window.scrollY > 220) { shown = true; sticky.classList.add('show'); } }
+    window.addEventListener('scroll', check, { passive: true });
+    setTimeout(function () { if (!shown) { shown = true; sticky.classList.add('show'); } }, 4000);
+  }
+
+  function hookCard(firstName, appHref) {
+    var list = el('ul', null, [
+      'Live AI voice interviews that remember your weak spots',
+      'A report that shows how deep your answers went',
+      'Daily challenges and practice for your field'
+    ].map(function (t) { return el('li', null, [svgIcon(CHECK), el('span', { text: t })]); }));
+    return el('section', { class: 'pp-card pp-hook' }, [
+      el('div', { class: 'pp-eyebrow', text: 'Your turn' }),
+      el('h2', { text: firstName ? 'Find out where you stand, like ' + firstName + '.' : 'Find out where you stand.' }),
+      el('p', { class: 'pp-muted', text: 'Free interview practice for every career: sales, finance, HR, marketing, operations, teaching or tech.' }),
+      list,
+      el('div', { class: 'pp-actions' }, [
+        el('a', { class: 'btn btn-primary', href: appHref, text: 'Get the app' }),
+        el('a', { class: 'btn btn-ghost', href: '/app/', text: 'Try it in your browser' })
+      ]),
+      el('p', { class: 'pp-small', text: 'Free to start. No credit card.' })
+    ]);
+  }
+
+  function render(c) {
+    var first = String(c.first_name || 'This candidate');
+    var level = Math.max(0, Math.min(4, Number(c.depth_level) || 0));
+    var shaky = c.shaky_at && c.shaky_at > level ? Number(c.shaky_at) : null;
+    document.title = first + "'s answers · SkillLynk";
+    var appHref = setAppLinks(c.join_url);
+
+    var steps = [1, 2, 3, 4].map(function (n) { return el('div', { class: 'pp-step' + (n <= level ? ' on s' + n : '') }); });
+    var marks = [1, 2, 3, 4].map(function (n) { return el('span', { text: n === shaky ? '\u25B2 shaky' : '' }); });
+    var subParts = [];
+    if (c.field_label) subParts.push(c.field_label);
+    if (c.month) subParts.push(c.month);
+
+    var hero = el('section', { class: 'pp-card pp-hero' }, [
+      el('div', { class: 'pp-band', 'aria-hidden': 'true' }),
+      el('div', { class: 'pp-hero-body' }, [
+        el('div', { class: 'pp-avatar', 'aria-hidden': 'true', text: initials(first) }),
+        el('div', { class: 'pp-eyebrow' }, [svgIcon(WAVES, 15), el('span', { text: 'Where ' + first + ' stands' })]),
+        el('h1', { class: 'pp-name', text: first + "'s live AI interview" }),
+        subParts.length ? el('p', { class: 'pp-sub', text: subParts.join(' \u00B7 ') }) : null,
+        c.mode === 'hard' ? el('p', { class: 'pp-sub', text: 'Hard round' }) : null
+      ])
+    ]);
+
+    var depth = el('section', { class: 'pp-card' }, [
+      el('h2', { text: 'How deep the answers went' }),
+      el('div', { class: 'pp-gauge', role: 'img', 'aria-label': 'Depth reached: ' + level + ' of 4 steps' }, steps),
+      el('div', { class: 'pp-gauge-marks', 'aria-hidden': 'true' }, marks),
+      el('div', { class: 'pp-gauge-ends', 'aria-hidden': 'true' }, [el('span', { text: 'Shallow' }), el('span', { text: 'Deep' })]),
+      el('p', { class: 'pp-sentence', text: c.sentence || '' }),
+      el('p', { class: 'pp-muted', text: c.basis || '' })
+    ]);
+
+    var about = el('section', { class: 'pp-card' }, [
+      el('h2', { text: 'About this card' }),
+      el('p', { class: 'pp-muted pp-note', text: first + ' chose to share this one result. It comes from a graded practice interview on SkillLynk and shows only how deep the answers went: no transcript, no questions and no scores. A practice interview is not proctored.' })
+    ]);
+
+    main.textContent = '';
+    [hero, depth, hookCard(first, appHref), about].forEach(function (n) { if (n) main.appendChild(n); });
+    showSticky();
+  }
+
+  function renderMissing(title, text) {
+    var appHref = setAppLinks(null);
+    main.textContent = '';
+    main.appendChild(el('section', { class: 'pp-card pp-center' }, [
+      el('div', { class: 'pp-eyebrow' }, [svgIcon(WAVES, 15), el('span', { text: 'Where I stand' })]),
+      el('h1', { class: 'pp-name', text: title }),
+      el('p', { class: 'pp-muted', text: text })
+    ]));
+    main.appendChild(hookCard('', appHref));
+    showSticky();
+  }
+
+  var slug = (location.pathname.split('/r/')[1] || '').split('/')[0];
+  if (!/^[A-Za-z0-9]{10}$/.test(slug)) {
+    renderMissing("This card isn't available", 'The link may be incomplete. Ask the person to share it again.');
+    return;
+  }
+  fetch(API + encodeURIComponent(slug) + '/data', { headers: { Accept: 'application/json' } })
+    .then(function (res) {
+      if (res.status === 404) { renderMissing("This card isn't available", 'Its owner may have stopped sharing it, or the link is wrong.'); return null; }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function (data) { if (data) render(data); })
+    .catch(function () { renderMissing("Couldn't load this card", 'Check your connection and refresh the page.'); });
+})();
+</script>
+<script src="/assets/ads.js?v=20261014" defer></script>
+</body>
+</html>
