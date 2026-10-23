@@ -37,6 +37,8 @@
   .pp-avatar { width: 76px; height: 76px; border-radius: 22px; display: grid; place-items: center; font-weight: 800; font-size: 1.6rem; color: #052e1c; background: linear-gradient(135deg, #6ee7b7, #34d399); border: 4px solid var(--surface); }
   .pp-eyebrow { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
   .pp-name { font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.15; margin: 6px 0 4px; letter-spacing: -.02em; }
+  .pp-cleared { display: inline-flex; align-items: center; gap: 8px; margin: 10px 0 2px; padding: 8px 12px; border-radius: 12px;
+    background: color-mix(in srgb, var(--accent, #34D399) 16%, transparent); color: var(--accent, #34D399); font-weight: 700; font-size: .95rem; line-height: 1.3; }
   .pp-sub { color: var(--text-dim); margin: 0; }
   .pp-headline { margin: 10px 0 0; font-size: 1.02rem; }
   .pp-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 14px; font-size: .86rem; color: var(--text-faint); }
@@ -236,7 +238,11 @@
         el('div', { class: 'pp-eyebrow' }, [svgIcon(WAVES, 15), el('span', { text: 'Where ' + first + ' stands' })]),
         el('h1', { class: 'pp-name', text: first + "'s live AI interview" }),
         subParts.length ? el('p', { class: 'pp-sub', text: subParts.join(' \u00B7 ') }) : null,
-        c.mode === 'hard' ? el('p', { class: 'pp-sub', text: 'Hard round' }) : null
+        c.mode === 'hard' ? el('p', { class: 'pp-sub', text: 'Hard round' }) : null,
+        // Only a cleared bar is ever on a card; SkillLynk never publishes a "not yet".
+        c.cleared_bar && c.cleared_bar.label
+          ? el('p', { class: 'pp-cleared', text: '\u2713 Cleared the bar for ' + c.cleared_bar.label })
+          : null
       ])
     ]);
 
@@ -251,7 +257,7 @@
 
     var about = el('section', { class: 'pp-card' }, [
       el('h2', { text: 'About this card' }),
-      el('p', { class: 'pp-muted pp-note', text: first + ' chose to share this one result. It comes from a graded practice interview on SkillLynk and shows only how deep the answers went: no transcript, no questions and no scores. A practice interview is not proctored.' })
+      el('p', { class: 'pp-muted pp-note', text: first + ' chose to share this one result. It comes from a graded practice interview on SkillLynk and shows only how deep the answers went' + (c.cleared_bar ? ' and that it cleared the bar it was judged against (SkillLynk\'s own ladder, not a company\'s hiring bar)' : '') + ': no transcript, no questions and no scores. A practice interview is not proctored.' })
     ]);
 
     main.textContent = '';
