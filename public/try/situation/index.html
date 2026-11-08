@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<title>Try a workplace situation free, no signup | SkillLynk</title>
+<meta name="description" content="Three real workplace situations. Pick what you would do, see how each option rates from best to harmful, and why. No account needed.">
+<link rel="canonical" href="https://skillynk.in/try/situation/">
+<meta name="theme-color" content="#09090B">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Try a workplace situation free">
+<meta property="og:description" content="Three situations, every option rated best to harmful, no signup.">
+<meta property="og:url" content="https://skillynk.in/try/situation/">
+<meta property="og:image" content="https://skillynk.in/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@SkillLynk">
+<meta name="twitter:title" content="Try a workplace situation free">
+<meta name="twitter:description" content="Three situations, every option rated best to harmful, no signup.">
+<meta name="twitter:image" content="https://skillynk.in/assets/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/assets/styles.css?v=20261004">
+<style>
+.try-card{max-width:680px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;}
+.try-meta{display:flex;justify-content:space-between;gap:12px;font-size:.85rem;color:var(--text-faint);margin-bottom:10px;font-weight:600;}
+.try-topic{text-transform:uppercase;letter-spacing:.08em;color:var(--accent-strong);}
+.try-bar{height:6px;border-radius:6px;background:var(--border);overflow:hidden;margin-bottom:22px;}
+.try-bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .25s var(--ease-standard);}
+.try-q{font-size:1.25rem;line-height:1.45;font-weight:700;margin-bottom:18px;}
+.try-options{display:grid;gap:10px;margin-bottom:22px;}
+.try-option{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;cursor:pointer;min-height:48px;}
+.try-option:hover{border-color:var(--text-faint);}
+.try-option[aria-checked="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface));}
+.try-option:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.try-dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--text-faint);}
+.try-option[aria-checked="true"] .try-dot{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--surface);}
+.try-score{font-size:3.6rem;font-weight:800;line-height:1;color:var(--accent-strong);text-align:center;}
+.try-head{text-align:center;font-size:1.3rem;font-weight:800;margin:8px 0 6px;}
+.try-sub{text-align:center;color:var(--text-dim);max-width:46ch;margin:0 auto 20px;}
+.try-review{margin-top:26px;display:grid;gap:12px;}
+.try-item{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;background:var(--surface);}
+.try-item h3{font-size:.98rem;margin:0 0 6px;display:flex;gap:8px;align-items:flex-start;}
+.try-item p{margin:4px 0 0;color:var(--text-dim);font-size:.92rem;}
+.try-mark{flex:none;font-weight:800;}
+.try-ok{color:var(--accent-strong);}
+.try-bad{color:#DC2626;}
+.try-note{font-size:.85rem;color:var(--text-faint);text-align:center;margin-top:12px;}
+.try-error{text-align:center;}
+@media (max-width:600px){.try-card{padding:20px 16px;}.try-q{font-size:1.1rem;}}
+.sit-tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--border);margin-right:8px;}
+.sit-best{color:var(--accent-strong);border-color:var(--accent);}
+.sit-acceptable{color:var(--text);}
+.sit-risky{color:#B45309;border-color:#B45309;}
+.sit-harmful{color:#DC2626;border-color:#DC2626;}
+.sit-picked{border-color:var(--accent)!important;}
+.sit-ctx{color:var(--text-dim);margin:-6px 0 18px;}
+.try-option[disabled]{cursor:default;opacity:1;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#FFFFFF" stroke-width="2"/></svg></span>
+      <span class="brand-name">SkillLynk</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#practice">Practice</a>
+      <a href="/#passport">Skill Passport</a>
+      <a href="/blog/">Blog</a>
+      <a href="/download/">Get the app</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-bottom:28px;">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Free sample</span>
+        <h1>Three situations. <span class="accent">No signup.</span></h1>
+        <p class="lede">Real workplace moments: an angry customer, a number that looks wrong, two urgent tasks at once. Pick what you would do, then see how every option rates from best to harmful, and why.</p>
+        <p class="hero-note">Takes about three minutes. In the app, situations are written for your own field and level.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="try-card" id="sit-card" aria-live="polite">
+        <div id="sit-intro" class="try-error">
+          <p class="try-q" style="margin-bottom:8px;">Ready?</p>
+          <p class="try-sub">There is rarely one perfect answer. Choose what you would actually do.</p>
+          <button type="button" class="btn btn-primary" id="sit-start">Start the 3 situations</button>
+        </div>
+        <div id="sit-play" hidden>
+          <div class="try-meta"><span id="sit-count"></span><span class="try-topic" id="sit-topic"></span></div>
+          <div class="try-bar" aria-hidden="true"><span id="sit-progress"></span></div>
+          <p class="try-q" id="sit-q"></p>
+          <p class="sit-ctx" id="sit-ctx"></p>
+          <div class="try-options" id="sit-options"></div>
+          <button type="button" class="btn btn-primary" id="sit-next" hidden>Next</button>
+        </div>
+        <div id="sit-result" hidden>
+          <div class="try-score" id="sit-score"></div>
+          <p class="try-head" id="sit-headline"></p>
+          <p class="try-sub" id="sit-summary"></p>
+          <div class="hero-actions" style="justify-content:center;">
+            <a class="btn btn-primary" href="/app/">Create my free account</a>
+            <button type="button" class="btn btn-ghost" id="sit-again">Try again</button>
+          </div>
+          <p class="try-note">In the app, every situation is written for your field and level, and each result goes into your judgement record.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <p class="try-note">Prefer a quick quiz? <a href="/try/">Try five questions</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> SkillLynk. All rights reserved.</span>
+      <span class="social-links" style="display:flex;gap:10px;align-items:center;">
+        <a href="https://www.instagram.com/skill.lynkk/" target="_blank" rel="noopener" aria-label="SkillLynk on Instagram" style="display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+        <a href="https://www.linkedin.com/company/skill-lynk" target="_blank" rel="noopener" aria-label="SkillLynk on LinkedIn" style="display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
+        <a href="https://x.com/SkillLynk" target="_blank" rel="noopener" aria-label="SkillLynk on X" style="display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z"/></svg></a>
+      </span>
+      <span><a href="/">Back home</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=20261014"></script>
+
+<script>
+(function () {
+  // Hand-written sample situations. Each option has a rating and a reason.
+  // Order here is the order shown; the app writes new ones per person.
+  var SCORE = { best: 100, acceptable: 70, risky: 30, harmful: 0 };
+  var LABEL = { best: 'Best', acceptable: 'Acceptable', risky: 'Risky', harmful: 'Harmful' };
+  var SITUATIONS = [
+    {
+      topic: 'Customer',
+      text: 'A customer posts publicly that their order is late and that they will tell everyone to avoid your company. The delay was caused by another team.',
+      context: 'You are the first person from the company to see the post.',
+      options: [
+        { text: 'Reply publicly that the delay was not your team\'s fault and point them to the other team.', rating: 'harmful', why: 'Blaming another team in public makes the company look divided and does nothing for the customer.' },
+        { text: 'Reply publicly that you are sorry, are checking now and will message them directly within the hour, then find out what happened.', rating: 'best', why: 'It acknowledges them quickly, takes ownership of the next step and moves the detail to a private channel.' },
+        { text: 'Leave it for the owning team to handle, since it is their delay.', rating: 'risky', why: 'The customer is waiting and the post is public. Passing it on is fine only if someone confirms they have it, and soon.' },
+        { text: 'Send the customer a private message with a discount before checking what went wrong.', rating: 'acceptable', why: 'Reaching out helps, but offering money before you know the facts can be wrong or too much, and the public post is still unanswered.' }
+      ]
+    },
+    {
+      topic: 'Numbers',
+      text: 'You are about to send a report your colleague prepared and you reviewed. You notice one figure that looks about ten times too high. It goes to a client in 30 minutes.',
+      context: 'Your colleague is in a meeting and not answering messages.',
+      options: [
+        { text: 'Send it as it is. The colleague prepared it, so the figure is their responsibility.', rating: 'harmful', why: 'You reviewed it. Sending a number you believe is wrong puts the client and the company at risk.' },
+        { text: 'Quietly correct the figure to what you think it should be and send it.', rating: 'risky', why: 'You may be right, but changing someone else\'s data without checking can create a second error and hides the problem.' },
+        { text: 'Check the source data yourself, and if it is wrong, message your colleague and your manager with what you found and ask whether to hold the send.', rating: 'best', why: 'It tests your doubt against the facts, keeps the right people informed and protects the deadline without guessing.' },
+        { text: 'Hold the report and tell your manager there is a problem, without checking the source first.', rating: 'acceptable', why: 'Raising it is right, but a quick check first would turn a worry into a clear fact and may save the deadline.' }
+      ]
+    },
+    {
+      topic: 'Priorities',
+      text: 'Your manager gives you a task that is due today. An hour later a senior colleague gives you another urgent task, also due today. You cannot finish both.',
+      context: 'Neither of them knows about the other request.',
+      options: [
+        { text: 'Quietly do the one you think matters more and say nothing about the other.', rating: 'risky', why: 'Someone will be surprised later, and you chose for them without telling anyone.' },
+        { text: 'Do both badly so that neither is late.', rating: 'harmful', why: 'Two poor results are usually worse than one good one plus a clear, early warning.' },
+        { text: 'Tell your manager about both tasks, say what you can finish, and ask which should come first.', rating: 'best', why: 'It puts the trade-off with the person who can decide, early, with the facts and what you propose.' },
+        { text: 'Tell the senior colleague you are busy and cannot take their task.', rating: 'acceptable', why: 'Honest, but a flat no ignores that their task may matter more. Your manager should help choose.' }
+      ]
+    }
+  ];
+
+  function $(id) { return document.getElementById(id); }
+  var panels = ['sit-intro', 'sit-play', 'sit-result'];
+  function show(id) {
+    panels.forEach(function (p) { $(p).hidden = p !== id; });
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $('sit-card').scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+  }
+
+  var index = 0;
+  var scores = [];
+
+  function draw() {
+    var sit = SITUATIONS[index];
+    $('sit-count').textContent = 'Situation ' + (index + 1) + ' of ' + SITUATIONS.length;
+    $('sit-topic').textContent = sit.topic;
+    $('sit-progress').style.width = (((index + 1) / SITUATIONS.length) * 100) + '%';
+    $('sit-q').textContent = sit.text;
+    $('sit-ctx').textContent = sit.context;
+    $('sit-next').hidden = true;
+    $('sit-next').textContent = index === SITUATIONS.length - 1 ? 'See my result' : 'Next';
+    var box = $('sit-options');
+    box.textContent = '';
+    sit.options.forEach(function (opt, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'try-option';
+      var dot = document.createElement('span');
+      dot.className = 'try-dot';
+      var label = document.createElement('span');
+      label.textContent = opt.text;
+      b.appendChild(dot);
+      b.appendChild(label);
+      b.addEventListener('click', function () { pick(i); });
+      box.appendChild(b);
+    });
+  }
+
+  // After a pick every option shows its rating and reason, the pick is marked.
+  function pick(i) {
+    var sit = SITUATIONS[index];
+    scores[index] = SCORE[sit.options[i].rating];
+    var box = $('sit-options');
+    box.textContent = '';
+    sit.options.forEach(function (opt, oi) {
+      var item = document.createElement('div');
+      item.className = 'try-item' + (oi === i ? ' sit-picked' : '');
+      var h = document.createElement('h3');
+      var tag = document.createElement('span');
+      tag.className = 'sit-tag sit-' + opt.rating;
+      tag.textContent = LABEL[opt.rating];
+      var t = document.createElement('span');
+      t.textContent = opt.text + (oi === i ? ' (your pick)' : '');
+      h.appendChild(tag);
+      h.appendChild(t);
+      var p = document.createElement('p');
+      p.textContent = opt.why;
+      item.appendChild(h);
+      item.appendChild(p);
+      box.appendChild(item);
+    });
+    $('sit-next').hidden = false;
+    $('sit-next').focus();
+  }
+
+  function finish() {
+    var total = scores.reduce(function (a, b) { return a + b; }, 0);
+    var avg = Math.round(total / SITUATIONS.length);
+    $('sit-score').textContent = avg + '/100';
+    $('sit-headline').textContent = avg >= 80 ? 'Strong judgement' : avg >= 55 ? 'Solid instincts' : 'Room to grow';
+    $('sit-summary').textContent = avg >= 80
+      ? 'You picked the best or close to it most of the time.'
+      : avg >= 55
+        ? 'You spotted good moves, and some choices carried risk worth a second look.'
+        : 'Several choices carried real risk. Seeing why each option rates the way it does is the point.';
+    show('sit-result');
+  }
+
+  $('sit-start').addEventListener('click', function () { index = 0; scores = []; draw(); show('sit-play'); });
+  $('sit-again').addEventListener('click', function () { index = 0; scores = []; draw(); show('sit-play'); });
+  $('sit-next').addEventListener('click', function () {
+    if (index < SITUATIONS.length - 1) { index += 1; draw(); } else { finish(); }
+  });
+})();
+</script>
+<script src="/assets/ads.js?v=20261014" defer></script>
+</body>
+</html>
